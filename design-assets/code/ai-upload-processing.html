@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Processing - MyHealthHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f2f4f6",
+              "primary": "#00020a",
+              "surface-tint": "#495e8a",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#adc6ff",
+              "surface-bright": "#f7f9fb",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-fixed-variant": "#005236",
+              "error-container": "#ffdad6",
+              "on-surface": "#191c1e",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#004493",
+              "tertiary": "#000301",
+              "secondary-container": "#0070eb",
+              "surface": "#f7f9fb",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed-dim": "#b1c6f9",
+              "on-tertiary-fixed": "#002113",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#001b44",
+              "surface-dim": "#d8dadc",
+              "tertiary-container": "#002214",
+              "error": "#ba1a1a",
+              "on-primary-fixed": "#001a42",
+              "on-secondary-container": "#fefcff",
+              "secondary": "#0058bc",
+              "outline-variant": "#c5c6d0",
+              "on-tertiary-container": "#009768",
+              "tertiary-fixed-dim": "#4edea3",
+              "on-primary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "outline": "#75777f",
+              "tertiary-fixed": "#6ffbbe",
+              "on-primary-container": "#7084b3",
+              "inverse-primary": "#b1c6f9",
+              "primary-fixed": "#d8e2ff",
+              "inverse-surface": "#2d3133",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d8e2ff",
+              "on-primary-fixed-variant": "#314671",
+              "on-surface-variant": "#44474f",
+              "background": "#f7f9fb",
+              "on-secondary-fixed": "#001a41"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scanner-beam {
+            background: linear-gradient(180deg, transparent 0%, #0058bc 50%, transparent 100%);
+            height: 40px;
+            width: 100%;
+            position: absolute;
+            animation: scan 3s ease-in-out infinite;
+        }
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,2,10,0.04)]">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<button class="p-2 hover:bg-slate-100 transition-colors rounded-full active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-950">close</span>
+</button>
+<span class="font-manrope font-black text-xl tracking-tighter text-slate-900 uppercase">MyHealthHub</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-950">notifications</span>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden">
+<img alt="User profile photo" data-alt="Minimalist user profile avatar icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIx50-ibeaILQ0gzaSSQIHRniFONoGd6qanfLym-O4f4_F2Sn4WvPHP9soaAe5SkLI1gaOrq9YthNpLKbgzcz37GW0MqJxNYlxqG_d_QpEC5AlbJ2RXtvbNx_RXQFHd9NWamfL55rCF70M2zCT5M6zCB_uvEtUZ6i5qi_qtSdWoVDcVg4TpzYs9FpJJrJB7QijeDIh6YKdkzcsAZdIkkWTYZBLR_CkOXf4rfVlnCLsFWonGbXVgOU1pTlOu7SXHGVwlCki2u-PMeE"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto min-h-screen flex flex-col items-center justify-center">
+<!-- AI Visualization Canvas -->
+<div class="w-full max-w-2xl relative mb-12">
+<!-- Asymmetric Data Visualization Frame -->
+<div class="relative aspect-video rounded-xl bg-surface-container-low overflow-hidden shadow-sm group">
+<!-- Abstract Gradient Mesh -->
+<div class="absolute inset-0 opacity-20 bg-gradient-to-br from-secondary via-transparent to-tertiary-fixed"></div>
+<!-- Mock Document Content -->
+<div class="p-8 space-y-4 opacity-40 select-none">
+<div class="h-4 w-3/4 bg-slate-300 rounded-sm"></div>
+<div class="h-4 w-1/2 bg-slate-300 rounded-sm"></div>
+<div class="grid grid-cols-3 gap-4 py-4">
+<div class="h-12 bg-slate-200 rounded-md"></div>
+<div class="h-12 bg-slate-200 rounded-md"></div>
+<div class="h-12 bg-slate-200 rounded-md"></div>
+</div>
+<div class="h-4 w-2/3 bg-slate-300 rounded-sm"></div>
+<div class="h-24 w-full bg-slate-200 rounded-md"></div>
+</div>
+<!-- Scanner Beam -->
+<div class="scanner-beam"></div>
+<!-- Floating Data Nodes -->
+<div class="absolute top-1/4 left-1/4 flex items-center gap-2 px-3 py-1.5 bg-white/90 backdrop-blur shadow-xl rounded-full border border-secondary/10">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container pulse-ring absolute"></span>
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container relative"></span>
+<span class="text-[10px] font-bold tracking-widest text-secondary uppercase">HDL Detected</span>
+</div>
+<div class="absolute bottom-1/3 right-1/4 flex items-center gap-2 px-3 py-1.5 bg-primary text-white shadow-xl rounded-full">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+<span class="text-[10px] font-medium tracking-wide">Mapping Biomarkers</span>
+</div>
+</div>
+<!-- Status Overlays -->
+<div class="mt-8 text-center">
+<h1 class="font-headline font-bold text-2xl text-primary mb-2">Analyzing Blood Panel...</h1>
+<p class="font-body text-on-surface-variant text-sm max-w-md mx-auto">Our Clinical AI is extracting 42 biomarkers and cross-referencing with your historical health data.</p>
+</div>
+</div>
+<!-- Bento Grid Progress Tracking -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
+<!-- Progress Card 1: Extraction -->
+<div class="p-6 rounded-xl bg-surface-container-lowest shadow-[0_12px_40px_rgba(0,2,10,0.04)] border border-outline-variant/10 relative overflow-hidden">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary-container/10 rounded-lg text-secondary">
+<span class="material-symbols-outlined">description</span>
+</div>
+<span class="text-[10px] font-bold text-on-tertiary-container bg-tertiary-fixed px-2 py-0.5 rounded-full uppercase">88%</span>
+</div>
+<h3 class="font-headline font-bold text-on-surface mb-1">OCR Extraction</h3>
+<p class="font-label text-xs text-on-surface-variant mb-4">Converting image data to medical values...</p>
+<div class="w-full bg-surface-container rounded-full h-1">
+<div class="bg-secondary h-1 rounded-full w-[88%]"></div>
+</div>
+</div>
+<!-- Progress Card 2: Trend Analysis -->
+<div class="p-6 rounded-xl bg-surface-container-lowest shadow-[0_12px_40px_rgba(0,2,10,0.04)] border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-on-tertiary-container/10 rounded-lg text-on-tertiary-container">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<span class="text-[10px] font-bold text-secondary-container bg-primary-fixed px-2 py-0.5 rounded-full uppercase">Active</span>
+</div>
+<h3 class="font-headline font-bold text-on-surface mb-1">Updating Trends</h3>
+<p class="font-label text-xs text-on-surface-variant mb-4">Refining Cholesterol &amp; Lipids charts.</p>
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-on-tertiary-container">↑ 4.2%</span>
+<span class="text-[10px] text-on-surface-variant">Predicted variance</span>
+</div>
+</div>
+<!-- Progress Card 3: Anomaly Detection -->
+<div class="p-6 rounded-xl bg-primary text-white shadow-[0_12px_40px_rgba(0,2,10,0.04)]">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-white/10 rounded-lg">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+</div>
+<h3 class="font-headline font-bold text-white mb-1">Validation</h3>
+<p class="font-label text-xs text-primary-fixed-dim">Clinical integrity check running...</p>
+<div class="mt-4 flex gap-1">
+<div class="h-1 w-full bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-white w-1/3"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Dynamic Activity Feed -->
+<div class="mt-12 w-full max-w-md">
+<div class="space-y-4">
+<div class="flex items-center justify-between text-xs px-2">
+<span class="font-bold text-on-surface uppercase tracking-widest">Process Log</span>
+<span class="text-on-surface-variant italic">Real-time sync</span>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg opacity-100">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label text-sm text-on-surface">File integrity verified (PDF_2024_03.pdf)</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg opacity-80">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label text-sm text-on-surface">Extracting Biomarkers...</span>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-lg opacity-40">
+<span class="w-4 h-4 rounded-full border-2 border-slate-300 border-t-secondary animate-spin"></span>
+<span class="font-label text-sm text-on-surface">Analyzing Lipid Panel discrepancies</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 backdrop-blur-xl shadow-[0_-8px_30px_rgba(0,2,10,0.04)] rounded-t-xl border-t border-slate-200/20 z-50">
+<a class="flex flex-col items-center justify-center text-slate-400" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase">Exams</span>
+</a>
+<a class="flex flex-col items-center justify-center text-blue-600 scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_a_photo</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase">AI Upload</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400" href="#">
+<span class="material-symbols-outlined">folder_shared</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase">Records</span>
+</a>
+</nav>
+</body></html>

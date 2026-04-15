@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Edit Profile - MyHealthHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-secondary": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-error-container": "#93000a",
+              "surface-dim": "#d8dadc",
+              "on-surface-variant": "#44474f",
+              "on-tertiary-container": "#009768",
+              "surface-container-lowest": "#ffffff",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed": "#001a41",
+              "tertiary-fixed-dim": "#4edea3",
+              "surface": "#f7f9fb",
+              "primary-fixed-dim": "#b1c6f9",
+              "inverse-surface": "#2d3133",
+              "on-secondary-container": "#fefcff",
+              "on-primary-fixed-variant": "#314671",
+              "on-tertiary": "#ffffff",
+              "secondary": "#0058bc",
+              "outline-variant": "#c5c6d0",
+              "surface-container-low": "#f2f4f6",
+              "surface-container": "#eceef0",
+              "secondary-container": "#0070eb",
+              "tertiary-container": "#002214",
+              "on-tertiary-fixed": "#002113",
+              "surface-container-high": "#e6e8ea",
+              "primary-fixed": "#d8e2ff",
+              "surface-variant": "#e0e3e5",
+              "tertiary": "#000301",
+              "on-secondary-fixed-variant": "#004493",
+              "inverse-on-surface": "#eff1f3",
+              "surface-container-highest": "#e0e3e5",
+              "tertiary-fixed": "#6ffbbe",
+              "on-primary-fixed": "#001a42",
+              "secondary-fixed": "#d8e2ff",
+              "surface-bright": "#f7f9fb",
+              "surface-tint": "#495e8a",
+              "background": "#f7f9fb",
+              "outline": "#75777f",
+              "primary-container": "#001b44",
+              "inverse-primary": "#b1c6f9",
+              "error": "#ba1a1a",
+              "on-error": "#ffffff",
+              "on-background": "#191c1e",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-primary": "#ffffff",
+              "secondary-fixed-dim": "#adc6ff",
+              "primary": "#00020a",
+              "on-primary-container": "#7084b3"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.375rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TopAppBar Section -->
+<header class="fixed top-0 w-full z-50 flex items-center px-6 h-16 bg-[#f7f9fb] dark:bg-[#00020a]">
+<div class="flex items-center gap-4 w-full">
+<button class="p-2 -ml-2 rounded-full hover:bg-[#f2f4f6] dark:hover:bg-[#001b44] transition-colors active:scale-95 duration-200 text-[#00020a] dark:text-[#f7f9fb]">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Manrope'] font-semibold text-lg tracking-tight text-[#00020a] dark:text-[#f7f9fb]">Edit Profile</h1>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 mt-16 mb-24 max-w-2xl mx-auto w-full px-6 py-8">
+<!-- Profile Photo Section (Asymmetric Editorial Style) -->
+<section class="mb-12 flex flex-col items-center md:items-start md:flex-row gap-8">
+<div class="relative group">
+<div class="w-32 h-32 rounded-xl overflow-hidden bg-surface-container-highest shadow-sm ring-4 ring-surface-container-lowest">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a smiling male patient" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_EUJ-OvvcWKGgSWviYxvdBZ-LA1w1B2IaUSTxPK8YTOpD_531D5767mgo74uLt9Ma0JHNYK6g4VokfugNeWnqcuV80TC9ORZY10s5cYubaU956M-a5xOMm-J46yzHQ2_VC4wFSPeI2OhJ3C9w8vjNjgM06l0hZ_ZftCWJlb6wlw3yr9gZNOGI3t11haeJfUp53eu9XhY048JZC5FNeQWDuKCOxo77Q9nfkxNhf2Cb83anjbYnXEfd7eg2V7TtjYq239V6Q4ZKNmc"/>
+</div>
+<button class="absolute -bottom-2 -right-2 bg-primary text-on-primary p-2.5 rounded-xl shadow-lg hover:opacity-90 transition-opacity active:scale-95 duration-200 border border-white/10">
+<span class="material-symbols-outlined text-[18px]" data-icon="photo_camera">photo_camera</span>
+</button>
+</div>
+<div class="flex flex-col justify-center text-center md:text-left">
+<h2 class="font-headline font-bold text-2xl text-primary tracking-tight">Personal Identity</h2>
+<p class="font-body text-on-surface-variant text-sm mt-1 max-w-[280px]">Update your medical credentials and basic information for accurate clinical records.</p>
+<button class="mt-4 text-secondary font-semibold text-sm hover:underline flex items-center gap-2 justify-center md:justify-start">
+<span>Change Photo</span>
+</button>
+</div>
+</section>
+<!-- Form Section -->
+<form class="space-y-10">
+<!-- Basic Info Group -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm space-y-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-1.5 h-6 bg-secondary rounded-full"></span>
+<h3 class="font-headline font-bold text-lg text-primary">Core Credentials</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Full Name</label>
+<input class="w-full bg-surface-container-low border-0 rounded-xl px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all font-body text-base" type="text" value="Alexander Vance"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Email Address</label>
+<input class="w-full bg-surface-container-low border-0 rounded-xl px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all font-body text-base" type="email" value="a.vance@atelier-health.com"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Phone Number</label>
+<input class="w-full bg-surface-container-low border-0 rounded-xl px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all font-body text-base" type="tel" value="+1 (555) 012-3456"/>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Date of Birth</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-0 rounded-xl px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all font-body text-base appearance-none" type="date" value="1992-05-14"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Vitals & Biometrics Group -->
+<div class="bg-surface-container-lowest p-8 rounded-xl shadow-sm space-y-6">
+<div class="flex items-center gap-2 mb-2">
+<span class="w-1.5 h-6 bg-on-tertiary-container rounded-full"></span>
+<h3 class="font-headline font-bold text-lg text-primary">Biometric Data</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Gender</label>
+<select class="w-full bg-surface-container-low border-0 rounded-xl px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all font-body text-base">
+<option selected="">Male</option>
+<option>Female</option>
+<option>Other</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Blood Type</label>
+<select class="w-full bg-surface-container-low border-0 rounded-xl px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all font-body text-base">
+<option>A+</option>
+<option>A-</option>
+<option>B+</option>
+<option>B-</option>
+<option selected="">O+</option>
+<option>O-</option>
+<option>AB+</option>
+<option>AB-</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Height</label>
+<div class="flex bg-surface-container-low rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-secondary/20 transition-all">
+<input class="flex-1 bg-transparent border-0 px-4 py-3 text-on-surface font-body text-base focus:ring-0" type="number" value="182"/>
+<div class="flex items-center gap-1 p-1 bg-surface-container-high m-1 rounded-lg">
+<button class="px-2 py-1 text-[10px] font-bold rounded bg-white text-primary shadow-sm" type="button">CM</button>
+<button class="px-2 py-1 text-[10px] font-bold text-on-surface-variant" type="button">FT</button>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Weight</label>
+<div class="flex bg-surface-container-low rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-secondary/20 transition-all">
+<input class="flex-1 bg-transparent border-0 px-4 py-3 text-on-surface font-body text-base focus:ring-0" type="number" value="78"/>
+<div class="flex items-center gap-1 p-1 bg-surface-container-high m-1 rounded-lg">
+<button class="px-2 py-1 text-[10px] font-bold rounded bg-white text-primary shadow-sm" type="button">KG</button>
+<button class="px-2 py-1 text-[10px] font-bold text-on-surface-variant" type="button">LB</button>
+</div>
+</div>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="font-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Address</label>
+<textarea class="w-full bg-surface-container-low border-0 rounded-xl px-4 py-3 text-on-surface focus:ring-2 focus:ring-secondary/20 transition-all font-body text-base resize-none" rows="3">7224 Precision Way, Suite 400, Clinical District, NY 10001</textarea>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="pt-6 flex flex-col sm:flex-row-reverse gap-4">
+<button class="flex-1 bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl active:scale-95 transition-all" type="submit">
+                    Save Changes
+                </button>
+<button class="flex-1 bg-surface-container-high text-on-surface font-headline font-semibold py-4 px-8 rounded-xl hover:bg-surface-container-highest active:scale-95 transition-all" type="button">
+                    Cancel
+                </button>
+</div>
+</form>
+</main>
+<!-- BottomNavBar Section -->
+<nav class="fixed bottom-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-white/80 dark:bg-[#00020a]/80 backdrop-blur-md border-t border-[#c5c6d0]/15 shadow-[0_-4px_40px_rgba(0,2,10,0.04)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-[#44474f] dark:text-[#c5c6d0] hover:opacity-80 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide">Health</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#44474f] dark:text-[#c5c6d0] hover:opacity-80 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="Description">description</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide">Records</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#44474f] dark:text-[#c5c6d0] hover:opacity-80 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide">Consult</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#0058bc] dark:text-[#009768] font-bold hover:opacity-80 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide">Profile</span>
+</a>
+</nav>
+</body></html>

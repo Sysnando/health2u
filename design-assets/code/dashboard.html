@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MyHealthHub Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f2f4f6",
+              "primary": "#00020a",
+              "surface-tint": "#495e8a",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#adc6ff",
+              "surface-bright": "#f7f9fb",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-fixed-variant": "#005236",
+              "error-container": "#ffdad6",
+              "on-surface": "#191c1e",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#004493",
+              "tertiary": "#000301",
+              "secondary-container": "#0070eb",
+              "surface": "#f7f9fb",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed-dim": "#b1c6f9",
+              "on-tertiary-fixed": "#002113",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#001b44",
+              "surface-dim": "#d8dadc",
+              "tertiary-container": "#002214",
+              "error": "#ba1a1a",
+              "on-primary-fixed": "#001a42",
+              "on-secondary-container": "#fefcff",
+              "secondary": "#0058bc",
+              "outline-variant": "#c5c6d0",
+              "on-tertiary-container": "#009768",
+              "tertiary-fixed-dim": "#4edea3",
+              "on-primary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "outline": "#75777f",
+              "tertiary-fixed": "#6ffbbe",
+              "on-primary-container": "#7084b3",
+              "inverse-primary": "#b1c6f9",
+              "primary-fixed": "#d8e2ff",
+              "inverse-surface": "#2d3133",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d8e2ff",
+              "on-primary-fixed-variant": "#314671",
+              "on-surface-variant": "#44474f",
+              "background": "#f7f9fb",
+              "on-secondary-fixed": "#001a41"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+        .headline-font { font-family: 'Manrope', sans-serif; }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+        }
+        .primary-gradient {
+            background: linear-gradient(135deg, #00020a 0%, #001b44 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,2,10,0.04)]">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden">
+<img alt="User profile photo" class="w-full h-full object-cover" data-alt="Close up of a professional user profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQoIqxbFvWf_qEwYIHPJ6lfKf75b0Z9gBt-mb9hFFQ1PcP0nNJaxkda0zpG7hAmJOyyg2yi_lxE8VzbFoMx_0hmydPgxsXnS7oKWAhB9Di_TdM19niP1xrWEW10Ddh-haOEeo2H_oMewKVx7JpLDLFPPssYLVvBmDH5p1bWysAyRGsTDINaTPrkWvkdgRpFgSdFYf10GPzTvfULhmBnx2S4sP8GKm0rEKGsmNeK537t74egz3QkGMU3hd8LfNiXTmA588QciR5G5w"/>
+</div>
+<span class="font-manrope font-black text-xl tracking-tighter text-slate-900 dark:text-white uppercase">MyHealthHub</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors active:scale-95 duration-200 text-slate-950 dark:text-slate-50">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto space-y-12">
+<!-- Hero Section: Data-as-Art -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+<div class="space-y-2">
+<p class="font-label text-xs font-semibold uppercase tracking-widest text-on-surface-variant">Your Health Score</p>
+<h1 class="font-headline font-extrabold text-7xl md:text-8xl tracking-tighter text-primary">84<span class="text-3xl font-bold text-secondary">/100</span></h1>
+<p class="font-body text-on-surface-variant max-w-xs">Your cardiovascular health improved by 4% since your last exam.</p>
+</div>
+<div class="flex flex-col items-end gap-4">
+<div class="flex items-center gap-2 px-4 py-2 bg-tertiary-fixed rounded-full shadow-sm">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span>
+<span class="font-label text-xs font-bold text-on-tertiary-fixed-variant uppercase">Live Syncing</span>
+</div>
+<p class="font-label text-[10px] text-on-surface-variant uppercase tracking-tighter">Last updated: Today, 09:42 AM</p>
+</div>
+</section>
+<!-- Bento Grid Vitals -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Heart Rate -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_12px_40px_rgba(0,2,10,0.04)] border border-outline-variant/10">
+<span class="material-symbols-outlined text-error mb-4" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<p class="font-label text-[10px] font-bold text-on-surface-variant uppercase mb-1">Heart Rate</p>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-bold text-3xl">72</span>
+<span class="font-body text-xs text-on-surface-variant">BPM</span>
+</div>
+</div>
+<!-- Blood Pressure -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_12px_40px_rgba(0,2,10,0.04)] border border-outline-variant/10">
+<span class="material-symbols-outlined text-secondary mb-4">blood_pressure</span>
+<p class="font-label text-[10px] font-bold text-on-surface-variant uppercase mb-1">Blood Pressure</p>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-bold text-3xl">118/75</span>
+<span class="font-body text-xs text-on-surface-variant">mmHg</span>
+</div>
+</div>
+<!-- Sleep -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_12px_40_rgba(0,2,10,0.04)] border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary mb-4" style="font-variation-settings: 'FILL' 1;">bedtime</span>
+<p class="font-label text-[10px] font-bold text-on-surface-variant uppercase mb-1">Sleep Quality</p>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-bold text-3xl">8.2</span>
+<span class="font-body text-xs text-on-surface-variant">hrs</span>
+</div>
+</div>
+<!-- Glucose -->
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0_12px_40px_rgba(0,2,10,0.04)] border border-outline-variant/10">
+<span class="material-symbols-outlined text-on-tertiary-container mb-4">science</span>
+<p class="font-label text-[10px] font-bold text-on-surface-variant uppercase mb-1">Glucose</p>
+<div class="flex items-baseline gap-1">
+<span class="font-headline font-bold text-3xl">94</span>
+<span class="font-body text-xs text-on-surface-variant">mg/dL</span>
+</div>
+</div>
+</section>
+<!-- Asymmetric Insights Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 space-y-6">
+<h2 class="font-headline font-bold text-2xl tracking-tight text-primary">Recent Lab Results</h2>
+<div class="space-y-2">
+<!-- Lab Item -->
+<div class="flex items-center justify-between p-5 bg-surface-container-low rounded-xl group hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">analytics</span>
+</div>
+<div>
+<h4 class="font-body font-semibold text-on-surface">Complete Blood Count</h4>
+<p class="font-label text-xs text-on-surface-variant">Central Diagnostics • 2 days ago</p>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-block px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container text-[10px] font-bold uppercase">Stable</span>
+</div>
+</div>
+<!-- Lab Item -->
+<div class="flex items-center justify-between p-5 bg-surface-container-low rounded-xl group hover:bg-surface-container transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">microbiology</span>
+</div>
+<div>
+<h4 class="font-body font-semibold text-on-surface">Lipid Panel</h4>
+<p class="font-label text-xs text-on-surface-variant">City Health Lab • Oct 24, 2023</p>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-block px-3 py-1 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container text-[10px] font-bold uppercase">Optimized</span>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Insight Sidebar -->
+<div class="bg-primary-container p-8 rounded-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="material-symbols-outlined text-on-primary-container/20 text-6xl">psychology_alt</span>
+</div>
+<div class="relative z-10 space-y-4">
+<span class="inline-block px-2 py-1 rounded bg-secondary text-on-secondary text-[10px] font-bold uppercase">AI Prediction</span>
+<h3 class="font-headline font-bold text-xl text-white">Focus on Vitamin D</h3>
+<p class="font-body text-sm text-on-primary-container leading-relaxed">Based on your recent labs and seasonal activity drop, we recommend increasing Vitamin D intake by 20% this month.</p>
+<button class="w-full py-3 bg-surface-container-lowest text-primary font-bold text-sm rounded-lg hover:bg-surface-bright transition-colors active:scale-[0.98]">Review Plan</button>
+</div>
+</div>
+</section>
+<!-- Next Appointments -->
+<section class="space-y-6">
+<div class="flex items-end justify-between">
+<h2 class="font-headline font-bold text-2xl tracking-tight text-primary">Upcoming Checkups</h2>
+<a class="font-label text-xs font-bold text-secondary uppercase hover:underline" href="#">View Calendar</a>
+</div>
+<div class="flex overflow-x-auto gap-4 pb-4 no-scrollbar">
+<!-- Appointment Card -->
+<div class="min-w-[280px] bg-white p-6 rounded-xl border border-outline-variant/15 shadow-sm">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-secondary/10 rounded-lg">
+<span class="material-symbols-outlined text-secondary">stethoscope</span>
+</div>
+<div class="text-right">
+<p class="font-headline font-extrabold text-xl">Oct 30</p>
+<p class="font-label text-[10px] text-on-surface-variant uppercase">09:00 AM</p>
+</div>
+</div>
+<h4 class="font-body font-bold text-on-surface">Dr. Sarah Mitchell</h4>
+<p class="font-body text-xs text-on-surface-variant mb-4">Annual Physical Exam</p>
+<div class="flex items-center gap-2">
+<img alt="Location" class="w-4 h-4" data-alt="Icon of a medical clinic building" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX1B64CPW-4Wx5-DP1ko6xNQL44JDB61oj1f3YkZMf-4FJ3hK94v40SXs80CHQVS16PjSXfWbwjQPhuohgnjzZhNTm3pumxkS_qa0MJ-AKH7QgDk5-NOaYNYDe-ff7UtSk7JWobCNztUREEmc4PvFFfOWPJPFToB1EpvOVS4czbuqWiLhiCDnMlwzHjqkz1QDzimOa7sQyygmLmLlmNe0Ld2R4uzBPd6GjGTdUsXpr-t7ymnAvhdpJkSIhxIOGJqARwalG2xBvA14"/>
+<span class="text-[10px] font-medium text-on-surface-variant">St. Jude Medical Center</span>
+</div>
+</div>
+<!-- Appointment Card -->
+<div class="min-w-[280px] bg-white p-6 rounded-xl border border-outline-variant/15 shadow-sm">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-on-tertiary-container/10 rounded-lg">
+<span class="material-symbols-outlined text-on-tertiary-container">dentistry</span>
+</div>
+<div class="text-right">
+<p class="font-headline font-extrabold text-xl">Nov 12</p>
+<p class="font-label text-[10px] text-on-surface-variant uppercase">02:30 PM</p>
+</div>
+</div>
+<h4 class="font-body font-bold text-on-surface">Bright Smile Dental</h4>
+<p class="font-body text-xs text-on-surface-variant mb-4">Routine Cleaning</p>
+<div class="flex items-center gap-2">
+<img alt="Location" class="w-4 h-4" data-alt="Icon of a dental office location" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdxJ5VVFw81Y1Z4RAKoaxlpFwqIJbnSPG7pWgVFjFzP7lF_XcY7hhrFe2cKO92fauLSh6uBQqpdtQX-QGyF_f25Nsnh85tiPqdRPwuF6t7zBkQ3L0LlPNkhiEBSZgBRe9diXCcdMOcAl10VAn4eI6HxGXq0A6f2asTyS8fnrNAdAp4-Nn9dv1jh_VRPrj38t5IbyQfwHC4Jk_1zNU8K1E9YBcz1sc2XT0rz4SId0gd1HGceSQDkMSVG8d14CPo6un5V6rqwtrBHwQ"/>
+<span class="text-[10px] font-medium text-on-surface-variant">Park Avenue Dental</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar with Central AI FAB -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl border-t border-slate-200/20 dark:border-slate-800/20 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_-8px_30px_rgba(0,2,10,0.04)]">
+<div class="relative flex justify-around items-center px-4 pb-6 pt-3 max-w-2xl mx-auto">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 scale-110 transition-transform active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase mt-1">Home</span>
+</a>
+<!-- Exams -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-500 transition-transform active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase mt-1">Exams</span>
+</a>
+<!-- AI Upload FAB -->
+<div class="relative -top-8 px-2">
+<button class="primary-gradient w-16 h-16 rounded-full flex flex-col items-center justify-center shadow-lg shadow-primary/20 text-white active:scale-90 transition-transform duration-200 border-4 border-surface group">
+<span class="material-symbols-outlined text-3xl group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">add_a_photo</span>
+</button>
+<span class="absolute -bottom-6 left-1/2 -translate-x-1/2 font-inter font-bold text-[10px] tracking-widest uppercase text-primary text-center w-max">AI Upload</span>
+</div>
+<!-- Insights -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-500 transition-transform active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase mt-1">Insights</span>
+</a>
+<!-- Records -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-500 transition-transform active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined">folder_shared</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase mt-1">Records</span>
+</a>
+</div>
+</nav>
+<!-- Spacer for floating nav -->
+<div class="h-20 md:hidden"></div>
+</body></html>

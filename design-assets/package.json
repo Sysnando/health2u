@@ -1,0 +1,23 @@
+{
+  "name": "health2u-design-assets",
+  "version": "1.0.0",
+  "description": "Stitch design asset downloader for Health2U Android app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "download": "node download-stitch-assets.js"
+  },
+  "keywords": [
+    "health2u",
+    "stitch",
+    "design-assets"
+  ],
+  "author": "Health2U Team",
+  "license": "PRIVATE",
+  "dependencies": {
+    "@google/stitch-sdk": "^0.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Exams - MyHealthHub</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f2f4f6",
+              "primary": "#00020a",
+              "surface-tint": "#495e8a",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#adc6ff",
+              "surface-bright": "#f7f9fb",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-fixed-variant": "#005236",
+              "error-container": "#ffdad6",
+              "on-surface": "#191c1e",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#004493",
+              "tertiary": "#000301",
+              "secondary-container": "#0070eb",
+              "surface": "#f7f9fb",
+              "on-error-container": "#93000a",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed-dim": "#b1c6f9",
+              "on-tertiary-fixed": "#002113",
+              "surface-container-lowest": "#ffffff",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "primary-container": "#001b44",
+              "surface-dim": "#d8dadc",
+              "tertiary-container": "#002214",
+              "error": "#ba1a1a",
+              "on-primary-fixed": "#001a42",
+              "on-secondary-container": "#fefcff",
+              "secondary": "#0058bc",
+              "outline-variant": "#c5c6d0",
+              "on-tertiary-container": "#009768",
+              "tertiary-fixed-dim": "#4edea3",
+              "on-primary": "#ffffff",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "outline": "#75777f",
+              "tertiary-fixed": "#6ffbbe",
+              "on-primary-container": "#7084b3",
+              "inverse-primary": "#b1c6f9",
+              "primary-fixed": "#d8e2ff",
+              "inverse-surface": "#2d3133",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d8e2ff",
+              "on-primary-fixed-variant": "#314671",
+              "on-surface-variant": "#44474f",
+              "background": "#f7f9fb",
+              "on-secondary-fixed": "#001a41"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,2,10,0.04)]">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container overflow-hidden ring-2 ring-primary/5">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="Close up professional headshot portrait of a man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf5Yp4WHlVHIm9yvPi1OWdiglq-C-uO8Vk1OIKGhaxPjwwIsGHXOzc0Oms03t4txxKP1c86iswvGxZFMuYtTSCWFsKElR6KWQnDC_fcGa6TWoM5Q3si-YtjMbGc_kH73VQlJBM6_J3-6HoL4jEt0VT-pgKhEP54M72uYdoepxjjLn0Ua35VqlAVSERL4fwwWNayml5byd6tzAGqeK-YubLFHB-RZkr0_B5tARPbXfj_v1k8xMhjcXqUDEtO7wCMYp2tjpXoWQexKk"/>
+</div>
+<h1 class="font-manrope font-black text-xl tracking-tighter text-slate-900 uppercase">MyHealthHub</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-950" data-icon="notifications">notifications</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-7xl mx-auto">
+<!-- Editorial Header Section -->
+<section class="mb-12">
+<div class="flex justify-between items-end">
+<div>
+<span class="font-label text-xs uppercase tracking-[0.2em] text-on-surface-variant mb-2 block">Clinical Records</span>
+<h2 class="font-headline font-extrabold text-4xl tracking-tight text-primary">Exams</h2>
+</div>
+<div class="text-right">
+<span class="font-label text-xs text-on-surface-variant block">Sync Status</span>
+<div class="flex items-center justify-end gap-2 mt-1">
+<div class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse"></div>
+<span class="text-sm font-medium text-on-tertiary-container">Live</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Filter Controls - Asymmetric Layout -->
+<section class="mb-10 flex flex-col md:flex-row gap-4 items-center">
+<div class="w-full md:w-auto overflow-x-auto no-scrollbar flex gap-2 pb-2 md:pb-0">
+<button class="px-5 py-2.5 rounded-full bg-primary text-on-primary text-sm font-semibold whitespace-nowrap shadow-lg">All Records</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium whitespace-nowrap hover:bg-surface-container-high transition-colors">Lab Results</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium whitespace-nowrap hover:bg-surface-container-high transition-colors">Radiology</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium whitespace-nowrap hover:bg-surface-container-high transition-colors">Prescriptions</button>
+</div>
+<div class="flex-grow"></div>
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg" data-icon="search">search</span>
+<input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest rounded-xl border-none ring-1 ring-outline-variant/15 focus:ring-secondary/20 text-sm" placeholder="Search records..." type="text"/>
+</div>
+</section>
+<!-- Exams Bento-Style List -->
+<div class="grid grid-cols-1 gap-6">
+<!-- Exam Item 1: High Priority -->
+<article class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_40px_rgba(0,2,10,0.02)] border border-outline-variant/5 transition-transform hover:scale-[1.01] duration-300">
+<div class="flex flex-col md:flex-row gap-6">
+<div class="flex-shrink-0 w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="bloodtype" style="font-variation-settings: 'FILL' 1;">bloodtype</span>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap justify-between items-start gap-4">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-headline font-bold text-xl text-primary">Complete Blood Count (CBC)</h3>
+<span class="px-2 py-0.5 rounded bg-error-container text-on-error-container text-[10px] font-black uppercase tracking-widest">Urgent Review</span>
+</div>
+<p class="text-on-surface-variant text-sm mb-4">Central Diagnostic Laboratory • Dr. Sarah Jenkins</p>
+</div>
+<div class="text-right">
+<time class="block font-headline font-bold text-lg text-primary">Oct 24, 2023</time>
+<span class="text-xs text-on-surface-variant">10:45 AM</span>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+<div class="p-3 rounded-lg bg-surface-container-low">
+<span class="block text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mb-1">Hemoglobin</span>
+<span class="font-headline font-extrabold text-xl text-error">12.1 <span class="text-xs font-medium">g/dL</span></span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low">
+<span class="block text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mb-1">WBC Count</span>
+<span class="font-headline font-extrabold text-xl text-on-tertiary-container">7.2 <span class="text-xs font-medium">10³/µL</span></span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low">
+<span class="block text-[10px] uppercase tracking-wider text-on-surface-variant font-bold mb-1">Platelets</span>
+<span class="font-headline font-extrabold text-xl text-primary">245 <span class="text-xs font-medium">10³/µL</span></span>
+</div>
+<div class="flex items-end justify-end">
+<button class="flex items-center gap-2 text-secondary font-bold text-sm hover:underline">
+                                    View Report <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- Exam Item 2: Radiology -->
+<article class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_40px_rgba(0,2,10,0.02)] border border-outline-variant/5 transition-transform hover:scale-[1.01] duration-300">
+<div class="flex flex-col md:flex-row gap-6">
+<div class="flex-shrink-0 w-16 h-16 rounded-xl bg-slate-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-700 text-3xl" data-icon="settings_accessibility" style="font-variation-settings: 'FILL' 1;">settings_accessibility</span>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap justify-between items-start gap-4">
+<div>
+<h3 class="font-headline font-bold text-xl text-primary mb-1">Lumbar Spine MRI</h3>
+<p class="text-on-surface-variant text-sm mb-4">St. Jude Medical Imaging • Radiology Dept.</p>
+</div>
+<div class="text-right">
+<time class="block font-headline font-bold text-lg text-primary">Sep 12, 2023</time>
+<span class="text-xs text-on-surface-variant">02:15 PM</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-3">
+<div class="w-12 h-12 rounded-lg bg-primary-container overflow-hidden border-2 border-surface-container-lowest">
+<img alt="MRI scan 1" class="w-full h-full object-cover opacity-60" data-alt="Black and white medical MRI scan of spine" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChBQuhi-Zi_ujfkPPoTMB7gLR_jHg4YPrQH0k1Tdz4RcrN0O2L-NryAW7mcJcleWN7yg5l-C2UJOlspEXuLbR_s-VWJ6yUgEC1KUaAZ5YLfc3y0G1_AAX0hi8QknhMVGhtzTXPwp_lObxMT0zetBOhjGTcXgJjLoD8qax0Kfsl8PukccWP_aJPtdLo6ejxWYWOAiPKzL-JLrN-SQVWf8SnoOshpEFct16oJkZSNfE9fs7NQ5UoKC-SeXmQrcRCPGB-u7a1kjSccYM"/>
+</div>
+<div class="w-12 h-12 rounded-lg bg-primary-container overflow-hidden border-2 border-surface-container-lowest">
+<img alt="MRI scan 2" class="w-full h-full object-cover opacity-60" data-alt="Detailed medical x-ray image showing bone structure" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAcFSSieovsNFHWtb22UcLEdO2kUlZ9TumBVBu-zoS-WfmqjU8sbrMbEwG17c8TLuMOiY08kp4URWDqw7PYMsnA7MlGvZdx35xFYpWnB8_YEz1ELI22J7wlwl7cM6EK33CEnq6BsDCCflXqDG4spN4CU3QzTt1g8uUmPslAnquh-Q8zrsehxaWtlBzItPbBsyYM1y-gw_2OKAUnZbEWLtdCUuuUOiU98XmsG3iB_ljLO3DYhOcv59TtTsrgK0qwZdRIWqfvgVQL8k"/>
+</div>
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center border-2 border-surface-container-lowest">
+<span class="text-xs font-bold text-on-surface-variant">+4</span>
+</div>
+</div>
+<div class="flex-grow h-px bg-outline-variant/10"></div>
+<button class="px-6 py-2 rounded-lg bg-surface-container-high text-primary font-bold text-sm hover:bg-surface-variant transition-colors">
+                                Open DICOM Viewer
+                            </button>
+</div>
+</div>
+</div>
+</article>
+<!-- Exam Item 3: Routine -->
+<article class="bg-surface-container-lowest rounded-xl p-6 shadow-[0_12px_40px_rgba(0,2,10,0.02)] border border-outline-variant/5 transition-transform hover:scale-[1.01] duration-300">
+<div class="flex flex-col md:flex-row gap-6">
+<div class="flex-shrink-0 w-16 h-16 rounded-xl bg-green-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-container text-3xl" data-icon="vital_signs" style="font-variation-settings: 'FILL' 1;">vital_signs</span>
+</div>
+<div class="flex-grow">
+<div class="flex flex-wrap justify-between items-start gap-4">
+<div>
+<h3 class="font-headline font-bold text-xl text-primary mb-1">Annual Physical Wellness</h3>
+<p class="text-on-surface-variant text-sm mb-4">Northside Family Clinic • Dr. Michael Chen</p>
+</div>
+<div class="text-right">
+<time class="block font-headline font-bold text-lg text-primary">Aug 05, 2023</time>
+<span class="text-xs text-on-surface-variant">09:00 AM</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-tertiary-container text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm font-medium text-on-surface">All vitals within normal range. Follow-up in 12 months.</span>
+</div>
+</div>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar with AI Upload FAB -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl border-t border-slate-200/20 glass-nav bg-white/80 dark:bg-slate-950/80 shadow-[0_-8px_30px_rgba(0,2,10,0.04)]">
+<div class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 relative">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-500 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard">dashboard</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase">Home</span>
+</a>
+<!-- Exams (Active) -->
+<a class="flex flex-col items-center justify-center text-blue-600 dark:text-blue-400 scale-110 transition-transform active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="description" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase">Exams</span>
+</a>
+<!-- Central AI Upload FAB -->
+<div class="relative -top-8 px-2">
+<button class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shadow-2xl ring-4 ring-surface active:scale-90 transition-transform duration-200 group">
+<span class="material-symbols-outlined text-white text-3xl group-hover:rotate-12 transition-transform" data-icon="add_a_photo" style="font-variation-settings: 'FILL' 1;">add_a_photo</span>
+</button>
+<span class="absolute -bottom-10 left-1/2 -translate-x-1/2 font-inter font-bold text-[10px] tracking-wide uppercase text-primary w-20 text-center">AI Upload</span>
+</div>
+<!-- Insights -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-500 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="insights">insights</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase">Insights</span>
+</a>
+<!-- Records -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-blue-500 transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="folder_shared">folder_shared</span>
+<span class="font-inter font-medium text-[10px] tracking-wide uppercase">Records</span>
+</a>
+</div>
+</nav>
+</body></html>

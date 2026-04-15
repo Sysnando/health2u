@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>User Profile - MyHealthHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-surface": "#2d3133",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary": "#000301",
+                        "error": "#ba1a1a",
+                        "outline": "#75777f",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-tint": "#495e8a",
+                        "on-tertiary-fixed": "#002113",
+                        "primary-container": "#001b44",
+                        "on-tertiary-fixed-variant": "#005236",
+                        "on-primary-fixed": "#001a42",
+                        "on-surface": "#191c1e",
+                        "secondary-container": "#0070eb",
+                        "primary": "#00020a",
+                        "tertiary-fixed-dim": "#4edea3",
+                        "secondary-fixed-dim": "#adc6ff",
+                        "on-secondary-fixed": "#001a41",
+                        "surface-dim": "#d8dadc",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#314671",
+                        "inverse-primary": "#b1c6f9",
+                        "surface-container": "#eceef0",
+                        "on-error": "#ffffff",
+                        "on-tertiary-container": "#009768",
+                        "on-surface-variant": "#44474f",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-fixed-dim": "#b1c6f9",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-fixed": "#d8e2ff",
+                        "on-primary-container": "#7084b3",
+                        "on-secondary-container": "#fefcff",
+                        "outline-variant": "#c5c6d0",
+                        "on-primary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#6ffbbe",
+                        "background": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e",
+                        "on-secondary-fixed-variant": "#004493",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#002214",
+                        "secondary": "#0058bc"
+                    },
+                    fontFamily: {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-layering {
+            background: linear-gradient(180deg, #001b44 0%, #00020a 100%);
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .display-num { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-6 py-4 sticky top-0 z-50 bg-[#00020a] text-white">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer hover:bg-white/10 p-2 rounded-full transition-colors">menu</span>
+<span class="text-xl font-extrabold tracking-tighter">MyHealthHub</span>
+</div>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-white/20">
+<img alt="Sarah Mitchell Profile" class="w-full h-full object-cover" data-alt="Close up portrait of a professional woman smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoFwPNSYM5y64kaYD_MEpH-r1h5n03Kc0V3XJdyLHk6mh4_exn22yvfx8akznIV4UhRIgPNxXXuuou3yx88ggB4su83GpJfGOageS2LFCWM42jgARGX_T2w0fX_N4KD-qBrN1BmUGc1ZG09dhfTfQa7niEg_kHFagyaBPGMETCptCW-Zx1OBUaBMg6MzRWVAuVok6SfgQ3HPN-6cHsVUwcGn67vVoitzCjdJ9Kp6oqw3BdidAIzo0vAwTuKugW0aKoyq_9zO21l94"/>
+</div>
+</header>
+<!-- Profile Hero Section -->
+<section class="tonal-layering pt-12 pb-20 px-6 text-center rounded-b-[2.5rem] shadow-2xl relative">
+<div class="relative inline-block">
+<div class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto p-1 bg-gradient-to-tr from-secondary to-tertiary-fixed shadow-xl">
+<img alt="Sarah Mitchell" class="w-full h-full rounded-full object-cover border-4 border-[#00020a]" data-alt="Detailed portrait of Sarah Mitchell smiling kindly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfWfetwj3hZCDruy1MTVcroo0drY_zfTc6M5MzlCSP3kRbeCshiWMaJLZj_kSB4x3qzQrrzhAVFAJRtdRywkOEs9pDyFlLrRvInoo_gRFAGSGaX_o83eBYhuTWeAfdTO49DNaZVV3C4jzyqrPY_6ibq51Lhd_S5CNEPALohN06LbE-hGLoZwlP9_ty4UDnfJ81uyoJoW8yT1aFlp87xkFzICr9i8lKbF-6OxCSx0mggl56LexvpZGTK1h1EnmoYSayBBjaoDt_k5s"/>
+</div>
+<button class="absolute bottom-1 right-1 bg-secondary text-white p-2 rounded-full shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm">edit</span>
+</button>
+</div>
+<h1 class="mt-6 text-3xl font-bold tracking-tight text-white">Sarah Mitchell</h1>
+<p class="text-on-primary-container font-medium">sarah.mitchell@email.com</p>
+<div class="mt-8 flex justify-center">
+<button class="flex items-center gap-2 bg-surface-container-lowest text-primary px-6 py-3 rounded-xl font-bold text-sm shadow-lg hover:bg-surface-container-low transition-all active:scale-95">
+<span class="material-symbols-outlined text-[20px]">settings_accessibility</span>
+                Edit Profile
+            </button>
+</div>
+</section>
+<!-- Main Content Grid -->
+<main class="max-w-4xl mx-auto px-6 -mt-10 space-y-12">
+<!-- Personal Info: Bento Grid Style -->
+<section>
+<div class="flex justify-between items-end mb-6">
+<h2 class="text-xl font-bold text-primary">Personal Details</h2>
+<span class="text-xs font-semibold uppercase tracking-widest text-on-surface-variant">Secure Vault</span>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold mb-1">Date of Birth</p>
+<p class="font-headline font-bold text-lg">Oct 30, 1990</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold mb-1">Gender</p>
+<p class="font-headline font-bold text-lg">Female</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border-l-4 border-error">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold mb-1">Blood Type</p>
+<p class="font-headline font-bold text-lg text-error">O+</p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold mb-1">Height</p>
+<p class="font-headline font-bold text-lg">170 <span class="text-sm font-normal text-on-surface-variant">cm</span></p>
+</div>
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold mb-1">Weight</p>
+<p class="font-headline font-bold text-lg">65 <span class="text-sm font-normal text-on-surface-variant">kg</span></p>
+</div>
+<div class="bg-surface-container-low p-5 rounded-2xl flex items-center justify-center border-2 border-dashed border-outline-variant/30">
+<span class="material-symbols-outlined text-outline-variant">add</span>
+</div>
+</div>
+</section>
+<!-- Medical Info: Tags -->
+<section class="bg-surface-container-low p-8 rounded-[2rem]">
+<h2 class="text-xl font-bold text-primary mb-6">Medical Records</h2>
+<div class="space-y-6">
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-error text-base" style="font-variation-settings: 'FILL' 1;">warning</span>
+                        Allergies
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-2 bg-error-container text-on-error-container text-sm font-semibold rounded-full">Penicillin</span>
+<span class="px-4 py-2 bg-error-container text-on-error-container text-sm font-semibold rounded-full">Peanuts</span>
+</div>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base" style="font-variation-settings: 'FILL' 1;">clinical_notes</span>
+                        Chronic Conditions
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-4 py-2 bg-secondary-fixed text-on-secondary-fixed text-sm font-semibold rounded-full">Mild Asthma</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Emergency Contacts: Tonal Shift -->
+<section>
+<div class="flex items-center gap-3 mb-6">
+<h2 class="text-xl font-bold text-primary">Emergency Contacts</h2>
+<div class="h-[1px] flex-grow bg-outline-variant/20"></div>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_4px_20px_0_rgba(0,2,10,0.02)] flex justify-between items-center group hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="font-bold text-primary">David Mitchell</p>
+<p class="text-xs text-on-surface-variant font-medium">Husband • +1-555-0123</p>
+</div>
+</div>
+<button class="p-3 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container hover:bg-on-tertiary-container/20">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">call</span>
+</button>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-2xl shadow-[0_4px_20px_0_rgba(0,2,10,0.02)] flex justify-between items-center group hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="font-bold text-primary">Elena Jenkins</p>
+<p class="text-xs text-on-surface-variant font-medium">Mother • +1-555-0456</p>
+</div>
+</div>
+<button class="p-3 rounded-full bg-on-tertiary-container/10 text-on-tertiary-container hover:bg-on-tertiary-container/20">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">call</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="pt-8 border-t border-outline-variant/10">
+<button class="w-full py-4 text-error font-bold text-sm border-2 border-error/10 rounded-xl hover:bg-error/5 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-base">logout</span>
+                Logout from Hub
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 backdrop-blur-xl rounded-t-2xl shadow-[0_-4px_20px_0_rgba(0,2,10,0.04)] border-t border-slate-100">
+<a class="flex flex-col items-center justify-center text-slate-400 opacity-70 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Inter'] font-medium text-[10px] uppercase tracking-widest mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 opacity-70 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined">monitor_heart</span>
+<span class="font-['Inter'] font-medium text-[10px] uppercase tracking-widest mt-1">Vitals</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 opacity-70 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-['Inter'] font-medium text-[10px] uppercase tracking-widest mt-1">Reports</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#0058bc] font-bold scale-110 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Inter'] font-medium text-[10px] uppercase tracking-widest mt-1">Profile</span>
+</a>
+</nav>
+</body></html>
