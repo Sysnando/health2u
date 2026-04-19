@@ -1,0 +1,19 @@
+# Cloudflare Pages applies these headers per request.
+# https://developers.cloudflare.com/pages/configuration/headers/
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# Long-cache static images (filenames aren't hashed yet; revisit if we
+# move to a bundler).
+/*.png
+  Cache-Control: public, max-age=3600
+
+# Translation bundles — short TTL so copy fixes go live quickly.
+/i18n/*.json
+  Cache-Control: public, max-age=300
+  Content-Type: application/json; charset=utf-8

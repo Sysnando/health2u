@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "title": "Health2U — Your health, organized and understood.",
+    "description": "Keep all your exams, prescriptions, and health records in one secure place. Get clear insights and share with your doctor easily."
+  },
+  "nav": {
+    "features": "Features",
+    "how_it_works": "How It Works",
+    "pricing": "Pricing",
+    "cta": "Get Started"
+  },
+  "hero": {
+    "badge": "Secure & Simple",
+    "title_pre": "Your health,",
+    "title_highlight": "organized and understood.",
+    "subtitle": "Keep all your exams, prescriptions, and health records in one secure place. Get clear insights and share with your doctor easily.",
+    "cta_primary": "Get Started Free",
+    "cta_secondary": "See How It Works",
+    "card_title": "Health Dashboard",
+    "card_exams": "Recent Exams",
+    "card_blood": "Complete Blood Count",
+    "card_cardio": "Cardiology Report",
+    "card_normal": "Normal",
+    "card_vitals": "Quick Vitals",
+    "card_bp": "BP",
+    "card_appt": "Next Appointment",
+    "card_appt_detail": "Dr. Santos — Apr 22, 10:00 AM"
+  },
+  "social": {
+    "tagline": "Built for your health, wherever you are",
+    "languages": "Languages Supported",
+    "documents": "Unlimited Documents",
+    "insights": "Types of Health Insights",
+    "exams": "Types of Exams Supported"
+  },
+  "how": {
+    "heading": "How It Works",
+    "subtitle": "Three simple steps to take control of your health records.",
+    "step1_label": "Step 1",
+    "step1_title": "Upload",
+    "step1_desc": "Add your exams, prescriptions, lab results, and medical records. Take a photo or upload a PDF.",
+    "step2_label": "Step 2",
+    "step2_title": "Organize",
+    "step2_desc": "We automatically categorize and structure everything. Your records become searchable and easy to find.",
+    "step3_label": "Step 3",
+    "step3_title": "Understand",
+    "step3_desc": "Get clear insights about your health trends. Share your complete history with any doctor in seconds."
+  },
+  "features": {
+    "heading": "Everything you need",
+    "subheading": "One app to manage all your health records, track your progress, and stay on top of your wellbeing.",
+    "learn_more": "Learn more",
+    "smart": {
+      "title": "Smart Organization",
+      "desc": "Upload any document and we'll automatically sort it. Blood tests, imaging, prescriptions — everything in its right place, instantly searchable."
+    },
+    "access": {
+      "title": "Access Anywhere",
+      "desc": "Your health records travel with you. Access from any device, share across borders, and always have your history ready for any doctor."
+    },
+    "trends": {
+      "title": "Health Trends",
+      "desc": "See how your health evolves over time. Track patterns in your results and spot changes before they become problems."
+    },
+    "share": {
+      "title": "Share with Your Doctor",
+      "desc": "Generate a secure link or PDF of your complete health history. Your doctor gets the full picture in seconds, not scattered papers.",
+      "cta": "Try It Free",
+      "secure_link": "Secure Link",
+      "pdf_export": "PDF Export",
+      "full_history": "Full History",
+      "expires": "Auto-Expires"
+    }
+  },
+  "trust": {
+    "heading": "Your data stays yours",
+    "body": "Your health records are deeply personal. We use industry-leading encryption and comply with the strictest healthcare data standards. You're always in control.",
+    "hipaa_title": "HIPAA Compliant",
+    "hipaa_desc": "Healthcare data standards",
+    "e2e_title": "End-to-End Encrypted",
+    "e2e_desc": "Only you can access your data",
+    "own_title": "You Own Your Data",
+    "own_desc": "Export or delete anytime",
+    "gdpr_title": "GDPR Ready",
+    "gdpr_desc": "Full privacy compliance"
+  },
+  "pricing": {
+    "heading": "Simple plans for everyone",
+    "subtitle": "Start free and upgrade when you're ready. No surprises, no hidden fees.",
+    "per_month": "/month",
+    "recommended": "Recommended",
+    "basic": {
+      "name": "Basic",
+      "f1": "Store up to 100 exams",
+      "f2": "Lifetime history tracking",
+      "f3": "Basic lab summaries",
+      "cta": "Choose Basic"
+    },
+    "standard": {
+      "name": "Standard",
+      "f1": "Everything in Basic",
+      "f2": "Unlimited smart organization",
+      "f3": "Advanced health trends",
+      "cta": "Choose Standard"
+    },
+    "premium": {
+      "name": "Premium",
+      "f1": "Everything in Standard",
+      "f2": "Doctor sharing & PDF export",
+      "f3": "Priority support",
+      "cta": "Go Premium"
+    }
+  },
+  "final_cta": {
+    "heading": "Ready to take control of your health?",
+    "subtitle": "Join thousands of people who already manage their health records with Health2U. It's free to start.",
+    "button": "Get Started Free"
+  },
+  "footer": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "security": "Security",
+    "hipaa": "HIPAA",
+    "support": "Support",
+    "copyright": "© 2026 Health2U. All rights reserved."
+  },
+  "language": {
+    "label": "Language"
+  }
+}

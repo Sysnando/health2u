@@ -1,0 +1,7 @@
+# Cloudflare Pages project configuration.
+# `name` is the project slug — the site will be served at
+#   https://health2u-portal.pages.dev
+# plus an auto-assigned preview URL for every non-production deploy.
+name = "health2u-portal"
+compatibility_date = "2024-12-01"
+pages_build_output_dir = "."

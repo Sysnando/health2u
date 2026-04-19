@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "title": "Health2U — Tu salud, organizada y comprendida.",
+    "description": "Guarda todos tus exámenes, recetas y registros médicos en un solo lugar seguro. Obtén información clara y comparte con tu médico fácilmente."
+  },
+  "nav": {
+    "features": "Funciones",
+    "how_it_works": "Cómo Funciona",
+    "pricing": "Precios",
+    "cta": "Comenzar"
+  },
+  "hero": {
+    "badge": "Seguro y Simple",
+    "title_pre": "Tu salud,",
+    "title_highlight": "organizada y comprendida.",
+    "subtitle": "Guarda todos tus exámenes, recetas y registros médicos en un solo lugar seguro. Obtén información clara y comparte con tu médico fácilmente.",
+    "cta_primary": "Comenzar Gratis",
+    "cta_secondary": "Ver Cómo Funciona",
+    "card_title": "Panel de Salud",
+    "card_exams": "Exámenes Recientes",
+    "card_blood": "Hemograma Completo",
+    "card_cardio": "Informe de Cardiología",
+    "card_normal": "Normal",
+    "card_vitals": "Signos Vitales",
+    "card_bp": "PA",
+    "card_appt": "Próxima Cita",
+    "card_appt_detail": "Dr. Santos — 22 abr, 10:00 AM"
+  },
+  "social": {
+    "tagline": "Diseñado para tu salud, estés donde estés",
+    "languages": "Idiomas Soportados",
+    "documents": "Documentos Ilimitados",
+    "insights": "Tipos de Análisis de Salud",
+    "exams": "Tipos de Exámenes Soportados"
+  },
+  "how": {
+    "heading": "Cómo Funciona",
+    "subtitle": "Tres simples pasos para tomar el control de tus registros de salud.",
+    "step1_label": "Paso 1",
+    "step1_title": "Sube",
+    "step1_desc": "Agrega tus exámenes, recetas, resultados de laboratorio y registros médicos. Toma una foto o sube un PDF.",
+    "step2_label": "Paso 2",
+    "step2_title": "Organiza",
+    "step2_desc": "Categorizamos y estructuramos todo automáticamente. Tus registros se vuelven buscables y fáciles de encontrar.",
+    "step3_label": "Paso 3",
+    "step3_title": "Comprende",
+    "step3_desc": "Obtén información clara sobre tus tendencias de salud. Comparte tu historial completo con cualquier médico en segundos."
+  },
+  "features": {
+    "heading": "Todo lo que necesitas",
+    "subheading": "Una app para gestionar todos tus registros de salud, seguir tu progreso y cuidar tu bienestar.",
+    "learn_more": "Saber más",
+    "smart": {
+      "title": "Organización Inteligente",
+      "desc": "Sube cualquier documento y lo ordenamos automáticamente. Análisis de sangre, imágenes, recetas — todo en su lugar, buscable al instante."
+    },
+    "access": {
+      "title": "Accede desde Cualquier Lugar",
+      "desc": "Tus registros de salud viajan contigo. Accede desde cualquier dispositivo, comparte sin fronteras y ten siempre tu historial listo."
+    },
+    "trends": {
+      "title": "Tendencias de Salud",
+      "desc": "Observa cómo evoluciona tu salud con el tiempo. Identifica patrones en tus resultados y detecta cambios antes de que se conviertan en problemas."
+    },
+    "share": {
+      "title": "Comparte con tu Médico",
+      "desc": "Genera un enlace seguro o PDF de tu historial completo. Tu médico obtiene la imagen completa en segundos, no papeles dispersos.",
+      "cta": "Pruébalo Gratis",
+      "secure_link": "Enlace Seguro",
+      "pdf_export": "Exportar PDF",
+      "full_history": "Historial Completo",
+      "expires": "Expira Automático"
+    }
+  },
+  "trust": {
+    "heading": "Tus datos son tuyos",
+    "body": "Tus registros de salud son profundamente personales. Usamos cifrado de nivel industrial y cumplimos con los estándares más estrictos de datos de salud. Siempre tienes el control.",
+    "hipaa_title": "Cumple con HIPAA",
+    "hipaa_desc": "Estándares de datos de salud",
+    "e2e_title": "Cifrado de Extremo a Extremo",
+    "e2e_desc": "Solo tú puedes acceder a tus datos",
+    "own_title": "Tus Datos, Tu Control",
+    "own_desc": "Exporta o elimina en cualquier momento",
+    "gdpr_title": "Preparado para GDPR",
+    "gdpr_desc": "Cumplimiento total de privacidad"
+  },
+  "pricing": {
+    "heading": "Planes simples para todos",
+    "subtitle": "Comienza gratis y mejora cuando quieras. Sin sorpresas, sin costes ocultos.",
+    "per_month": "/mes",
+    "recommended": "Recomendado",
+    "basic": {
+      "name": "Básico",
+      "f1": "Almacena hasta 100 exámenes",
+      "f2": "Historial de por vida",
+      "f3": "Resúmenes básicos de laboratorio",
+      "cta": "Elegir Básico"
+    },
+    "standard": {
+      "name": "Estándar",
+      "f1": "Todo lo del Básico",
+      "f2": "Organización inteligente ilimitada",
+      "f3": "Tendencias de salud avanzadas",
+      "cta": "Elegir Estándar"
+    },
+    "premium": {
+      "name": "Premium",
+      "f1": "Todo lo del Estándar",
+      "f2": "Compartir con médico y exportar PDF",
+      "f3": "Soporte prioritario",
+      "cta": "Ir a Premium"
+    }
+  },
+  "final_cta": {
+    "heading": "¿Listo para tomar el control de tu salud?",
+    "subtitle": "Únete a miles de personas que ya gestionan sus registros de salud con Health2U. Es gratis para empezar.",
+    "button": "Comenzar Gratis"
+  },
+  "footer": {
+    "privacy": "Política de Privacidad",
+    "terms": "Términos del Servicio",
+    "security": "Seguridad",
+    "hipaa": "HIPAA",
+    "support": "Soporte",
+    "copyright": "© 2026 Health2U. Todos los derechos reservados."
+  },
+  "language": {
+    "label": "Idioma"
+  }
+}

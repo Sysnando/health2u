@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "title": "Health2U — Votre santé, organisée et comprise.",
+    "description": "Conservez tous vos examens, ordonnances et dossiers médicaux en un seul endroit sécurisé. Obtenez des informations claires et partagez facilement avec votre médecin."
+  },
+  "nav": {
+    "features": "Fonctionnalités",
+    "how_it_works": "Comment ça marche",
+    "pricing": "Tarifs",
+    "cta": "Commencer"
+  },
+  "hero": {
+    "badge": "Sécurisé et Simple",
+    "title_pre": "Votre santé,",
+    "title_highlight": "organisée et comprise.",
+    "subtitle": "Conservez tous vos examens, ordonnances et dossiers médicaux en un seul endroit sécurisé. Obtenez des informations claires et partagez facilement avec votre médecin.",
+    "cta_primary": "Commencer Gratuitement",
+    "cta_secondary": "Voir Comment ça Marche",
+    "card_title": "Tableau de Bord Santé",
+    "card_exams": "Examens Récents",
+    "card_blood": "Numération Formule Sanguine",
+    "card_cardio": "Rapport de Cardiologie",
+    "card_normal": "Normal",
+    "card_vitals": "Signes Vitaux",
+    "card_bp": "TA",
+    "card_appt": "Prochain Rendez-vous",
+    "card_appt_detail": "Dr. Santos — 22 avr, 10h00"
+  },
+  "social": {
+    "tagline": "Conçu pour votre santé, où que vous soyez",
+    "languages": "Langues Supportées",
+    "documents": "Documents Illimités",
+    "insights": "Types d'Analyses de Santé",
+    "exams": "Types d'Examens Supportés"
+  },
+  "how": {
+    "heading": "Comment ça Marche",
+    "subtitle": "Trois étapes simples pour prendre le contrôle de vos dossiers médicaux.",
+    "step1_label": "Étape 1",
+    "step1_title": "Téléchargez",
+    "step1_desc": "Ajoutez vos examens, ordonnances, résultats de laboratoire et dossiers médicaux. Prenez une photo ou téléchargez un PDF.",
+    "step2_label": "Étape 2",
+    "step2_title": "Organisez",
+    "step2_desc": "Nous catégorisons et structurons tout automatiquement. Vos dossiers deviennent consultables et faciles à trouver.",
+    "step3_label": "Étape 3",
+    "step3_title": "Comprenez",
+    "step3_desc": "Obtenez des informations claires sur vos tendances de santé. Partagez votre historique complet avec n'importe quel médecin en quelques secondes."
+  },
+  "features": {
+    "heading": "Tout ce dont vous avez besoin",
+    "subheading": "Une application pour gérer tous vos dossiers médicaux, suivre vos progrès et prendre soin de votre bien-être.",
+    "learn_more": "En savoir plus",
+    "smart": {
+      "title": "Organisation Intelligente",
+      "desc": "Téléchargez n'importe quel document et nous le classons automatiquement. Analyses de sang, imagerie, ordonnances — tout à sa place, consultable instantanément."
+    },
+    "access": {
+      "title": "Accédez Partout",
+      "desc": "Vos dossiers médicaux voyagent avec vous. Accédez depuis n'importe quel appareil, partagez sans frontières et ayez toujours votre historique prêt."
+    },
+    "trends": {
+      "title": "Tendances de Santé",
+      "desc": "Observez comment votre santé évolue au fil du temps. Suivez les tendances dans vos résultats et repérez les changements avant qu'ils ne deviennent des problèmes."
+    },
+    "share": {
+      "title": "Partagez avec Votre Médecin",
+      "desc": "Générez un lien sécurisé ou un PDF de votre historique de santé complet. Votre médecin obtient la vue d'ensemble en quelques secondes.",
+      "cta": "Essayer Gratuitement",
+      "secure_link": "Lien Sécurisé",
+      "pdf_export": "Export PDF",
+      "full_history": "Historique Complet",
+      "expires": "Expiration Auto"
+    }
+  },
+  "trust": {
+    "heading": "Vos données restent les vôtres",
+    "body": "Vos dossiers médicaux sont profondément personnels. Nous utilisons un chiffrement de pointe et respectons les normes les plus strictes en matière de données de santé. Vous gardez toujours le contrôle.",
+    "hipaa_title": "Conforme HIPAA",
+    "hipaa_desc": "Normes de données de santé",
+    "e2e_title": "Chiffrement de Bout en Bout",
+    "e2e_desc": "Vous seul pouvez accéder à vos données",
+    "own_title": "Vos Données Vous Appartiennent",
+    "own_desc": "Exportez ou supprimez à tout moment",
+    "gdpr_title": "Prêt pour le RGPD",
+    "gdpr_desc": "Conformité totale en matière de vie privée"
+  },
+  "pricing": {
+    "heading": "Des forfaits simples pour tous",
+    "subtitle": "Commencez gratuitement et évoluez quand vous le souhaitez. Pas de surprises, pas de frais cachés.",
+    "per_month": "/mois",
+    "recommended": "Recommandé",
+    "basic": {
+      "name": "Basique",
+      "f1": "Stockez jusqu'à 100 examens",
+      "f2": "Historique à vie",
+      "f3": "Résumés de laboratoire basiques",
+      "cta": "Choisir Basique"
+    },
+    "standard": {
+      "name": "Standard",
+      "f1": "Tout ce qui est dans Basique",
+      "f2": "Organisation intelligente illimitée",
+      "f3": "Tendances de santé avancées",
+      "cta": "Choisir Standard"
+    },
+    "premium": {
+      "name": "Premium",
+      "f1": "Tout ce qui est dans Standard",
+      "f2": "Partage médecin et export PDF",
+      "f3": "Support prioritaire",
+      "cta": "Passer à Premium"
+    }
+  },
+  "final_cta": {
+    "heading": "Prêt à prendre le contrôle de votre santé ?",
+    "subtitle": "Rejoignez des milliers de personnes qui gèrent déjà leurs dossiers médicaux avec Health2U. C'est gratuit pour commencer.",
+    "button": "Commencer Gratuitement"
+  },
+  "footer": {
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions d'Utilisation",
+    "security": "Sécurité",
+    "hipaa": "HIPAA",
+    "support": "Support",
+    "copyright": "© 2026 Health2U. Tous droits réservés."
+  },
+  "language": {
+    "label": "Langue"
+  }
+}
