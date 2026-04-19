@@ -1,130 +1,130 @@
 {
   "meta": {
-    "title": "Health in Your Hands — A tua saúde, organizada e compreendida.",
-    "description": "Guarda todos os teus exames, receitas e registos médicos num só lugar seguro. Obtém informações claras e partilha com o teu médico facilmente."
+    "title": "2YH — Health in Your Hands",
+    "description": "Carrega exames em qualquer língua. A nossa IA de grau médico lê, traduz e organiza tudo num único registo claro no teu bolso."
   },
   "nav": {
+    "brand": "Health in Your Hands",
     "features": "Funcionalidades",
-    "how_it_works": "Como Funciona",
+    "how": "Como funciona",
+    "insights": "Análises",
     "pricing": "Preços",
-    "cta": "Começar"
+    "cta": "Descarrega a app"
   },
   "hero": {
-    "badge": "Seguro e Simples",
-    "title_pre": "A tua saúde,",
-    "title_highlight": "organizada e compreendida.",
-    "subtitle": "Guarda todos os teus exames, receitas e registos médicos num só lugar seguro. Obtém informações claras e partilha com o teu médico facilmente.",
-    "cta_primary": "Começar Grátis",
-    "cta_secondary": "Ver Como Funciona",
-    "card_title": "Painel de Saúde",
-    "card_exams": "Exames Recentes",
-    "card_blood": "Hemograma Completo",
-    "card_cardio": "Relatório de Cardiologia",
-    "card_normal": "Normal",
-    "card_vitals": "Sinais Vitais",
-    "card_bp": "PA",
-    "card_appt": "Próxima Consulta",
-    "card_appt_detail": "Dr. Santos — 22 abr, 10:00"
+    "eyebrow": "A app de saúde · iOS & Android",
+    "title_pre": "Os teus registos de saúde,",
+    "title_em": "compreendidos",
+    "title_post": "— em qualquer língua.",
+    "lede": "Carrega uma análise de sangue de Lisboa, um relatório de ressonância de São Paulo, uma receita de Paris. A nossa IA de grau médico lê-os, traduz-los e organiza-os num único registo padronizado no teu bolso.",
+    "cta_iphone": "Descarrega para iPhone",
+    "cta_android": "Obtém no Android →",
+    "badge_appstore": "★ 4.9 · App Store",
+    "badge_playstore": "★ 4.8 · Play Store",
+    "badge_free": "Gratuito para começar — sem cartão.",
+    "stat_languages": "LÍNGUAS SUPORTADAS",
+    "stat_exams": "EXAMES PROCESSADOS",
+    "stat_biomarkers": "BIOMARCADORES RASTREADOS",
+    "stat_interpretation": "TEMPO MÉD. DE INTERPRETAÇÃO"
   },
-  "social": {
-    "tagline": "Feito para a tua saúde, onde quer que estejas",
-    "languages": "Idiomas Suportados",
-    "documents": "Documentos Ilimitados",
-    "insights": "Tipos de Análises de Saúde",
-    "exams": "Tipos de Exames Suportados"
+  "ingest": {
+    "kicker": "01 · O motor",
+    "title_pre": "Qualquer documento. Qualquer língua.",
+    "title_em": "Uma estrutura.",
+    "body": "Tira uma fotografia, reencaminha um e-mail, arrasta um PDF. A nossa IA de grau médico lê o documento, identifica cada biomarcador, converte unidades, traduz a terminologia e guarda tudo num esquema aberto e padronizado — sempre da mesma forma.",
+    "example": "\"Colesterol LDL · 118 mg/dL\" de um laboratório brasileiro e \"LDL-C · 3,05 mmol/L\" de um francês tornam-se o mesmo ponto de dados no mesmo gráfico."
   },
   "how": {
-    "heading": "Como Funciona",
-    "subtitle": "Três passos simples para assumires o controlo dos teus registos de saúde.",
-    "step1_label": "Passo 1",
-    "step1_title": "Envia",
-    "step1_desc": "Adiciona os teus exames, receitas, resultados laboratoriais e registos médicos. Tira uma foto ou envia um PDF.",
-    "step2_label": "Passo 2",
-    "step2_title": "Organiza",
-    "step2_desc": "Categorizamos e estruturamos tudo automaticamente. Os teus registos ficam pesquisáveis e fáceis de encontrar.",
-    "step3_label": "Passo 3",
-    "step3_title": "Compreende",
-    "step3_desc": "Obtém informações claras sobre as tuas tendências de saúde. Partilha o teu histórico completo com qualquer médico em segundos."
+    "kicker": "02 · Como funciona",
+    "title": "Três passos. É só isso.",
+    "step1_num": "PASSO 01",
+    "step1_title": "Envia.",
+    "step1_body": "Carrega um PDF, fotografa um relatório em papel ou reencaminha o e-mail do laboratório. Aceitamos tudo — papel, impressões de fax, DICOM, notas manuscritas.",
+    "step2_num": "PASSO 02",
+    "step2_title": "Nós lemos.",
+    "step2_body": "A nossa IA interpreta o documento na língua original, extrai cada biomarcador e mapeia-o para o padrão internacional LOINC / SNOMED. As unidades são normalizadas automaticamente.",
+    "step3_num": "PASSO 03",
+    "step3_title": "Tu compreendes.",
+    "step3_body": "Tudo aparece numa cronologia limpa com tendências, explicações em linguagem simples e alertas proactivos quando os valores se desviam — anos de registos, legíveis num relance."
   },
-  "features": {
-    "heading": "Tudo o que precisas",
-    "subheading": "Uma app para gerir todos os teus registos de saúde, acompanhar o teu progresso e cuidar do teu bem-estar.",
-    "learn_more": "Saber mais",
-    "smart": {
-      "title": "Organização Inteligente",
-      "desc": "Envia qualquer documento e organizamos automaticamente. Análises de sangue, imagens, receitas — tudo no sítio certo, pesquisável instantaneamente."
-    },
-    "access": {
-      "title": "Acede de Qualquer Lugar",
-      "desc": "Os teus registos de saúde viajam contigo. Acede de qualquer dispositivo, partilha sem fronteiras e tem sempre o teu histórico pronto."
-    },
-    "trends": {
-      "title": "Tendências de Saúde",
-      "desc": "Vê como a tua saúde evolui ao longo do tempo. Acompanha padrões nos teus resultados e identifica mudanças antes que se tornem problemas."
-    },
-    "share": {
-      "title": "Partilha com o Teu Médico",
-      "desc": "Gera um link seguro ou PDF do teu histórico completo de saúde. O teu médico recebe a visão completa em segundos, sem papéis espalhados.",
-      "cta": "Experimenta Grátis",
-      "secure_link": "Link Seguro",
-      "pdf_export": "Exportar PDF",
-      "full_history": "Histórico Completo",
-      "expires": "Expira Automático"
-    }
+  "insights": {
+    "kicker": "03 · Motor de análises",
+    "title_pre": "Os teus dados, finalmente",
+    "title_em": "a falar contigo",
+    "body": "Assim que os teus registos estão padronizados, surgem padrões. As tendências tornam-se visíveis. O nosso motor de análises vigia desvios, liga pontos ao longo de anos de dados e escreve tudo numa linguagem que realmente usas.",
+    "card_flag_k": "ALERTA PROACTIVO",
+    "card_flag_h": "Deteção precoce de desvios.",
+    "card_flag_p": "Valores a tender para um limite — mesmo ainda \"normais\" — são sinalizados meses antes.",
+    "card_plain_k": "LINGUAGEM SIMPLES",
+    "card_plain_h": "O que é que isto significa?",
+    "card_plain_p": "Cada resultado vem com uma explicação curta. Sem jargão. Sem pesquisas no WebMD de madrugada.",
+    "card_correlate_k": "CORRELAÇÃO",
+    "card_correlate_h": "Causa e efeito.",
+    "card_correlate_p": "Vê quais marcadores mudaram com a tua nova medicação, rotina ou stress no trabalho.",
+    "card_family_k": "FAMÍLIA",
+    "card_family_h": "Todos os que amas.",
+    "card_family_p": "Vacinas dos miúdos, relatórios de cardiologia dos pais — tudo no mesmo sítio, privado para cada pessoa."
   },
-  "trust": {
-    "heading": "Os teus dados são teus",
-    "body": "Os teus registos de saúde são profundamente pessoais. Usamos encriptação de ponta e cumprimos os padrões mais rigorosos de dados de saúde. Tens sempre o controlo.",
-    "hipaa_title": "Conforme a HIPAA",
-    "hipaa_desc": "Padrões de dados de saúde",
-    "e2e_title": "Encriptação Ponto a Ponto",
-    "e2e_desc": "Só tu podes aceder aos teus dados",
-    "own_title": "Tu és Dono dos Teus Dados",
-    "own_desc": "Exporta ou apaga a qualquer momento",
-    "gdpr_title": "Preparado para RGPD",
-    "gdpr_desc": "Conformidade total de privacidade"
+  "security": {
+    "kicker": "04 · Privacidade",
+    "title_pre": "São os",
+    "title_em": "teus",
+    "title_post": "dados. Sempre.",
+    "body": "Os registos médicos são os dados mais pessoais que tens. Nós tratamo-los como tal — encriptados no teu dispositivo, encriptados em trânsito, encriptados em repouso. Tu és dono de cada byte.",
+    "check1": "Encriptação ponta a ponta",
+    "check1_d": "AES-256 · TLS 1.3",
+    "check2": "Conformidade HIPAA e GDPR",
+    "check2_d": "Auditado trimestralmente",
+    "check3": "Arquitetura de conhecimento zero",
+    "check3_d": "Não conseguimos ler os teus dados",
+    "check4": "Exportação completa, a qualquer momento",
+    "check4_d": "FHIR · JSON · PDF",
+    "check5": "Eliminação definitiva, a qualquer momento",
+    "check5_d": "Eliminação verificada em 30 dias"
   },
   "pricing": {
-    "heading": "Planos simples para todos",
-    "subtitle": "Começa grátis e faz upgrade quando quiseres. Sem surpresas, sem taxas escondidas.",
+    "kicker": "05 · Preços",
+    "title": "Começa grátis. Mantém-se justo.",
+    "subtitle": "Sem escalões surpresa, sem limites escondidos. Escolhe o que te serve; muda quando os teus registos crescerem.",
     "per_month": "/mês",
-    "recommended": "Recomendado",
-    "basic": {
-      "name": "Básico",
-      "f1": "Armazena até 100 exames",
-      "f2": "Histórico vitalício",
-      "f3": "Resumos básicos de laboratório",
-      "cta": "Escolher Básico"
-    },
-    "standard": {
-      "name": "Standard",
-      "f1": "Tudo o que está no Básico",
-      "f2": "Organização inteligente ilimitada",
-      "f3": "Tendências de saúde avançadas",
-      "cta": "Escolher Standard"
-    },
-    "premium": {
-      "name": "Premium",
-      "f1": "Tudo o que está no Standard",
-      "f2": "Partilhar com médico e exportar PDF",
-      "f3": "Apoio prioritário",
-      "cta": "Ir para Premium"
-    }
+    "essential_name": "Essencial",
+    "essential_f1": "Até 50 exames, para sempre",
+    "essential_f2": "Interpretação por IA, 24 línguas",
+    "essential_f3": "Cronologia unificada",
+    "essential_f4": "Partilha por ligação segura",
+    "essential_cta": "Começa grátis",
+    "standard_name": "Standard",
+    "standard_badge": "★ Recomendado",
+    "standard_f1": "Exames e carregamentos ilimitados",
+    "standard_f2": "Motor de análises e tendências completo",
+    "standard_f3": "Alertas proactivos de desvio",
+    "standard_f4": "Exportações PDF prontas para o médico",
+    "standard_f5": "Processamento de documentos prioritário",
+    "standard_cta": "Escolher Standard",
+    "family_name": "Família",
+    "family_f1": "Até 6 membros da família",
+    "family_f2": "Tudo incluído no Standard",
+    "family_f3": "Acompanhamento de crescimento pediátrico",
+    "family_f4": "Delegação de cuidador",
+    "family_f5": "Suporte dedicado",
+    "family_cta": "Escolher Família"
   },
   "final_cta": {
-    "heading": "Pronto para assumir o controlo da tua saúde?",
-    "subtitle": "Junta-te a milhares de pessoas que já gerem os seus registos de saúde com o 2YH. É grátis para começar.",
-    "button": "Começar Grátis"
+    "kicker": "A tua saúde, finalmente num só lugar.",
+    "title_pre": "Começa com",
+    "title_em": "um exame",
+    "title_line2": "Vê do que falamos."
   },
   "footer": {
-    "privacy": "Política de Privacidade",
-    "terms": "Termos do Serviço",
+    "privacy": "Privacidade",
+    "terms": "Termos",
     "security": "Segurança",
     "hipaa": "HIPAA",
+    "gdpr": "GDPR",
     "support": "Suporte",
-    "copyright": "© 2026 2YH. Todos os direitos reservados."
+    "copyright": "© 2026 2YH — Health in Your Hands. Organizado, compreendido, teu."
   },
   "language": {
-    "label": "Idioma"
+    "label": "Língua"
   }
 }

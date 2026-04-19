@@ -17,3 +17,8 @@
 /i18n/*.json
   Cache-Control: public, max-age=300
   Content-Type: application/json; charset=utf-8
+
+# JSX files for React phone mockups
+/*.jsx
+  Content-Type: text/javascript; charset=utf-8
+  Cache-Control: public, max-age=3600

@@ -1,128 +1,128 @@
 {
   "meta": {
-    "title": "Health in Your Hands — Your health, organized and understood.",
-    "description": "Keep all your exams, prescriptions, and health records in one secure place. Get clear insights and share with your doctor easily."
+    "title": "2YH — Health in Your Hands",
+    "description": "Upload exams in any language. Our medical-grade AI reads, translates, and organizes them into one clean record in your pocket."
   },
   "nav": {
+    "brand": "Health in Your Hands",
     "features": "Features",
-    "how_it_works": "How It Works",
+    "how": "How it works",
+    "insights": "Insights",
     "pricing": "Pricing",
-    "cta": "Get Started"
+    "cta": "Download the app"
   },
   "hero": {
-    "badge": "Secure & Simple",
-    "title_pre": "Your health,",
-    "title_highlight": "organized and understood.",
-    "subtitle": "Keep all your exams, prescriptions, and health records in one secure place. Get clear insights and share with your doctor easily.",
-    "cta_primary": "Get Started Free",
-    "cta_secondary": "See How It Works",
-    "card_title": "Health Dashboard",
-    "card_exams": "Recent Exams",
-    "card_blood": "Complete Blood Count",
-    "card_cardio": "Cardiology Report",
-    "card_normal": "Normal",
-    "card_vitals": "Quick Vitals",
-    "card_bp": "BP",
-    "card_appt": "Next Appointment",
-    "card_appt_detail": "Dr. Santos — Apr 22, 10:00 AM"
+    "eyebrow": "The health app · iOS & Android",
+    "title_pre": "Your health records,",
+    "title_em": "understood",
+    "title_post": "— in any language.",
+    "lede": "Upload a blood panel from Lisbon, an MRI report from São Paulo, a prescription from Paris. Our medical-grade AI reads them, translates them, and organizes them into one clean, standardized record in your pocket.",
+    "cta_iphone": "Download for iPhone",
+    "cta_android": "Get on Android →",
+    "badge_appstore": "★ 4.9 · App Store",
+    "badge_playstore": "★ 4.8 · Play Store",
+    "badge_free": "Free to start — no card.",
+    "stat_languages": "LANGUAGES SUPPORTED",
+    "stat_exams": "EXAMS PROCESSED",
+    "stat_biomarkers": "BIOMARKERS TRACKED",
+    "stat_interpretation": "AVG. INTERPRETATION"
   },
-  "social": {
-    "tagline": "Built for your health, wherever you are",
-    "languages": "Languages Supported",
-    "documents": "Unlimited Documents",
-    "insights": "Types of Health Insights",
-    "exams": "Types of Exams Supported"
+  "ingest": {
+    "kicker": "01 · The engine",
+    "title_pre": "Any document. Any language.",
+    "title_em": "One structure.",
+    "body": "Snap a photo, forward an email, drop a PDF. Our medical-grade AI reads the document, identifies every biomarker, converts units, translates terminology, and stores it in an open, standardized schema — the same way, every time.",
+    "example": "\"Colesterol LDL · 118 mg/dL\" from a Brazilian lab and \"LDL-C · 3.05 mmol/L\" from a French one become the same data point on the same chart."
   },
   "how": {
-    "heading": "How It Works",
-    "subtitle": "Three simple steps to take control of your health records.",
-    "step1_label": "Step 1",
-    "step1_title": "Upload",
-    "step1_desc": "Add your exams, prescriptions, lab results, and medical records. Take a photo or upload a PDF.",
-    "step2_label": "Step 2",
-    "step2_title": "Organize",
-    "step2_desc": "We automatically categorize and structure everything. Your records become searchable and easy to find.",
-    "step3_label": "Step 3",
-    "step3_title": "Understand",
-    "step3_desc": "Get clear insights about your health trends. Share your complete history with any doctor in seconds."
+    "kicker": "02 · How it works",
+    "title": "Three steps. That's the whole thing.",
+    "step1_num": "STEP 01",
+    "step1_title": "Send it in.",
+    "step1_body": "Upload a PDF, photograph a paper report, or forward the lab's email. We accept everything — paper, fax printouts, DICOM, handwritten notes.",
+    "step2_num": "STEP 02",
+    "step2_title": "We read it.",
+    "step2_body": "Our AI interprets the document in its original language, extracts every biomarker, and maps it to the international LOINC / SNOMED standard. Units are normalized automatically.",
+    "step3_num": "STEP 03",
+    "step3_title": "You understand it.",
+    "step3_body": "Everything lands in one clean timeline with trends, plain-language explanations, and proactive flags when values drift — years of records, readable in a glance."
   },
-  "features": {
-    "heading": "Everything you need",
-    "subheading": "One app to manage all your health records, track your progress, and stay on top of your wellbeing.",
-    "learn_more": "Learn more",
-    "smart": {
-      "title": "Smart Organization",
-      "desc": "Upload any document and we'll automatically sort it. Blood tests, imaging, prescriptions — everything in its right place, instantly searchable."
-    },
-    "access": {
-      "title": "Access Anywhere",
-      "desc": "Your health records travel with you. Access from any device, share across borders, and always have your history ready for any doctor."
-    },
-    "trends": {
-      "title": "Health Trends",
-      "desc": "See how your health evolves over time. Track patterns in your results and spot changes before they become problems."
-    },
-    "share": {
-      "title": "Share with Your Doctor",
-      "desc": "Generate a secure link or PDF of your complete health history. Your doctor gets the full picture in seconds, not scattered papers.",
-      "cta": "Try It Free",
-      "secure_link": "Secure Link",
-      "pdf_export": "PDF Export",
-      "full_history": "Full History",
-      "expires": "Auto-Expires"
-    }
+  "insights": {
+    "kicker": "03 · Insights engine",
+    "title_pre": "Your data, finally",
+    "title_em": "talking back",
+    "body": "Once your records are standardized, patterns emerge. Trends become visible. Our insights engine watches for drift, connects dots across years of data, and writes it up in language you actually use.",
+    "card_flag_k": "PROACTIVE FLAG",
+    "card_flag_h": "Early drift detection.",
+    "card_flag_p": "Values trending toward a limit — even while still \"normal\" — get flagged months earlier.",
+    "card_plain_k": "PLAIN LANGUAGE",
+    "card_plain_h": "What does this mean?",
+    "card_plain_p": "Every result comes with a short explanation. No jargon. No late-night WebMD.",
+    "card_correlate_k": "CORRELATE",
+    "card_correlate_h": "Cause & effect.",
+    "card_correlate_p": "See which markers moved with your new medication, routine, or job stress.",
+    "card_family_k": "FAMILY",
+    "card_family_h": "Everyone you love.",
+    "card_family_p": "Kids' vaccinations, parents' cardiology reports — one roof, private to each person."
   },
-  "trust": {
-    "heading": "Your data stays yours",
-    "body": "Your health records are deeply personal. We use industry-leading encryption and comply with the strictest healthcare data standards. You're always in control.",
-    "hipaa_title": "HIPAA Compliant",
-    "hipaa_desc": "Healthcare data standards",
-    "e2e_title": "End-to-End Encrypted",
-    "e2e_desc": "Only you can access your data",
-    "own_title": "You Own Your Data",
-    "own_desc": "Export or delete anytime",
-    "gdpr_title": "GDPR Ready",
-    "gdpr_desc": "Full privacy compliance"
+  "security": {
+    "kicker": "04 · Privacy",
+    "title_pre": "It's",
+    "title_em": "your",
+    "title_post": "data. Always.",
+    "body": "Medical records are the most personal data you own. We treat them that way — encrypted on your device, encrypted in transit, encrypted at rest. You own every byte.",
+    "check1": "End-to-end encryption",
+    "check1_d": "AES-256 · TLS 1.3",
+    "check2": "HIPAA & GDPR compliant",
+    "check2_d": "Audited quarterly",
+    "check3": "Zero-knowledge architecture",
+    "check3_d": "We can't read your data",
+    "check4": "Full export, any time",
+    "check4_d": "FHIR · JSON · PDF",
+    "check5": "Hard delete, any time",
+    "check5_d": "30-day verified purge"
   },
   "pricing": {
-    "heading": "Simple plans for everyone",
-    "subtitle": "Start free and upgrade when you're ready. No surprises, no hidden fees.",
-    "per_month": "/month",
-    "recommended": "Recommended",
-    "basic": {
-      "name": "Basic",
-      "f1": "Store up to 100 exams",
-      "f2": "Lifetime history tracking",
-      "f3": "Basic lab summaries",
-      "cta": "Choose Basic"
-    },
-    "standard": {
-      "name": "Standard",
-      "f1": "Everything in Basic",
-      "f2": "Unlimited smart organization",
-      "f3": "Advanced health trends",
-      "cta": "Choose Standard"
-    },
-    "premium": {
-      "name": "Premium",
-      "f1": "Everything in Standard",
-      "f2": "Doctor sharing & PDF export",
-      "f3": "Priority support",
-      "cta": "Go Premium"
-    }
+    "kicker": "05 · Pricing",
+    "title": "Start free. Stay honest.",
+    "subtitle": "No surprise tiers, no usage cliffs. Pick what fits; upgrade when your records do.",
+    "per_month": "/mo",
+    "essential_name": "Essential",
+    "essential_f1": "Up to 50 exams, forever",
+    "essential_f2": "AI interpretation, 24 languages",
+    "essential_f3": "Unified timeline view",
+    "essential_f4": "Share via secure link",
+    "essential_cta": "Start free",
+    "standard_name": "Standard",
+    "standard_badge": "★ Recommended",
+    "standard_f1": "Unlimited exams & uploads",
+    "standard_f2": "Full insights engine & trends",
+    "standard_f3": "Proactive drift alerts",
+    "standard_f4": "Doctor-ready PDF exports",
+    "standard_f5": "Priority document processing",
+    "standard_cta": "Choose Standard",
+    "family_name": "Family",
+    "family_f1": "Up to 6 family members",
+    "family_f2": "Everything in Standard",
+    "family_f3": "Pediatric growth tracking",
+    "family_f4": "Caregiver delegation",
+    "family_f5": "Dedicated support",
+    "family_cta": "Choose Family"
   },
   "final_cta": {
-    "heading": "Ready to take control of your health?",
-    "subtitle": "Join thousands of people who already manage their health records with 2YH. It's free to start.",
-    "button": "Get Started Free"
+    "kicker": "Your health, finally in one place.",
+    "title_pre": "Start with",
+    "title_em": "one exam",
+    "title_line2": "See what we mean."
   },
   "footer": {
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
+    "privacy": "Privacy",
+    "terms": "Terms",
     "security": "Security",
     "hipaa": "HIPAA",
+    "gdpr": "GDPR",
     "support": "Support",
-    "copyright": "© 2026 2YH. All rights reserved."
+    "copyright": "© 2026 2YH — Health in Your Hands. Organized, understood, yours."
   },
   "language": {
     "label": "Language"

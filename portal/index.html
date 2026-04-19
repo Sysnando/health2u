@@ -1,658 +1,508 @@
-<!DOCTYPE html>
-<html class="light" lang="en"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title data-i18n="meta.title">Health in Your Hands — Your health, organized and understood.</title>
-<meta name="description" data-i18n-attr="content:meta.description" content="Keep all your exams, prescriptions, and health records in one secure place. Get clear insights and share with your doctor easily." />
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
-tailwind.config = {
-  darkMode: "class",
-  theme: {
-    extend: {
-      colors: {
-        "primary": "#0f4c75",
-        "primary-light": "#1a6da3",
-        "primary-dark": "#0a3550",
-        "accent": "#2a9d8f",
-        "accent-light": "#3dbdad",
-        "accent-dark": "#1e7a6f",
-        "cta": "#e76f51",
-        "cta-light": "#f09a82",
-        "cta-dark": "#c85a3e",
-        "bg": "#f7f9fb",
-        "bg-alt": "#eef3f7",
-        "bg-card": "#ffffff",
-        "text-primary": "#1a2b3c",
-        "text-secondary": "#5a6b7c",
-        "text-muted": "#8a96a3",
-        "border": "#dde4eb",
-        "border-light": "#e8eef3",
-      },
-      fontFamily: {
-        "headline": ["Manrope", "sans-serif"],
-        "body": ["Inter", "sans-serif"],
-      },
-      borderRadius: {
-        "2xl": "1rem",
-        "3xl": "1.5rem",
-        "4xl": "2rem",
-      }
-    },
-  },
-}
-</script>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title data-i18n="meta.title">2YH — Health in Your Hands</title>
+<meta name="description" data-i18n-attr="content:meta.description" content="Upload exams in any language. Our medical-grade AI reads, translates, and organizes them into one clean record in your pocket." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300..700;1,300..700&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; color: #1a2b3c; }
-  .font-headline { font-family: 'Manrope', sans-serif; }
-  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-  .filled { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-  [data-lang-dropdown] [data-lang-menu] { display: none; }
-  [data-lang-dropdown][data-open] [data-lang-menu] { display: block; }
-  [data-lang-option][aria-current="true"] { background: #eef3f7; font-weight: 700; }
-  [data-mobile-menu] { display: none; }
-  [data-mobile-menu].open { display: flex; }
-
-  /* Mock app card pulse */
-  @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-  .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
-
-  /* Floating icons */
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-  .float-1 { animation: float 3s ease-in-out infinite; }
-  .float-2 { animation: float 3s ease-in-out infinite 0.5s; }
-  .float-3 { animation: float 3s ease-in-out infinite 1s; }
-
-  /* Smooth scroll */
-  html { scroll-behavior: smooth; }
-
-  /* ---- Scroll-reveal animations ---- */
-  [data-animate] {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  :root{
+    --bg: oklch(0.985 0.005 90);
+    --bg-2: oklch(0.97 0.008 160);
+    --ink: oklch(0.2 0.01 180);
+    --ink-2: oklch(0.38 0.01 180);
+    --ink-3: oklch(0.55 0.01 180);
+    --line: oklch(0.9 0.008 170);
+    --line-2: oklch(0.82 0.012 170);
+    --primary: oklch(0.45 0.08 200);
+    --primary-ink: oklch(0.98 0.01 200);
+    --accent: oklch(0.78 0.09 150);
+    --warn: oklch(0.65 0.12 55);
+    --ok: oklch(0.55 0.1 160);
   }
-  [data-animate].visible {
-    opacity: 1;
-    transform: translateY(0);
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Geist',system-ui,sans-serif;font-weight:400;-webkit-font-smoothing:antialiased}
+  .mono{font-family:'Geist Mono',ui-monospace,monospace;letter-spacing:0.02em}
+  .serif{font-family:'Fraunces',serif;font-weight:400;letter-spacing:-0.01em}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer;background:none;border:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 40px}
+  @media (max-width:720px){.wrap{padding:0 20px}}
+
+  /* ── Nav ── */
+  nav.top{position:sticky;top:0;background:color-mix(in oklch,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);z-index:50}
+  nav.top .inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:500;font-size:17px}
+  .brand .mark{width:22px;height:22px;border-radius:6px;background:var(--primary);position:relative}
+  .brand .mark::after{content:"";position:absolute;inset:0;background:
+    linear-gradient(var(--primary-ink),var(--primary-ink)) center/10px 2px no-repeat,
+    linear-gradient(var(--primary-ink),var(--primary-ink)) center/2px 10px no-repeat}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--ink-2)}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-right{display:flex;align-items:center;gap:14px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;font-size:14px;font-weight:500;border:1px solid transparent;transition:all .15s}
+  .btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .btn.primary:hover{background:var(--primary);border-color:var(--primary)}
+  .btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+  .btn.ghost:hover{background:var(--bg-2)}
+  .btn.lg{padding:14px 22px;font-size:15px;border-radius:10px}
+
+  /* Language dropdown */
+  .lang-dropdown{position:relative}
+  .lang-toggle{font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-3);display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--line);border-radius:999px;cursor:pointer;background:transparent}
+  .lang-toggle:hover{border-color:var(--line-2);color:var(--ink-2)}
+  .lang-menu{display:none;position:absolute;right:0;top:calc(100% + 8px);background:var(--bg);border:1px solid var(--line-2);border-radius:12px;overflow:hidden;min-width:160px;box-shadow:0 12px 32px -8px rgba(0,0,0,0.12);z-index:60}
+  [data-lang-dropdown][data-open] .lang-menu{display:block}
+  .lang-menu button{display:block;width:100%;text-align:left;padding:10px 16px;font-size:13px;color:var(--ink-2);border:none;background:none;cursor:pointer;font-family:'Geist',system-ui,sans-serif}
+  .lang-menu button:hover{background:var(--bg-2)}
+  .lang-menu button[aria-current="true"]{color:var(--ink);font-weight:600;background:var(--bg-2)}
+
+  /* Mobile menu */
+  .mobile-hamburger{display:none;padding:8px;color:var(--ink-2);background:none;border:none;cursor:pointer}
+  .mobile-hamburger svg{width:24px;height:24px}
+  [data-mobile-menu]{display:none;flex-direction:column;gap:4px;padding:16px 40px 20px;border-top:1px solid var(--line);background:var(--bg)}
+  [data-mobile-menu].open{display:flex}
+  [data-mobile-menu] a{padding:10px 0;font-size:15px;color:var(--ink-2)}
+  [data-mobile-menu] a:hover{color:var(--ink)}
+  [data-mobile-menu] .btn{margin-top:8px;justify-content:center}
+
+  @media (max-width:720px){
+    .nav-links{display:none}
+    .lang-dropdown{display:none}
+    .nav-right .btn.primary{display:none}
+    .mobile-hamburger{display:flex;align-items:center}
+    [data-mobile-menu]{padding:16px 20px 20px}
   }
 
-  /* Slide from left */
-  [data-animate="slide-left"] {
-    opacity: 0;
-    transform: translateX(-48px);
-  }
-  [data-animate="slide-left"].visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  /* ── Hero ── */
+  section.hero{padding:60px 0 40px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center}
+  @media (max-width:960px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:12px;color:var(--ink-2);text-transform:uppercase;letter-spacing:0.14em}
+  .eyebrow .dot{width:6px;height:6px;border-radius:999px;background:var(--primary);box-shadow:0 0 0 4px color-mix(in oklch,var(--primary) 20%,transparent)}
+  h1.display{font-family:'Fraunces',serif;font-weight:400;font-size:clamp(44px,6.2vw,80px);line-height:1.02;letter-spacing:-0.02em;margin:22px 0 24px;max-width:14ch}
+  h1.display em{font-style:italic;color:var(--primary)}
+  .lede{font-size:18px;line-height:1.55;color:var(--ink-2);max-width:52ch;margin:0 0 32px}
+  .hero-cta{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .store-row{display:flex;gap:12px;margin-top:18px;font-size:12px;color:var(--ink-3);align-items:center;flex-wrap:wrap}
+  .store-row .badge{padding:6px 14px;border:1px solid var(--line-2);border-radius:8px;font-family:'Geist Mono',monospace;font-size:11px;color:var(--ink-2)}
 
-  /* Slide from right */
-  [data-animate="slide-right"] {
-    opacity: 0;
-    transform: translateX(48px);
-  }
-  [data-animate="slide-right"].visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  .phone-stage{display:flex;justify-content:center;align-items:center;position:relative;min-height:640px}
+  .phone-stage .glow{position:absolute;width:520px;height:520px;border-radius:999px;background:radial-gradient(closest-side,color-mix(in oklch,var(--primary) 18%,transparent),transparent 70%);filter:blur(30px);z-index:0}
+  .phone-shrink{transform:scale(0.78);transform-origin:center}
+  @media (max-width:960px){.phone-shrink{transform:scale(0.85)}.phone-stage{min-height:480px}}
+  @media (max-width:720px){.phone-shrink{transform:scale(0.65)}.phone-stage{min-height:400px}}
 
-  /* Scale up */
-  [data-animate="scale"] {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  [data-animate="scale"].visible {
-    opacity: 1;
-    transform: scale(1);
-  }
+  .hero-meta{margin-top:56px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .hero-meta > div{padding:22px 24px;border-right:1px solid var(--line)}
+  .hero-meta > div:last-child{border-right:none}
+  .hero-meta .n{font-family:'Fraunces',serif;font-size:34px;line-height:1}
+  .hero-meta .l{font-size:12px;color:var(--ink-3);margin-top:8px;letter-spacing:0.04em}
+  @media (max-width:820px){.hero-meta{grid-template-columns:repeat(2,1fr)}.hero-meta > div:nth-child(2){border-right:none}.hero-meta > div:nth-child(1),.hero-meta > div:nth-child(2){border-bottom:1px solid var(--line)}}
 
-  /* Stagger children */
-  [data-stagger] > * {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  [data-stagger].visible > * { opacity: 1; transform: translateY(0); }
-  [data-stagger].visible > *:nth-child(1) { transition-delay: 0ms; }
-  [data-stagger].visible > *:nth-child(2) { transition-delay: 120ms; }
-  [data-stagger].visible > *:nth-child(3) { transition-delay: 240ms; }
-  [data-stagger].visible > *:nth-child(4) { transition-delay: 360ms; }
-  [data-stagger].visible > *:nth-child(5) { transition-delay: 480ms; }
+  /* ── Section blocks ── */
+  section.block{padding:120px 0}
+  .kicker{font-family:'Geist Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:var(--ink-3);margin-bottom:18px}
+  h2.h{font-family:'Fraunces',serif;font-size:clamp(36px,4.4vw,58px);font-weight:400;line-height:1.04;letter-spacing:-0.015em;margin:0 0 18px;max-width:18ch}
+  h2.h em{font-style:italic;color:var(--primary)}
+  p.pp{font-size:17px;line-height:1.6;color:var(--ink-2);max-width:60ch;margin:0 0 28px}
 
-  /* Counter number tabular alignment */
-  [data-count] { font-variant-numeric: tabular-nums; }
+  /* ── Ingest / Features ── */
+  .ingest{display:grid;grid-template-columns:1fr 1.05fr;gap:60px;align-items:center}
+  @media (max-width:960px){.ingest{grid-template-columns:1fr}}
+  .ingest .phone-stage{min-height:740px}
+  @media (max-width:960px){.ingest .phone-stage{min-height:480px}}
+  @media (max-width:720px){.ingest .phone-stage{min-height:400px}}
 
-  /* Pricing card hover lift */
-  .pricing-card { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease; }
-  .pricing-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -12px rgba(15, 76, 117, 0.15); }
+  .lang-pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .lang-pills span{font-family:'Geist Mono',monospace;font-size:11px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink-2);background:var(--bg)}
+  .lang-pills span.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 
-  /* Feature bento card hover */
-  .bento-card { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease; }
-  .bento-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px -8px rgba(15, 76, 117, 0.1); }
+  /* ── Steps / How It Works ── */
+  .steps{border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr)}
+  .steps > div{padding:40px 32px;border-right:1px solid var(--line)}
+  .steps > div:last-child{border-right:none}
+  .steps .num{font-family:'Geist Mono',monospace;font-size:11px;color:var(--ink-3)}
+  .steps .st{font-family:'Fraunces',serif;font-size:30px;margin:12px 0 10px;line-height:1.1}
+  .steps .tx{font-size:14px;color:var(--ink-2);line-height:1.55}
+  @media (max-width:820px){.steps{grid-template-columns:1fr}.steps > div{border-right:none;border-bottom:1px solid var(--line)}.steps > div:last-child{border-bottom:none}}
 
-  /* Button hover shimmer */
-  @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
-  .btn-shimmer { position: relative; overflow: hidden; }
-  .btn-shimmer::after {
-    content: '';
-    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: none;
-  }
-  .btn-shimmer:hover::after { animation: shimmer 0.8s ease-in-out; }
+  /* ── Insights ── */
+  .insightsG{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center}
+  @media (max-width:960px){.insightsG{grid-template-columns:1fr}}
+  .cardGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
+  @media (max-width:720px){.cardGrid{grid-template-columns:1fr}}
+  .card{border:1px solid var(--line);border-radius:14px;padding:22px;background:var(--bg)}
+  .card .k{font-family:'Geist Mono',monospace;font-size:10.5px;color:var(--ink-3);letter-spacing:0.12em;text-transform:uppercase}
+  .card h4{font-family:'Fraunces',serif;font-size:22px;font-weight:400;margin:10px 0 8px;line-height:1.15}
+  .card p{font-size:13px;color:var(--ink-2);line-height:1.55;margin:0}
+
+  /* ── Security ── */
+  .sec{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+  @media (max-width:820px){.sec{grid-template-columns:1fr}}
+  .checks{display:grid;gap:2px;border-top:1px solid var(--line)}
+  .checks > div{display:grid;grid-template-columns:auto 1fr auto;gap:16px;padding:18px 0;border-bottom:1px solid var(--line);align-items:center}
+  .checks .k{font-family:'Geist Mono',monospace;font-size:10.5px;color:var(--ink-3);width:28px}
+  .checks .t{font-size:15px;color:var(--ink)}
+  .checks .d{font-size:12px;color:var(--ink-3);font-family:'Geist Mono',monospace}
+
+  /* ── Pricing ── */
+  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .plan{padding:32px 28px;border-right:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;gap:14px;min-height:420px}
+  .plan:last-child{border-right:none}
+  .plan.featured{background:var(--ink);color:var(--bg)}
+  .plan .name{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;display:flex;justify-content:space-between}
+  .plan .price{font-family:'Fraunces',serif;font-size:54px;line-height:1;margin-top:8px}
+  .plan .price small{font-family:'Geist Mono',monospace;font-size:12px;color:var(--ink-3);margin-left:6px}
+  .plan.featured .price small{color:color-mix(in oklch,var(--bg) 60%,var(--ink))}
+  .plan ul{list-style:none;padding:0;margin:0;font-size:13.5px;display:grid;gap:10px;color:var(--ink-2)}
+  .plan.featured ul{color:color-mix(in oklch,var(--bg) 80%,var(--ink))}
+  .plan ul li{display:grid;grid-template-columns:14px 1fr;gap:10px;align-items:baseline}
+  .plan ul li::before{content:"";width:8px;height:8px;border-radius:999px;background:var(--primary);margin-top:6px}
+  .plan .btn{margin-top:auto}
+  .plan.featured .btn.primary{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+  .plan.featured .btn.primary:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+  @media (max-width:820px){.pricing{grid-template-columns:1fr}.plan{border-right:none;border-bottom:1px solid var(--line);min-height:auto}.plan:last-child{border-bottom:none}}
+
+  /* ── Final CTA ── */
+  .finalCta{padding:120px 0;text-align:center}
+  .finalCta h2{font-family:'Fraunces',serif;font-size:clamp(48px,6.4vw,88px);font-weight:400;line-height:1;letter-spacing:-0.02em;margin:0 0 24px}
+  .finalCta h2 em{color:var(--primary);font-style:italic}
+
+  /* ── Footer ── */
+  footer{border-top:1px solid var(--line);padding:48px 0 36px;color:var(--ink-3);font-size:13px}
+  footer .r1{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;margin-bottom:40px}
+  footer .links{display:flex;gap:26px;flex-wrap:wrap}
+  footer .links a:hover{color:var(--ink)}
+  footer .r2{display:flex;justify-content:space-between;gap:20px;font-family:'Geist Mono',monospace;font-size:11px;flex-wrap:wrap}
+
+  /* ── Scroll-reveal animations ── */
+  [data-animate]{opacity:0;transform:translateY(32px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1)}
+  [data-animate].visible{opacity:1;transform:translateY(0)}
+  [data-animate="slide-left"]{opacity:0;transform:translateX(-48px)}
+  [data-animate="slide-left"].visible{opacity:1;transform:translateX(0)}
+  [data-animate="slide-right"]{opacity:0;transform:translateX(48px)}
+  [data-animate="slide-right"].visible{opacity:1;transform:translateX(0)}
+  [data-animate="scale"]{opacity:0;transform:scale(0.95)}
+  [data-animate="scale"].visible{opacity:1;transform:scale(1)}
+  [data-stagger] > *{opacity:0;transform:translateY(24px);transition:opacity 0.5s cubic-bezier(0.16,1,0.3,1),transform 0.5s cubic-bezier(0.16,1,0.3,1)}
+  [data-stagger].visible > *{opacity:1;transform:translateY(0)}
+  [data-stagger].visible > *:nth-child(1){transition-delay:0ms}
+  [data-stagger].visible > *:nth-child(2){transition-delay:120ms}
+  [data-stagger].visible > *:nth-child(3){transition-delay:240ms}
+  [data-stagger].visible > *:nth-child(4){transition-delay:360ms}
+  [data-stagger].visible > *:nth-child(5){transition-delay:480ms}
+  [data-count]{font-variant-numeric:tabular-nums}
 </style>
 </head>
-<body class="bg-bg text-text-primary antialiased">
+<body>
 
-<!-- ===================== 1. NAVIGATION ===================== -->
-<nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
-  <div class="flex justify-between items-center px-6 md:px-8 h-16 md:h-20 w-full max-w-screen-xl mx-auto">
-    <!-- Brand -->
-    <a href="#" class="text-2xl font-black text-primary font-headline tracking-tight">2YH</a>
-
-    <!-- Desktop Nav -->
-    <div class="hidden md:flex items-center gap-8 font-headline font-semibold text-sm tracking-tight">
-      <a class="text-text-secondary hover:text-primary transition-colors" href="#features" data-i18n="nav.features">Features</a>
-      <a class="text-text-secondary hover:text-primary transition-colors" href="#how-it-works" data-i18n="nav.how_it_works">How It Works</a>
-      <a class="text-text-secondary hover:text-primary transition-colors" href="#pricing" data-i18n="nav.pricing">Pricing</a>
+<!-- ═══════ NAV ═══════ -->
+<nav class="top">
+  <div class="wrap inner">
+    <a href="#" class="brand"><div class="mark"></div> <span data-i18n="nav.brand">Health in Your Hands</span> <span class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:0.14em;margin-left:6px;padding:3px 7px;border:1px solid var(--line);border-radius:999px">2YH</span></a>
+    <div class="nav-links">
+      <a href="#features" data-i18n="nav.features">Features</a>
+      <a href="#how" data-i18n="nav.how">How it works</a>
+      <a href="#insights" data-i18n="nav.insights">Insights</a>
+      <a href="#pricing" data-i18n="nav.pricing">Pricing</a>
     </div>
-
-    <div class="flex items-center gap-3">
-      <!-- Language Switcher -->
-      <div class="relative" data-lang-dropdown>
-        <button type="button" data-lang-toggle aria-haspopup="listbox" aria-label="Select language"
-          class="flex items-center gap-1 px-2.5 py-1.5 rounded-full text-sm font-bold text-text-secondary bg-bg-alt hover:bg-border-light transition-all">
-          <span class="material-symbols-outlined text-[16px]">language</span>
-          <span data-lang-current class="text-xs">EN</span>
-          <span class="material-symbols-outlined text-[14px]">expand_more</span>
+    <div class="nav-right">
+      <!-- Language switcher -->
+      <div class="lang-dropdown" data-lang-dropdown>
+        <button type="button" class="lang-toggle mono" data-lang-toggle aria-haspopup="listbox" aria-label="Select language">
+          <span data-lang-current>EN</span> <span style="font-size:10px">&#9662;</span>
         </button>
-        <ul data-lang-menu role="listbox"
-          class="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-border-light overflow-hidden text-sm font-body">
-          <li><button type="button" role="option" data-lang-option="en" class="w-full text-left px-4 py-2.5 hover:bg-bg-alt">English</button></li>
-          <li><button type="button" role="option" data-lang-option="es" class="w-full text-left px-4 py-2.5 hover:bg-bg-alt">Espa&ntilde;ol</button></li>
-          <li><button type="button" role="option" data-lang-option="pt" class="w-full text-left px-4 py-2.5 hover:bg-bg-alt">Portugu&ecirc;s (PT)</button></li>
-          <li><button type="button" role="option" data-lang-option="pt-BR" class="w-full text-left px-4 py-2.5 hover:bg-bg-alt">Portugu&ecirc;s (BR)</button></li>
-          <li><button type="button" role="option" data-lang-option="fr" class="w-full text-left px-4 py-2.5 hover:bg-bg-alt">Fran&ccedil;ais</button></li>
-        </ul>
+        <div class="lang-menu" data-lang-menu role="listbox">
+          <button type="button" role="option" data-lang-option="en">English</button>
+          <button type="button" role="option" data-lang-option="es">Espa&ntilde;ol</button>
+          <button type="button" role="option" data-lang-option="pt">Portugu&ecirc;s (PT)</button>
+          <button type="button" role="option" data-lang-option="pt-BR">Portugu&ecirc;s (BR)</button>
+          <button type="button" role="option" data-lang-option="fr">Fran&ccedil;ais</button>
+        </div>
       </div>
-
-      <!-- CTA -->
-      <button class="hidden md:block bg-cta hover:bg-cta-dark text-white px-5 py-2 rounded-full font-bold text-sm shadow-md hover:shadow-lg transition-all active:scale-95" data-i18n="nav.cta">Get Started</button>
-
-      <!-- Mobile Hamburger -->
-      <button onclick="document.querySelector('[data-mobile-menu]').classList.toggle('open')" class="md:hidden p-2 text-text-secondary">
-        <span class="material-symbols-outlined text-[24px]">menu</span>
+      <button class="btn primary" data-i18n="nav.cta">Download the app</button>
+      <!-- Mobile hamburger -->
+      <button class="mobile-hamburger" onclick="document.querySelector('[data-mobile-menu]').classList.toggle('open')" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
     </div>
   </div>
-
-  <!-- Mobile Menu -->
-  <div data-mobile-menu class="flex-col bg-white border-t border-border-light px-6 py-4 gap-3 md:hidden">
-    <a class="py-2 text-text-secondary font-headline font-semibold" href="#features" data-i18n="nav.features" onclick="document.querySelector('[data-mobile-menu]').classList.remove('open')">Features</a>
-    <a class="py-2 text-text-secondary font-headline font-semibold" href="#how-it-works" data-i18n="nav.how_it_works" onclick="document.querySelector('[data-mobile-menu]').classList.remove('open')">How It Works</a>
-    <a class="py-2 text-text-secondary font-headline font-semibold" href="#pricing" data-i18n="nav.pricing" onclick="document.querySelector('[data-mobile-menu]').classList.remove('open')">Pricing</a>
-    <button class="mt-2 w-full bg-cta hover:bg-cta-dark text-white px-5 py-3 rounded-full font-bold text-sm transition-all" data-i18n="nav.cta">Get Started</button>
+  <!-- Mobile menu -->
+  <div data-mobile-menu>
+    <a href="#features" data-i18n="nav.features" onclick="document.querySelector('[data-mobile-menu]').classList.remove('open')">Features</a>
+    <a href="#how" data-i18n="nav.how" onclick="document.querySelector('[data-mobile-menu]').classList.remove('open')">How it works</a>
+    <a href="#insights" data-i18n="nav.insights" onclick="document.querySelector('[data-mobile-menu]').classList.remove('open')">Insights</a>
+    <a href="#pricing" data-i18n="nav.pricing" onclick="document.querySelector('[data-mobile-menu]').classList.remove('open')">Pricing</a>
+    <button class="btn primary" data-i18n="nav.cta">Download the app</button>
   </div>
 </nav>
 
-<!-- ===================== 2. HERO ===================== -->
-<section class="pt-28 md:pt-36 pb-16 md:pb-24 px-6 md:px-8 max-w-screen-xl mx-auto">
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-    <!-- Left: Copy -->
-    <div class="space-y-6" data-animate="slide-left">
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-accent/10 rounded-full">
-        <span class="w-2 h-2 rounded-full bg-accent pulse-dot"></span>
-        <span class="text-xs font-bold uppercase tracking-widest text-accent" data-i18n="hero.badge">Secure & Simple</span>
+<!-- ═══════ HERO ═══════ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div data-animate="slide-left">
+      <div class="eyebrow"><span class="dot"></span><span class="mono" data-i18n="hero.eyebrow">The health app &middot; iOS &amp; Android</span></div>
+      <h1 class="display"><span data-i18n="hero.title_pre">Your health records,</span> <em data-i18n="hero.title_em">understood</em> <span data-i18n="hero.title_post">&mdash; in any language.</span></h1>
+      <p class="lede" data-i18n="hero.lede">Upload a blood panel from Lisbon, an MRI report from S&atilde;o Paulo, a prescription from Paris. Our medical-grade AI reads them, translates them, and organizes them into one clean, standardized record in your pocket.</p>
+      <div class="hero-cta">
+        <button class="btn primary lg" data-i18n="hero.cta_iphone">Download for iPhone</button>
+        <button class="btn ghost lg" data-i18n="hero.cta_android">Get on Android &rarr;</button>
       </div>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-headline font-extrabold tracking-tight leading-[1.1] text-text-primary">
-        <span data-i18n="hero.title_pre">Your health,</span> <span class="text-primary" data-i18n="hero.title_highlight">organized and understood.</span>
-      </h1>
-      <p class="text-lg md:text-xl text-text-secondary max-w-lg leading-relaxed" data-i18n="hero.subtitle">
-        Keep all your exams, prescriptions, and health records in one secure place. Get clear insights and share with your doctor easily.
-      </p>
-      <div class="flex flex-wrap gap-3 pt-2">
-        <button class="btn-shimmer bg-cta hover:bg-cta-dark text-white px-7 py-3.5 rounded-full font-bold text-base shadow-lg hover:shadow-xl transition-all active:scale-95" data-i18n="hero.cta_primary">Get Started Free</button>
-        <button class="bg-bg-alt hover:bg-border-light text-text-primary px-7 py-3.5 rounded-full font-bold text-base transition-all" data-i18n="hero.cta_secondary">See How It Works</button>
+      <div class="store-row">
+        <span class="badge" data-i18n="hero.badge_appstore">&starf; 4.9 &middot; App Store</span>
+        <span class="badge" data-i18n="hero.badge_playstore">&starf; 4.8 &middot; Play Store</span>
+        <span data-i18n="hero.badge_free">Free to start &mdash; no card.</span>
       </div>
     </div>
+    <div class="phone-stage" data-animate="slide-right">
+      <div class="glow"></div>
+      <div class="phone-shrink" id="hero-phone"></div>
+    </div>
+  </div>
 
-    <!-- Right: Mock App Card -->
-    <div class="relative flex justify-center lg:justify-end" data-animate="slide-right">
-      <!-- Background glow -->
-      <div class="absolute -top-8 -right-8 w-48 h-48 bg-accent/10 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-0 left-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+  <div class="wrap" data-animate>
+    <div class="hero-meta">
+      <div><div class="n" data-count="24">0</div><div class="l mono" data-i18n="hero.stat_languages">LANGUAGES SUPPORTED</div></div>
+      <div><div class="n">1.2M</div><div class="l mono" data-i18n="hero.stat_exams">EXAMS PROCESSED</div></div>
+      <div><div class="n">180+</div><div class="l mono" data-i18n="hero.stat_biomarkers">BIOMARKERS TRACKED</div></div>
+      <div><div class="n">6.4s</div><div class="l mono" data-i18n="hero.stat_interpretation">AVG. INTERPRETATION</div></div>
+    </div>
+  </div>
+</section>
 
-      <!-- App Card -->
-      <div class="relative bg-white rounded-3xl shadow-2xl border border-border-light p-6 w-full max-w-sm">
-        <!-- Card Header -->
-        <div class="flex items-center justify-between mb-5">
-          <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span class="material-symbols-outlined text-white text-[18px] filled">favorite</span>
-            </div>
-            <span class="font-headline font-bold text-sm text-text-primary" data-i18n="hero.card_title">Health Dashboard</span>
-          </div>
-          <span class="material-symbols-outlined text-accent text-[20px] filled">verified</span>
-        </div>
-
-        <!-- Recent Exams -->
-        <div class="mb-4">
-          <div class="text-[0.65rem] font-bold text-text-muted uppercase tracking-widest mb-2" data-i18n="hero.card_exams">Recent Exams</div>
-          <div class="space-y-2">
-            <div class="flex items-center gap-3 bg-bg-alt rounded-xl p-3">
-              <span class="material-symbols-outlined text-primary text-[20px]">lab_profile</span>
-              <div class="flex-1">
-                <div class="text-xs font-semibold text-text-primary" data-i18n="hero.card_blood">Complete Blood Count</div>
-                <div class="text-[0.65rem] text-text-muted">Mar 15, 2026</div>
-              </div>
-              <span class="text-[0.6rem] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-full" data-i18n="hero.card_normal">Normal</span>
-            </div>
-            <div class="flex items-center gap-3 bg-bg-alt rounded-xl p-3">
-              <span class="material-symbols-outlined text-primary text-[20px]">cardiology</span>
-              <div class="flex-1">
-                <div class="text-xs font-semibold text-text-primary" data-i18n="hero.card_cardio">Cardiology Report</div>
-                <div class="text-[0.65rem] text-text-muted">Feb 28, 2026</div>
-              </div>
-              <span class="text-[0.6rem] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-full" data-i18n="hero.card_normal">Normal</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Quick Vitals -->
-        <div>
-          <div class="text-[0.65rem] font-bold text-text-muted uppercase tracking-widest mb-2" data-i18n="hero.card_vitals">Quick Vitals</div>
-          <div class="grid grid-cols-3 gap-2">
-            <div class="bg-primary/5 rounded-xl p-2.5 text-center">
-              <span class="material-symbols-outlined text-primary text-[18px]">monitor_heart</span>
-              <div class="text-sm font-black text-primary mt-0.5">72</div>
-              <div class="text-[0.55rem] text-text-muted">BPM</div>
-            </div>
-            <div class="bg-accent/5 rounded-xl p-2.5 text-center">
-              <span class="material-symbols-outlined text-accent text-[18px]">bloodtype</span>
-              <div class="text-sm font-black text-accent mt-0.5">118/76</div>
-              <div class="text-[0.55rem] text-text-muted" data-i18n="hero.card_bp">BP</div>
-            </div>
-            <div class="bg-cta/5 rounded-xl p-2.5 text-center">
-              <span class="material-symbols-outlined text-cta text-[18px]">spo2</span>
-              <div class="text-sm font-black text-cta mt-0.5">98%</div>
-              <div class="text-[0.55rem] text-text-muted">SpO2</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Next Appointment -->
-        <div class="mt-4 bg-primary/5 rounded-xl p-3 flex items-center gap-3">
-          <span class="material-symbols-outlined text-primary text-[20px]">event</span>
-          <div class="flex-1">
-            <div class="text-xs font-semibold text-text-primary" data-i18n="hero.card_appt">Next Appointment</div>
-            <div class="text-[0.65rem] text-text-muted" data-i18n="hero.card_appt_detail">Dr. Santos — Apr 22, 10:00 AM</div>
-          </div>
-          <span class="material-symbols-outlined text-text-muted text-[16px]">chevron_right</span>
+<!-- ═══════ AI INGEST / FEATURES ═══════ -->
+<section class="block" id="features">
+  <div class="wrap">
+    <div class="ingest">
+      <div class="phone-stage" data-animate="slide-left">
+        <div class="glow" style="background:radial-gradient(closest-side,color-mix(in oklch,var(--primary) 14%,transparent),transparent 70%)"></div>
+        <div class="phone-shrink" id="ingest-phone"></div>
+      </div>
+      <div data-animate="slide-right">
+        <div class="kicker mono" data-i18n="ingest.kicker">01 &middot; The engine</div>
+        <h2 class="h"><span data-i18n="ingest.title_pre">Any document. Any language.</span> <em data-i18n="ingest.title_em">One structure.</em></h2>
+        <p class="pp" data-i18n="ingest.body">Snap a photo, forward an email, drop a PDF. Our medical-grade AI reads the document, identifies every biomarker, converts units, translates terminology, and stores it in an open, standardized schema &mdash; the same way, every time.</p>
+        <p class="pp" style="font-size:14px;color:var(--ink-3)" data-i18n="ingest.example">&ldquo;Colesterol LDL &middot; 118 mg/dL&rdquo; from a Brazilian lab and &ldquo;LDL-C &middot; 3.05 mmol/L&rdquo; from a French one become the same data point on the same chart.</p>
+        <div class="lang-pills">
+          <span class="on">pt-BR</span><span class="on">pt-PT</span><span class="on">en-US</span><span class="on">en-GB</span>
+          <span>es-ES</span><span>es-MX</span><span>fr-FR</span><span>it-IT</span><span>de-DE</span><span>nl-NL</span><span>ja-JP</span><span>+14 more</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== 3. SOCIAL PROOF BAR ===================== -->
-<section class="bg-white border-y border-border-light py-8 md:py-10">
-  <div class="max-w-screen-xl mx-auto px-6 md:px-8">
-    <p class="text-center text-sm text-text-muted font-medium mb-6" data-i18n="social.tagline">Trusted by families and doctors worldwide</p>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8" data-stagger>
-      <div class="text-center">
-        <div class="text-2xl md:text-3xl font-headline font-black text-primary" data-count="5" data-suffix="+">0</div>
-        <div class="text-xs text-text-muted font-medium mt-1" data-i18n="social.languages">Languages Supported</div>
+<!-- ═══════ HOW IT WORKS ═══════ -->
+<section class="block" id="how" style="padding-top:0">
+  <div class="wrap" data-animate>
+    <div class="kicker mono" data-i18n="how.kicker">02 &middot; How it works</div>
+    <h2 class="h" data-i18n="how.title">Three steps. That's the whole thing.</h2>
+    <div class="steps" style="margin-top:48px" data-stagger>
+      <div>
+        <div class="num mono" data-i18n="how.step1_num">STEP 01</div>
+        <div class="st" data-i18n="how.step1_title">Send it in.</div>
+        <div class="tx" data-i18n="how.step1_body">Upload a PDF, photograph a paper report, or forward the lab's email. We accept everything &mdash; paper, fax printouts, DICOM, handwritten notes.</div>
       </div>
-      <div class="text-center">
-        <div class="flex justify-center mb-0.5">
-          <span class="material-symbols-outlined text-primary text-[28px] filled">all_inclusive</span>
-        </div>
-        <div class="text-xs text-text-muted font-medium mt-1" data-i18n="social.documents">Unlimited Documents</div>
+      <div>
+        <div class="num mono" data-i18n="how.step2_num">STEP 02</div>
+        <div class="st" data-i18n="how.step2_title">We read it.</div>
+        <div class="tx" data-i18n="how.step2_body">Our AI interprets the document in its original language, extracts every biomarker, and maps it to the international LOINC / SNOMED standard. Units are normalized automatically.</div>
       </div>
-      <div class="text-center">
-        <div class="text-2xl md:text-3xl font-headline font-black text-accent" data-count="20" data-suffix="+">0</div>
-        <div class="text-xs text-text-muted font-medium mt-1" data-i18n="social.insights">Types of Health Insights</div>
-      </div>
-      <div class="text-center">
-        <div class="text-2xl md:text-3xl font-headline font-black text-primary" data-count="100" data-suffix="+">0</div>
-        <div class="text-xs text-text-muted font-medium mt-1" data-i18n="social.exams">Types of Exams Supported</div>
+      <div>
+        <div class="num mono" data-i18n="how.step3_num">STEP 03</div>
+        <div class="st" data-i18n="how.step3_title">You understand it.</div>
+        <div class="tx" data-i18n="how.step3_body">Everything lands in one clean timeline with trends, plain-language explanations, and proactive flags when values drift &mdash; years of records, readable in a glance.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== 4. HOW IT WORKS ===================== -->
-<section id="how-it-works" class="py-16 md:py-24 px-6 md:px-8 max-w-screen-xl mx-auto">
-  <div class="text-center mb-12 md:mb-16" data-animate>
-    <h2 class="text-3xl md:text-4xl font-headline font-extrabold text-text-primary mb-3 tracking-tight" data-i18n="how.heading">How It Works</h2>
-    <p class="text-text-secondary max-w-xl mx-auto" data-i18n="how.subtitle">Three simple steps to take control of your health records.</p>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12" data-stagger>
-    <!-- Step 1 -->
-    <div class="text-center">
-      <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
-        <span class="material-symbols-outlined text-primary text-[32px]">upload_file</span>
-      </div>
-      <div class="text-xs font-bold text-accent uppercase tracking-widest mb-2" data-i18n="how.step1_label">Step 1</div>
-      <h3 class="text-xl font-headline font-bold text-text-primary mb-2" data-i18n="how.step1_title">Upload</h3>
-      <p class="text-text-secondary text-sm leading-relaxed" data-i18n="how.step1_desc">Add your exams, prescriptions, lab results, and medical records. Take a photo or upload a PDF.</p>
-    </div>
-
-    <!-- Step 2 -->
-    <div class="text-center">
-      <div class="w-16 h-16 bg-accent/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
-        <span class="material-symbols-outlined text-accent text-[32px]">auto_awesome</span>
-      </div>
-      <div class="text-xs font-bold text-accent uppercase tracking-widest mb-2" data-i18n="how.step2_label">Step 2</div>
-      <h3 class="text-xl font-headline font-bold text-text-primary mb-2" data-i18n="how.step2_title">Organize</h3>
-      <p class="text-text-secondary text-sm leading-relaxed" data-i18n="how.step2_desc">We automatically categorize and structure everything. Your records become searchable and easy to find.</p>
-    </div>
-
-    <!-- Step 3 -->
-    <div class="text-center">
-      <div class="w-16 h-16 bg-cta/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
-        <span class="material-symbols-outlined text-cta text-[32px]">insights</span>
-      </div>
-      <div class="text-xs font-bold text-accent uppercase tracking-widest mb-2" data-i18n="how.step3_label">Step 3</div>
-      <h3 class="text-xl font-headline font-bold text-text-primary mb-2" data-i18n="how.step3_title">Understand</h3>
-      <p class="text-text-secondary text-sm leading-relaxed" data-i18n="how.step3_desc">Get clear insights about your health trends. Share your complete history with any doctor in seconds.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== 5. FEATURES BENTO ===================== -->
-<section id="features" class="py-16 md:py-24 px-6 md:px-8 max-w-screen-xl mx-auto">
-  <div class="mb-12 md:mb-16" data-animate>
-    <h2 class="text-3xl md:text-4xl font-headline font-extrabold text-text-primary mb-3 tracking-tight" data-i18n="features.heading">Everything you need</h2>
-    <p class="text-text-secondary max-w-lg" data-i18n="features.subheading">One app to manage all your health records, track your progress, and stay on top of your wellbeing.</p>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-5" data-stagger>
-    <!-- Main Feature: Smart Organization -->
-    <div class="md:col-span-2 bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-border-light flex flex-col justify-between group overflow-hidden relative bento-card">
-      <div class="relative z-10">
-        <span class="material-symbols-outlined text-primary text-[44px] mb-5">category</span>
-        <h3 class="text-2xl md:text-3xl font-headline font-bold text-text-primary mb-3" data-i18n="features.smart.title">Smart Organization</h3>
-        <p class="text-text-secondary text-base max-w-md leading-relaxed" data-i18n="features.smart.desc">
-          Upload any document and we'll automatically sort it. Blood tests, imaging, prescriptions — everything in its right place, instantly searchable.
-        </p>
-      </div>
-      <div class="mt-8 flex items-center gap-3 relative z-10">
-        <span class="text-sm font-bold text-primary" data-i18n="features.learn_more">Learn more</span>
-        <span class="material-symbols-outlined text-primary text-[18px]">arrow_forward</span>
-      </div>
-      <div class="absolute right-0 bottom-0 opacity-[0.04] group-hover:scale-110 transition-transform duration-700 translate-x-1/4 translate-y-1/4">
-        <span class="material-symbols-outlined text-[280px]" style="font-variation-settings: 'FILL' 1;">folder_managed</span>
-      </div>
-    </div>
-
-    <!-- Feature: Access Anywhere -->
-    <div class="bg-primary p-8 md:p-10 rounded-3xl text-white bento-card">
-      <span class="material-symbols-outlined text-accent-light text-[36px] mb-5">language</span>
-      <h3 class="text-xl md:text-2xl font-headline font-bold mb-3" data-i18n="features.access.title">Access Anywhere</h3>
-      <p class="text-white/70 leading-relaxed text-sm" data-i18n="features.access.desc">
-        Your health records travel with you. Access from any device, share across borders, and always have your history ready for any doctor.
-      </p>
-    </div>
-
-    <!-- Feature: Health Trends -->
-    <div class="bg-bg-alt p-8 md:p-10 rounded-3xl bento-card">
-      <span class="material-symbols-outlined text-accent text-[36px] mb-5">trending_up</span>
-      <h3 class="text-xl md:text-2xl font-headline font-bold text-text-primary mb-3" data-i18n="features.trends.title">Health Trends</h3>
-      <p class="text-text-secondary leading-relaxed text-sm" data-i18n="features.trends.desc">
-        See how your health evolves over time. Track patterns in your results and spot changes before they become problems.
-      </p>
-    </div>
-
-    <!-- Feature: Share with Doctor -->
-    <div class="md:col-span-2 bg-gradient-to-br from-accent to-accent-dark p-8 md:p-10 rounded-3xl text-white flex flex-col md:flex-row gap-8 md:gap-12 items-center bento-card">
-      <div class="flex-1">
-        <h3 class="text-2xl md:text-3xl font-headline font-bold mb-3" data-i18n="features.share.title">Share with Your Doctor</h3>
-        <p class="text-white/80 text-base leading-relaxed mb-5" data-i18n="features.share.desc">
-          Generate a secure link or PDF of your complete health history. Your doctor gets the full picture in seconds, not scattered papers.
-        </p>
-        <button class="bg-white text-accent-dark font-bold px-5 py-2.5 rounded-xl text-sm hover:bg-white/90 transition-all" data-i18n="features.share.cta">Try It Free</button>
-      </div>
-      <div class="flex-1 grid grid-cols-2 gap-3">
-        <div class="bg-white/15 p-3.5 rounded-2xl backdrop-blur-sm text-center">
-          <span class="material-symbols-outlined text-white/80 text-[24px]">share</span>
-          <div class="text-xs font-bold mt-1 text-white/60" data-i18n="features.share.secure_link">Secure Link</div>
+<!-- ═══════ INSIGHTS ═══════ -->
+<section class="block" id="insights" style="padding-top:0">
+  <div class="wrap">
+    <div class="insightsG">
+      <div data-animate="slide-left">
+        <div class="kicker mono" data-i18n="insights.kicker">03 &middot; Insights engine</div>
+        <h2 class="h"><span data-i18n="insights.title_pre">Your data, finally</span> <em data-i18n="insights.title_em">talking back</em><span>.</span></h2>
+        <p class="pp" data-i18n="insights.body">Once your records are standardized, patterns emerge. Trends become visible. Our insights engine watches for drift, connects dots across years of data, and writes it up in language you actually use.</p>
+        <div class="cardGrid" data-stagger>
+          <div class="card">
+            <div class="k mono" data-i18n="insights.card_flag_k">PROACTIVE FLAG</div>
+            <h4 data-i18n="insights.card_flag_h">Early drift detection.</h4>
+            <p data-i18n="insights.card_flag_p">Values trending toward a limit &mdash; even while still &ldquo;normal&rdquo; &mdash; get flagged months earlier.</p>
+          </div>
+          <div class="card">
+            <div class="k mono" data-i18n="insights.card_plain_k">PLAIN LANGUAGE</div>
+            <h4 data-i18n="insights.card_plain_h">What does this mean?</h4>
+            <p data-i18n="insights.card_plain_p">Every result comes with a short explanation. No jargon. No late-night WebMD.</p>
+          </div>
+          <div class="card">
+            <div class="k mono" data-i18n="insights.card_correlate_k">CORRELATE</div>
+            <h4 data-i18n="insights.card_correlate_h">Cause &amp; effect.</h4>
+            <p data-i18n="insights.card_correlate_p">See which markers moved with your new medication, routine, or job stress.</p>
+          </div>
+          <div class="card">
+            <div class="k mono" data-i18n="insights.card_family_k">FAMILY</div>
+            <h4 data-i18n="insights.card_family_h">Everyone you love.</h4>
+            <p data-i18n="insights.card_family_p">Kids' vaccinations, parents' cardiology reports &mdash; one roof, private to each person.</p>
+          </div>
         </div>
-        <div class="bg-white/15 p-3.5 rounded-2xl backdrop-blur-sm text-center">
-          <span class="material-symbols-outlined text-white/80 text-[24px]">picture_as_pdf</span>
-          <div class="text-xs font-bold mt-1 text-white/60" data-i18n="features.share.pdf_export">PDF Export</div>
-        </div>
-        <div class="bg-white/15 p-3.5 rounded-2xl backdrop-blur-sm text-center">
-          <span class="material-symbols-outlined text-white/80 text-[24px]">history</span>
-          <div class="text-xs font-bold mt-1 text-white/60" data-i18n="features.share.full_history">Full History</div>
-        </div>
-        <div class="bg-white/15 p-3.5 rounded-2xl backdrop-blur-sm text-center">
-          <span class="material-symbols-outlined text-white/80 text-[24px]">timer</span>
-          <div class="text-xs font-bold mt-1 text-white/60" data-i18n="features.share.expires">Auto-Expires</div>
-        </div>
+      </div>
+      <div class="phone-stage" style="min-height:820px" data-animate="slide-right">
+        <div class="glow" style="background:radial-gradient(closest-side,color-mix(in oklch,var(--primary) 16%,transparent),transparent 70%)"></div>
+        <div class="phone-shrink" id="insights-phone"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== 6. TRUST & SECURITY ===================== -->
-<section class="py-16 md:py-24 px-6 md:px-8 max-w-screen-xl mx-auto">
-  <div class="bg-white p-8 md:p-12 rounded-4xl border border-border-light shadow-sm flex flex-col md:flex-row items-center gap-12 md:gap-16" data-animate="scale">
-    <!-- Left: Text -->
-    <div class="flex-1">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
-          <span class="material-symbols-outlined text-accent text-[28px] filled">shield</span>
-        </div>
-        <h2 class="text-2xl md:text-3xl font-headline font-bold text-text-primary" data-i18n="trust.heading">Your data stays yours</h2>
+<!-- ═══════ SECURITY ═══════ -->
+<section class="block" style="padding-top:0">
+  <div class="wrap" data-animate>
+    <div class="sec">
+      <div>
+        <div class="kicker mono" data-i18n="security.kicker">04 &middot; Privacy</div>
+        <h2 class="h"><span data-i18n="security.title_pre">It's</span> <em data-i18n="security.title_em">your</em> <span data-i18n="security.title_post">data. Always.</span></h2>
+        <p class="pp" data-i18n="security.body">Medical records are the most personal data you own. We treat them that way &mdash; encrypted on your device, encrypted in transit, encrypted at rest. You own every byte.</p>
       </div>
-      <p class="text-text-secondary text-base leading-relaxed mb-8" data-i18n="trust.body">
-        Your health records are deeply personal. We use industry-leading encryption and comply with the strictest healthcare data standards. You're always in control.
-      </p>
-      <div class="grid grid-cols-2 gap-5">
-        <div class="space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-accent text-[18px] filled">check_circle</span>
-            <div class="font-headline font-bold text-sm text-text-primary" data-i18n="trust.hipaa_title">HIPAA Compliant</div>
-          </div>
-          <div class="text-xs text-text-muted pl-[26px]" data-i18n="trust.hipaa_desc">Healthcare data standards</div>
-        </div>
-        <div class="space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-accent text-[18px] filled">check_circle</span>
-            <div class="font-headline font-bold text-sm text-text-primary" data-i18n="trust.e2e_title">End-to-End Encrypted</div>
-          </div>
-          <div class="text-xs text-text-muted pl-[26px]" data-i18n="trust.e2e_desc">Only you can access your data</div>
-        </div>
-        <div class="space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-accent text-[18px] filled">check_circle</span>
-            <div class="font-headline font-bold text-sm text-text-primary" data-i18n="trust.own_title">You Own Your Data</div>
-          </div>
-          <div class="text-xs text-text-muted pl-[26px]" data-i18n="trust.own_desc">Export or delete anytime</div>
-        </div>
-        <div class="space-y-1.5">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-accent text-[18px] filled">check_circle</span>
-            <div class="font-headline font-bold text-sm text-text-primary" data-i18n="trust.gdpr_title">GDPR Ready</div>
-          </div>
-          <div class="text-xs text-text-muted pl-[26px]" data-i18n="trust.gdpr_desc">Full privacy compliance</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Right: Shield Illustration -->
-    <div class="flex-1 flex justify-center relative">
-      <div class="relative w-64 h-64">
-        <!-- Central shield -->
-        <div class="absolute inset-0 flex items-center justify-center">
-          <div class="w-32 h-32 bg-gradient-to-br from-accent/20 to-primary/20 rounded-3xl flex items-center justify-center shadow-lg">
-            <span class="material-symbols-outlined text-primary text-[64px] filled">security</span>
-          </div>
-        </div>
-        <!-- Floating elements -->
-        <div class="absolute top-2 right-8 float-1">
-          <div class="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center">
-            <span class="material-symbols-outlined text-accent text-[20px] filled">lock</span>
-          </div>
-        </div>
-        <div class="absolute bottom-4 left-4 float-2">
-          <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-            <span class="material-symbols-outlined text-primary text-[20px] filled">verified_user</span>
-          </div>
-        </div>
-        <div class="absolute top-8 left-2 float-3">
-          <div class="w-8 h-8 bg-cta/10 rounded-lg flex items-center justify-center">
-            <span class="material-symbols-outlined text-cta text-[16px] filled">encrypted</span>
-          </div>
-        </div>
-        <div class="absolute bottom-8 right-4 float-1">
-          <div class="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center">
-            <span class="material-symbols-outlined text-accent text-[16px] filled">health_and_safety</span>
-          </div>
-        </div>
+      <div class="checks">
+        <div><div class="k mono">01</div><div class="t" data-i18n="security.check1">End-to-end encryption</div><div class="d" data-i18n="security.check1_d">AES-256 &middot; TLS 1.3</div></div>
+        <div><div class="k mono">02</div><div class="t" data-i18n="security.check2">HIPAA &amp; GDPR compliant</div><div class="d" data-i18n="security.check2_d">Audited quarterly</div></div>
+        <div><div class="k mono">03</div><div class="t" data-i18n="security.check3">Zero-knowledge architecture</div><div class="d" data-i18n="security.check3_d">We can't read your data</div></div>
+        <div><div class="k mono">04</div><div class="t" data-i18n="security.check4">Full export, any time</div><div class="d" data-i18n="security.check4_d">FHIR &middot; JSON &middot; PDF</div></div>
+        <div><div class="k mono">05</div><div class="t" data-i18n="security.check5">Hard delete, any time</div><div class="d" data-i18n="security.check5_d">30-day verified purge</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== 7. PRICING ===================== -->
-<section id="pricing" class="py-16 md:py-24 bg-bg-alt">
-  <div class="max-w-screen-xl mx-auto px-6 md:px-8">
-    <div class="text-center mb-12 md:mb-16" data-animate>
-      <h2 class="text-3xl md:text-4xl font-headline font-extrabold text-text-primary mb-3 tracking-tight" data-i18n="pricing.heading">Simple plans for everyone</h2>
-      <p class="text-text-secondary max-w-xl mx-auto" data-i18n="pricing.subtitle">
-        Start free and upgrade when you're ready. No surprises, no hidden fees.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto" data-stagger>
-      <!-- Basic -->
-      <div class="bg-white p-8 rounded-3xl shadow-sm border border-border-light hover:border-primary/20 transition-all pricing-card">
-        <div class="mb-6">
-          <h3 class="text-lg font-headline font-bold text-text-primary mb-1" data-i18n="pricing.basic.name">Basic</h3>
-          <div class="flex items-baseline gap-1">
-            <span class="text-3xl font-headline font-black text-text-primary">$1</span>
-            <span class="text-text-muted text-sm" data-i18n="pricing.per_month">/month</span>
-          </div>
-        </div>
-        <ul class="space-y-3 mb-8">
-          <li class="flex items-start gap-2.5 text-text-secondary text-sm">
-            <span class="material-symbols-outlined text-accent text-[18px] mt-0.5 filled">check_circle</span>
-            <span data-i18n="pricing.basic.f1">Store up to 100 exams</span>
-          </li>
-          <li class="flex items-start gap-2.5 text-text-secondary text-sm">
-            <span class="material-symbols-outlined text-accent text-[18px] mt-0.5 filled">check_circle</span>
-            <span data-i18n="pricing.basic.f2">Lifetime history tracking</span>
-          </li>
-          <li class="flex items-start gap-2.5 text-text-secondary text-sm">
-            <span class="material-symbols-outlined text-accent text-[18px] mt-0.5 filled">check_circle</span>
-            <span data-i18n="pricing.basic.f3">Basic lab summaries</span>
-          </li>
+<!-- ═══════ PRICING ═══════ -->
+<section class="block" id="pricing" style="padding-top:0">
+  <div class="wrap" data-animate>
+    <div class="kicker mono" data-i18n="pricing.kicker">05 &middot; Pricing</div>
+    <h2 class="h" data-i18n="pricing.title">Start free. Stay honest.</h2>
+    <p class="pp" style="margin-bottom:48px" data-i18n="pricing.subtitle">No surprise tiers, no usage cliffs. Pick what fits; upgrade when your records do.</p>
+    <div class="pricing">
+      <div class="plan">
+        <div class="name mono"><span data-i18n="pricing.essential_name">Essential</span><span>01</span></div>
+        <div class="price">$0<small data-i18n="pricing.per_month">/mo</small></div>
+        <ul>
+          <li data-i18n="pricing.essential_f1">Up to 50 exams, forever</li>
+          <li data-i18n="pricing.essential_f2">AI interpretation, 24 languages</li>
+          <li data-i18n="pricing.essential_f3">Unified timeline view</li>
+          <li data-i18n="pricing.essential_f4">Share via secure link</li>
         </ul>
-        <button class="w-full py-3 rounded-xl font-bold text-sm bg-bg-alt text-text-primary hover:bg-border-light transition-all" data-i18n="pricing.basic.cta">Choose Basic</button>
+        <button class="btn ghost" data-i18n="pricing.essential_cta">Start free</button>
       </div>
-
-      <!-- Standard -->
-      <div class="bg-white p-8 rounded-3xl shadow-lg border-2 border-primary relative transform md:-translate-y-3 pricing-card">
-        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white px-4 py-1 rounded-full text-[0.65rem] font-black uppercase tracking-wider" data-i18n="pricing.recommended">Recommended</div>
-        <div class="mb-6">
-          <h3 class="text-lg font-headline font-bold text-text-primary mb-1" data-i18n="pricing.standard.name">Standard</h3>
-          <div class="flex items-baseline gap-1">
-            <span class="text-3xl font-headline font-black text-text-primary">$2</span>
-            <span class="text-text-muted text-sm" data-i18n="pricing.per_month">/month</span>
-          </div>
-        </div>
-        <ul class="space-y-3 mb-8">
-          <li class="flex items-start gap-2.5 text-text-secondary text-sm">
-            <span class="material-symbols-outlined text-accent text-[18px] mt-0.5 filled">check_circle</span>
-            <span data-i18n="pricing.standard.f1">Everything in Basic</span>
-          </li>
-          <li class="flex items-start gap-2.5 text-text-primary text-sm font-semibold">
-            <span class="material-symbols-outlined text-accent text-[18px] mt-0.5 filled">check_circle</span>
-            <span data-i18n="pricing.standard.f2">Unlimited smart organization</span>
-          </li>
-          <li class="flex items-start gap-2.5 text-text-primary text-sm font-semibold">
-            <span class="material-symbols-outlined text-accent text-[18px] mt-0.5 filled">check_circle</span>
-            <span data-i18n="pricing.standard.f3">Advanced health trends</span>
-          </li>
+      <div class="plan featured">
+        <div class="name mono"><span data-i18n="pricing.standard_name">Standard</span><span data-i18n="pricing.standard_badge">&starf; Recommended</span></div>
+        <div class="price">$4<small data-i18n="pricing.per_month">/mo</small></div>
+        <ul>
+          <li data-i18n="pricing.standard_f1">Unlimited exams &amp; uploads</li>
+          <li data-i18n="pricing.standard_f2">Full insights engine &amp; trends</li>
+          <li data-i18n="pricing.standard_f3">Proactive drift alerts</li>
+          <li data-i18n="pricing.standard_f4">Doctor-ready PDF exports</li>
+          <li data-i18n="pricing.standard_f5">Priority document processing</li>
         </ul>
-        <button class="w-full py-3 rounded-xl font-bold text-sm bg-primary text-white hover:bg-primary-dark shadow-md transition-all" data-i18n="pricing.standard.cta">Choose Standard</button>
+        <button class="btn primary" data-i18n="pricing.standard_cta">Choose Standard</button>
       </div>
-
-      <!-- Premium -->
-      <div class="bg-primary p-8 rounded-3xl shadow-sm text-white pricing-card">
-        <div class="mb-6">
-          <h3 class="text-lg font-headline font-bold mb-1" data-i18n="pricing.premium.name">Premium</h3>
-          <div class="flex items-baseline gap-1">
-            <span class="text-3xl font-headline font-black">$5</span>
-            <span class="text-white/60 text-sm" data-i18n="pricing.per_month">/month</span>
-          </div>
-        </div>
-        <ul class="space-y-3 mb-8">
-          <li class="flex items-start gap-2.5 text-white/80 text-sm">
-            <span class="material-symbols-outlined text-accent-light text-[18px] mt-0.5 filled">check_circle</span>
-            <span data-i18n="pricing.premium.f1">Everything in Standard</span>
-          </li>
-          <li class="flex items-start gap-2.5 text-accent-light text-sm font-semibold">
-            <span class="material-symbols-outlined text-[18px] mt-0.5 filled">check_circle</span>
-            <span data-i18n="pricing.premium.f2">Doctor sharing & PDF export</span>
-          </li>
-          <li class="flex items-start gap-2.5 text-accent-light text-sm font-semibold">
-            <span class="material-symbols-outlined text-[18px] mt-0.5 filled">check_circle</span>
-            <span data-i18n="pricing.premium.f3">Priority support</span>
-          </li>
+      <div class="plan">
+        <div class="name mono"><span data-i18n="pricing.family_name">Family</span><span>03</span></div>
+        <div class="price">$9<small data-i18n="pricing.per_month">/mo</small></div>
+        <ul>
+          <li data-i18n="pricing.family_f1">Up to 6 family members</li>
+          <li data-i18n="pricing.family_f2">Everything in Standard</li>
+          <li data-i18n="pricing.family_f3">Pediatric growth tracking</li>
+          <li data-i18n="pricing.family_f4">Caregiver delegation</li>
+          <li data-i18n="pricing.family_f5">Dedicated support</li>
         </ul>
-        <button class="w-full py-3 rounded-xl font-bold text-sm bg-cta text-white hover:bg-cta-dark shadow-md transition-all" data-i18n="pricing.premium.cta">Go Premium</button>
+        <button class="btn ghost" data-i18n="pricing.family_cta">Choose Family</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== 8. FINAL CTA ===================== -->
-<section class="py-16 md:py-24 px-6 md:px-8">
-  <div class="max-w-screen-xl mx-auto bg-gradient-to-br from-primary to-primary-dark rounded-4xl p-10 md:p-16 text-center text-white" data-animate="scale">
-    <h2 class="text-3xl md:text-4xl font-headline font-extrabold mb-4 tracking-tight" data-i18n="final_cta.heading">Ready to take control of your health?</h2>
-    <p class="text-white/70 max-w-lg mx-auto mb-8 text-base" data-i18n="final_cta.subtitle">Join thousands of people who already manage their health records with 2YH. It's free to start.</p>
-    <button class="btn-shimmer bg-cta hover:bg-cta-dark text-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all active:scale-95" data-i18n="final_cta.button">Get Started Free</button>
+<!-- ═══════ FINAL CTA ═══════ -->
+<section class="finalCta" data-animate="scale">
+  <div class="wrap">
+    <div class="kicker mono" data-i18n="final_cta.kicker">Your health, finally in one place.</div>
+    <h2><span data-i18n="final_cta.title_pre">Start with</span> <em data-i18n="final_cta.title_em">one exam</em>.<br/><span data-i18n="final_cta.title_line2">See what we mean.</span></h2>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+      <button class="btn primary lg" data-i18n="hero.cta_iphone">Download for iPhone</button>
+      <button class="btn ghost lg" data-i18n="hero.cta_android">Get on Android &rarr;</button>
+    </div>
   </div>
 </section>
 
-<!-- ===================== 9. FOOTER ===================== -->
-<footer class="bg-white w-full py-10 border-t border-border-light">
-  <div class="max-w-screen-xl mx-auto px-6 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-    <a href="#" class="font-headline font-bold text-primary text-lg">2YH</a>
-    <div class="flex flex-wrap justify-center gap-6 text-sm">
-      <a class="text-text-muted hover:text-text-primary transition-colors" href="#" data-i18n="footer.privacy">Privacy Policy</a>
-      <a class="text-text-muted hover:text-text-primary transition-colors" href="#" data-i18n="footer.terms">Terms of Service</a>
-      <a class="text-text-muted hover:text-text-primary transition-colors" href="#" data-i18n="footer.security">Security</a>
-      <a class="text-text-muted hover:text-text-primary transition-colors" href="#" data-i18n="footer.hipaa">HIPAA</a>
-      <a class="text-text-muted hover:text-text-primary transition-colors" href="#" data-i18n="footer.support">Support</a>
+<!-- ═══════ FOOTER ═══════ -->
+<footer>
+  <div class="wrap">
+    <div class="r1">
+      <div class="brand"><div class="mark"></div> <span data-i18n="nav.brand">Health in Your Hands</span> <span class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:0.14em;margin-left:6px;padding:3px 7px;border:1px solid var(--line);border-radius:999px">2YH</span></div>
+      <div class="links">
+        <a href="#" data-i18n="footer.privacy">Privacy</a>
+        <a href="#" data-i18n="footer.terms">Terms</a>
+        <a href="#" data-i18n="footer.security">Security</a>
+        <a href="#" data-i18n="footer.hipaa">HIPAA</a>
+        <a href="#" data-i18n="footer.gdpr">GDPR</a>
+        <a href="#" data-i18n="footer.support">Support</a>
+      </div>
     </div>
-    <div class="text-text-muted text-xs text-center md:text-right" data-i18n="footer.copyright">
-      &copy; 2026 2YH. All rights reserved.
+    <div class="r2">
+      <span data-i18n="footer.copyright">&copy; 2026 2YH &mdash; Health in Your Hands. Organized, understood, yours.</span>
+      <span>v4.2</span>
     </div>
   </div>
 </footer>
 
+<!-- ═══════ REACT PHONE MOCKUPS ═══════ -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="screens.jsx"></script>
+
+<script type="text/babel">
+const heroRoot = ReactDOM.createRoot(document.getElementById('hero-phone'));
+const ingestRoot = ReactDOM.createRoot(document.getElementById('ingest-phone'));
+const insightsRoot = ReactDOM.createRoot(document.getElementById('insights-phone'));
+
+heroRoot.render(
+  <IOSDevice width={402} height={874}>
+    <ScreenHome />
+  </IOSDevice>
+);
+ingestRoot.render(
+  <IOSDevice width={402} height={874}>
+    <ScreenInterpreting />
+  </IOSDevice>
+);
+insightsRoot.render(
+  <IOSDevice width={402} height={874}>
+    <ScreenBiomarker />
+  </IOSDevice>
+);
+</script>
+
+<!-- ═══════ I18N + SCROLL ANIMATIONS ═══════ -->
 <script src="i18n/i18n.js" defer></script>
 <script>
-/* ========== Scroll-reveal observer ========== */
 (function () {
-  const targets = document.querySelectorAll('[data-animate], [data-stagger]');
+  /* Scroll-reveal observer */
+  var targets = document.querySelectorAll('[data-animate], [data-stagger]');
   if (!targets.length) return;
 
-  const io = new IntersectionObserver(function (entries) {
+  var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
         io.unobserve(entry.target);
-
-        // Trigger counters inside this element
         entry.target.querySelectorAll('[data-count]').forEach(startCounter);
       }
     });
@@ -660,46 +510,31 @@ tailwind.config = {
 
   targets.forEach(function (el) { io.observe(el); });
 
-  /* ========== Counter animation ========== */
+  /* Counter animation */
   function startCounter(el) {
     if (el.dataset.counted) return;
     el.dataset.counted = '1';
-
     var target = parseFloat(el.dataset.count);
     var suffix = el.dataset.suffix || '';
-    var decimals = parseInt(el.dataset.decimals || '0', 10);
     var duration = 1800;
     var start = performance.now();
-
-    function easeOutExpo(t) {
-      return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-    }
-
+    function easeOutExpo(t) { return t === 1 ? 1 : 1 - Math.pow(2, -10 * t); }
     function tick(now) {
       var elapsed = now - start;
       var progress = Math.min(elapsed / duration, 1);
-      var eased = easeOutExpo(progress);
-      var current = eased * target;
-
-      el.textContent = (decimals > 0 ? current.toFixed(decimals) : Math.round(current)) + suffix;
-
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      }
+      el.textContent = Math.round(easeOutExpo(progress) * target) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
     }
-
     requestAnimationFrame(tick);
   }
 
-  /* ========== Hero: animate immediately (above fold) ========== */
+  /* Hero: animate immediately if above fold */
   setTimeout(function () {
     document.querySelectorAll('[data-animate="slide-left"], [data-animate="slide-right"]').forEach(function (el) {
-      var rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight) {
-        el.classList.add('visible');
-      }
+      if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('visible');
     });
   }, 100);
 })();
 </script>
-</body></html>
+</body>
+</html>
