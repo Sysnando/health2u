@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Health2U — Your health, organized and understood.",
+    "title": "Health in Your Hands — Your health, organized and understood.",
     "description": "Keep all your exams, prescriptions, and health records in one secure place. Get clear insights and share with your doctor easily."
   },
   "nav": {
@@ -113,7 +113,7 @@
   },
   "final_cta": {
     "heading": "Ready to take control of your health?",
-    "subtitle": "Join thousands of people who already manage their health records with Health2U. It's free to start.",
+    "subtitle": "Join thousands of people who already manage their health records with 2YH. It's free to start.",
     "button": "Get Started Free"
   },
   "footer": {
@@ -122,7 +122,7 @@
     "security": "Security",
     "hipaa": "HIPAA",
     "support": "Support",
-    "copyright": "© 2026 Health2U. All rights reserved."
+    "copyright": "© 2026 2YH. All rights reserved."
   },
   "language": {
     "label": "Language"

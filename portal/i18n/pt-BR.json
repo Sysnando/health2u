@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Health2U — Sua saúde, organizada e compreendida.",
+    "title": "Health in Your Hands — Sua saúde, organizada e compreendida.",
     "description": "Guarde todos os seus exames, receitas e registros médicos em um só lugar seguro. Obtenha informações claras e compartilhe com seu médico facilmente."
   },
   "nav": {
@@ -113,7 +113,7 @@
   },
   "final_cta": {
     "heading": "Pronto para assumir o controle da sua saúde?",
-    "subtitle": "Junte-se a milhares de pessoas que já gerenciam seus registros de saúde com o Health2U. É grátis para começar.",
+    "subtitle": "Junte-se a milhares de pessoas que já gerenciam seus registros de saúde com o 2YH. É grátis para começar.",
     "button": "Começar Grátis"
   },
   "footer": {
@@ -122,7 +122,7 @@
     "security": "Segurança",
     "hipaa": "HIPAA",
     "support": "Suporte",
-    "copyright": "© 2026 Health2U. Todos os direitos reservados."
+    "copyright": "© 2026 2YH. Todos os direitos reservados."
   },
   "language": {
     "label": "Idioma"
