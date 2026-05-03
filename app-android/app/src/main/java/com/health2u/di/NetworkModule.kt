@@ -17,12 +17,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    // Debug builds talk to the local admin-service backend.
-    // 10.0.2.2 is the Android emulator's loopback to the host machine's localhost.
+    // Debug builds talk to the deployed Supabase Edge Function.
+    // Release builds use the same endpoint (update to a custom domain if needed).
     private val BASE_URL: String = if (BuildConfig.DEBUG) {
-        "http://10.0.2.2:3000/"
+        "https://dwpsoujnnwyqzqxvqtib.supabase.co/functions/v1/admin/"
     } else {
-        "https://api.health2u.com/"
+        "https://dwpsoujnnwyqzqxvqtib.supabase.co/functions/v1/admin/"
     }
 
     @Provides
