@@ -109,3 +109,20 @@ app-android/.gradle/
 app-android/.kotlin/
 app-android/app/build/
 app-android/local.properties
+
+# ── Monorepo: app-ios ──────────────────────────────────────────
+app-ios/.build/
+app-ios/.swiftpm/
+app-ios/Health2u.xcodeproj/
+app-ios/xcuserdata/
+app-ios/DerivedData/
+app-ios/*.xcworkspace/xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# ── Monorepo: Supabase CLI (root) ────────────────────────────────
+supabase/.temp/
+supabase/.branches/
+
+# ── MCP local config ─────────────────────────────────────────────
+.mcp.json
