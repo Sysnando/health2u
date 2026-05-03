@@ -1,0 +1,6 @@
+# 2YH — Health in Your Hands (rebranded portal)
+#   https://2yh-portal.pages.dev
+
+name = "2yh-portal"
+compatibility_date = "2024-12-01"
+pages_build_output_dir = "."
