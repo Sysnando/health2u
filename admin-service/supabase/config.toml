@@ -1,0 +1,28 @@
+# Supabase project configuration.
+# Linked to a remote project via `supabase link --project-ref <ref>`.
+project_id = "health2u-admin"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[db.migrations]
+# Seed data lives in a regular migration so it ships to remote via `db push`.
+enabled = true
+
+[studio]
+enabled = true
+port = 54323
+
+[functions.admin]
+verify_jwt = false
+# Our /auth/login endpoint issues custom JWTs; the function validates them
+# itself via the auth middleware. Supabase's built-in JWT verifier is bypassed.

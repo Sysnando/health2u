@@ -1,101 +1,160 @@
 # admin-service
 
-Node.js + Express backend for Health2U. In-memory data store with seed data for development.
+REST API for the Health2U mobile app, deployed as a **Supabase Edge
+Function** (Deno + Hono) backed by **Supabase Postgres** for data and
+**Cloudflare R2** for exam-file storage.
 
-## Prerequisites
+## Stack
 
-- Node 18+
+| Concern | Service |
+| --- | --- |
+| API runtime | Supabase Edge Functions (Deno) |
+| Routing | Hono |
+| Database | Supabase Postgres |
+| Auth | Custom JWT (our own `/auth/login`; Supabase Auth not used) |
+| File storage | Cloudflare R2 (presigned PUT/GET URLs) |
 
-## Setup
+## Layout
 
-```bash
-cd admin-service
-cp .env.example .env
-npm install
-npm run dev
+```
+admin-service/
+├── supabase/
+│   ├── config.toml
+│   ├── migrations/               # SQL schema + seed
+│   └── functions/
+│       ├── deno.json             # import map (hono, sdk, jwt, bcrypt, aws-sdk)
+│       ├── _shared/              # db, jwt, auth middleware, r2, dto, errors
+│       └── admin/
+│           ├── index.ts          # Hono entry (Deno.serve)
+│           └── routes/           # auth, user, exams, appointments, insights, …
+├── scripts/
+│   ├── create-r2-bucket.sh
+│   └── deploy.sh
+├── .env.example
+└── README.md
 ```
 
-The server starts on `http://localhost:3000`.
+## One-time setup
 
-## Endpoints
+1. **Install CLIs**
+   - [Supabase CLI](https://supabase.com/docs/guides/cli) (`brew install supabase/tap/supabase`)
+   - [wrangler](https://developers.cloudflare.com/workers/wrangler/install-and-update/) (`npm i -g wrangler`)
+   - `deno` (optional, only for local type-checking)
 
-### Authentication
+2. **Create + link the Supabase project**
+   ```bash
+   # From the Supabase dashboard, create a new project, then:
+   supabase link --project-ref <your-project-ref>
+   ```
 
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `POST` | `/auth/login` | public | `{ email, password }` returns `{ access_token, refresh_token, user }` |
-| `POST` | `/auth/refresh` | public | `{ refresh_token }` returns a new token pair |
-| `POST` | `/auth/logout` | public | Returns 204 |
+3. **Create the R2 bucket**
+   ```bash
+   wrangler login
+   BUCKET=health2u-admin-dev-uploads ./scripts/create-r2-bucket.sh
+   ```
+   In the Cloudflare dashboard, create an R2 API token scoped to that bucket
+   with **Object Read & Write**. Copy the Access Key ID / Secret.
 
-### User
+4. **Fill in `.env`**
+   ```bash
+   cp .env.example .env
+   # Generate JWT_SECRET:   openssl rand -hex 32
+   # Paste R2 credentials from the previous step.
+   ```
 
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/user/profile` | Bearer | Returns user profile |
-| `PUT` | `/user/profile` | Bearer | Updates profile |
-
-### Exams
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/exams?filter=` | Bearer | List exams (optional filter) |
-| `GET` | `/exams/:id` | Bearer | Get exam by ID |
-| `POST` | `/exams/upload` | Bearer | Upload exam (multipart: `file`, `metadata` JSON) |
-| `DELETE` | `/exams/:id` | Bearer | Delete exam |
-
-### Appointments
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/appointments` | Bearer | List appointments |
-| `POST` | `/appointments` | Bearer | Create appointment |
-| `PUT` | `/appointments/:id` | Bearer | Update appointment |
-| `DELETE` | `/appointments/:id` | Bearer | Delete appointment |
-
-### Insights
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/insights` | Bearer | Returns `{ insights: [...] }` |
-
-### Emergency Contacts
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/emergency-contacts` | Bearer | List contacts |
-| `POST` | `/emergency-contacts` | Bearer | Create contact |
-| `PUT` | `/emergency-contacts/:id` | Bearer | Update contact |
-| `DELETE` | `/emergency-contacts/:id` | Bearer | Delete contact |
-
-### Health Check
-
-| Method | Path | Auth | Description |
-|---|---|---|---|
-| `GET` | `/health` | public | Returns `{ status: "ok" }` |
-
-## Auth
-
-All authenticated endpoints require a Bearer JWT in the `Authorization` header. Obtain a token via `POST /auth/login`.
-
-## Default credentials
-
-- Email: `sarah@example.com`
-- Password: `password123` (seeded user)
-
-## Connecting from Android emulator
-
-Use `http://10.0.2.2:3000/` as the base URL. This is configured in `app-android/app/src/main/java/com/health2u/di/NetworkModule.kt` for debug builds.
-
-## Data store
-
-In-memory `Map`s, seeded from `src/data/seed.js` at startup. Data resets on restart.
-
-## Example curl
+## Deploying
 
 ```bash
-TOKEN=$(curl -s -X POST http://localhost:3000/auth/login \
-  -H 'content-type: application/json' \
-  -d '{"email":"sarah@example.com","password":"password123"}' | jq -r .access_token)
-
-curl http://localhost:3000/user/profile -H "Authorization: Bearer $TOKEN"
+./scripts/deploy.sh
 ```
+
+This runs `supabase db push`, uploads the `.env` as function secrets, and
+deploys the `admin` function. The public URL is:
+
+```
+https://<project_ref>.supabase.co/functions/v1/admin
+```
+
+Quick check:
+
+```bash
+curl https://<project_ref>.supabase.co/functions/v1/admin/health
+# {"status":"ok"}
+```
+
+## Staging deployment
+
+1. Create a second Supabase project (free tier is fine) and note its project ref.
+2. Optionally create a staging R2 bucket:
+   ```bash
+   BUCKET=health2u-admin-staging-uploads ./scripts/create-r2-bucket.sh
+   ```
+3. Fill in `.env.staging`:
+   ```bash
+   cp .env.staging.example .env.staging
+   # Set STAGING_PROJECT_REF, JWT_SECRET (different from prod!), R2 creds, etc.
+   ```
+4. Deploy:
+   ```bash
+   ./scripts/deploy-staging.sh
+   ```
+   Staging URL: `https://<staging-ref>.supabase.co/functions/v1/admin/health`
+
+## API
+
+All routes are nested under `/admin`. The `/auth/*` routes and `/health`
+are public; everything else requires `Authorization: Bearer <access_token>`.
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| GET | `/health` | Liveness |
+| POST | `/auth/login` | `{ email, password }` → `{ access_token, refresh_token, user }` |
+| POST | `/auth/refresh` | One-time-use: old refresh token is deleted |
+| POST | `/auth/logout` | Invalidates the refresh token |
+| GET | `/user/profile` | |
+| PUT | `/user/profile` | |
+| GET | `/exams?filter=<type>` | |
+| GET | `/exams/:id` | |
+| GET | `/exams/:id/file` | Returns `{ url }` — 5-minute presigned R2 GET |
+| POST | `/exams/upload-url` | `{ filename, content_type }` → presigned R2 PUT |
+| POST | `/exams` | `{ title, type, date, notes?, key? }` — metadata-only |
+| DELETE | `/exams/:id` | |
+| GET | `/appointments` | |
+| POST | `/appointments` | |
+| PUT | `/appointments/:id` | |
+| DELETE | `/appointments/:id` | |
+| GET | `/insights` | Wrapped as `{ insights: [...] }` |
+| GET | `/emergency-contacts` | |
+| POST | `/emergency-contacts` | |
+| PUT | `/emergency-contacts/:id` | |
+| DELETE | `/emergency-contacts/:id` | |
+
+### Upload flow (replaces old multipart `/exams/upload`)
+
+```
+1. POST /exams/upload-url   { filename, content_type }
+      → { upload_url, key, expires_in }
+2. PUT <upload_url>          <raw file bytes>   (direct to R2)
+3. POST /exams               { title, type, date, notes, key }
+      → exam record
+```
+
+Uploads never flow through the Edge Function, so there's no body-size
+bottleneck.
+
+### Demo credentials
+
+Seeded by `migrations/0002_seed.sql`:
+- `sarah@example.com` / `password123`
+
+## Local development
+
+```bash
+# Requires Docker Desktop (Supabase CLI runs Postgres + functions locally).
+supabase start                           # boots local stack
+supabase functions serve admin --env-file .env --no-verify-jwt
+# → http://localhost:54321/functions/v1/admin/health
+```
+
+Migrations in `supabase/migrations/` are applied automatically when you run
+`supabase db reset`.

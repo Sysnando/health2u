@@ -1,0 +1,8 @@
+# Secrets
+.env
+.env.staging
+
+# Supabase CLI
+.supabase/
+supabase/.temp/
+supabase/.branches/
