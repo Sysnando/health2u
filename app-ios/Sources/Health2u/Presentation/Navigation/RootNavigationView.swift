@@ -13,10 +13,36 @@ public struct RootNavigationView: View {
 
     public var body: some View {
         Group {
-            if container.isAuthenticated {
+            if !container.isReady {
+                splashView
+            } else if container.isAuthenticated {
                 authenticatedView
             } else {
                 unauthenticatedView
+            }
+        }
+    }
+
+    // MARK: - Splash (shown while checking auth state)
+
+    private var splashView: some View {
+        ZStack {
+            Color.background.ignoresSafeArea()
+            VStack(spacing: 16) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.secondary)
+                        .frame(width: 72, height: 72)
+                    Image(systemName: "heart.text.square.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 36, height: 36)
+                        .foregroundColor(.white)
+                }
+                Text("2YH")
+                    .font(.system(size: 20, weight: .bold))
+                    .tracking(6)
+                    .foregroundColor(.primary)
             }
         }
     }
@@ -85,51 +111,43 @@ public struct RootNavigationView: View {
     // MARK: - Custom Tab Bar
 
     private var customTabBar: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .bottom, spacing: 0) {
-                // Home Tab
-                tabBarItem(
-                    icon: "square.grid.2x2",
-                    filledIcon: "square.grid.2x2.fill",
-                    label: "Home",
-                    tab: .home
-                )
+        HStack(alignment: .center, spacing: 0) {
+            tabBarItem(
+                icon: "square.grid.2x2",
+                filledIcon: "square.grid.2x2.fill",
+                label: "Home",
+                tab: .home
+            )
 
-                // Exams Tab
-                tabBarItem(
-                    icon: "doc.text",
-                    filledIcon: "doc.text.fill",
-                    label: "Exams",
-                    tab: .exams
-                )
+            tabBarItem(
+                icon: "doc.text",
+                filledIcon: "doc.text.fill",
+                label: "Exams",
+                tab: .exams
+            )
 
-                // Center AI Upload FAB
-                aiUploadButton
-                    .padding(.horizontal, 4)
+            aiUploadButton
 
-                // Insights Tab
-                tabBarItem(
-                    icon: "chart.line.uptrend.xyaxis",
-                    filledIcon: "chart.line.uptrend.xyaxis.circle.fill",
-                    label: "Insights",
-                    tab: .insights
-                )
+            tabBarItem(
+                icon: "chart.line.uptrend.xyaxis",
+                filledIcon: "chart.line.uptrend.xyaxis.circle.fill",
+                label: "Insights",
+                tab: .insights
+            )
 
-                // Records / Profile Tab
-                tabBarItem(
-                    icon: "folder",
-                    filledIcon: "folder.fill",
-                    label: "Records",
-                    tab: .records
-                )
-            }
-            .padding(.horizontal, 8)
-            .padding(.top, 6)
-            .padding(.bottom, 4)
+            tabBarItem(
+                icon: "folder",
+                filledIcon: "folder.fill",
+                label: "Records",
+                tab: .records
+            )
         }
+        .padding(.horizontal, 8)
+        .padding(.top, 4)
+        .padding(.bottom, 2)
         .background(
             Color.white
-                .shadow(.drop(color: Color.black.opacity(0.06), radius: 12, x: 0, y: -4))
+                .shadow(.drop(color: Color.black.opacity(0.06), radius: 8, x: 0, y: -3))
         )
     }
 
@@ -137,18 +155,17 @@ public struct RootNavigationView: View {
         Button {
             withAnimation(.easeInOut(duration: 0.15)) {
                 if selectedTab == tab {
-                    container.path = []  // pop to root
+                    container.path = []
                 } else {
-                    container.path = []  // reset before switching
+                    container.path = []
                     selectedTab = tab
                 }
             }
         } label: {
-            VStack(spacing: 2) {
+            VStack(spacing: 1) {
                 Image(systemName: selectedTab == tab ? filledIcon : icon)
-                    .font(.system(size: 20))
+                    .font(.system(size: 18))
                     .foregroundColor(selectedTab == tab ? Color.secondary : Color.onSurfaceVariant.opacity(0.6))
-                    .scaleEffect(selectedTab == tab ? 1.1 : 1.0)
 
                 Text(label)
                     .font(.system(size: 9, weight: .medium))
@@ -156,7 +173,6 @@ public struct RootNavigationView: View {
                     .foregroundColor(selectedTab == tab ? Color.secondary : Color.onSurfaceVariant.opacity(0.6))
             }
             .frame(maxWidth: .infinity)
-            .padding(.vertical, 0)
         }
         .buttonStyle(.plain)
     }
@@ -165,9 +181,8 @@ public struct RootNavigationView: View {
         Button {
             showUploadSheet = true
         } label: {
-            VStack(spacing: 2) {
+            VStack(spacing: 1) {
                 ZStack {
-                    // Dark gradient circle
                     Circle()
                         .fill(
                             LinearGradient(
@@ -176,28 +191,27 @@ public struct RootNavigationView: View {
                                 endPoint: .bottomTrailing
                             )
                         )
-                        .frame(width: 44, height: 44)
-                        .shadow(color: Color.primary.opacity(0.3), radius: 8, x: 0, y: 4)
+                        .frame(width: 36, height: 36)
+                        .shadow(color: Color.primary.opacity(0.25), radius: 6, x: 0, y: 3)
 
-                    // White border ring
                     Circle()
-                        .strokeBorder(Color.white, lineWidth: 3)
-                        .frame(width: 44, height: 44)
+                        .strokeBorder(Color.white, lineWidth: 2)
+                        .frame(width: 36, height: 36)
 
-                    // Camera icon
                     Image(systemName: "camera.fill")
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.white)
                 }
-                .offset(y: -6)
+                .offset(y: -4)
 
                 Text("AI Upload")
                     .font(.system(size: 9, weight: .bold))
                     .tracking(0.8)
                     .textCase(.uppercase)
                     .foregroundColor(Color.primary)
-                    .offset(y: -6)
+                    .offset(y: -4)
             }
+            .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)
     }

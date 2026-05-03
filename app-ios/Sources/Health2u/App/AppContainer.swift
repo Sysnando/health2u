@@ -14,6 +14,7 @@ public final class AppContainer: ObservableObject {
     public let authRepository: any AuthRepository
 
     @Published public var isAuthenticated: Bool = false
+    @Published public var isReady: Bool = false
     @Published public var path: [Route] = []
 
     public init() {
@@ -36,7 +37,10 @@ public final class AppContainer: ObservableObject {
         Task {
             await sessionStore.loadFromKeychain()
             let auth = await sessionStore.isAuthenticated()
-            await MainActor.run { self.isAuthenticated = auth }
+            await MainActor.run {
+                self.isAuthenticated = auth
+                self.isReady = true
+            }
         }
     }
 
