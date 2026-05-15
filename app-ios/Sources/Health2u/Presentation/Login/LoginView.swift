@@ -3,6 +3,7 @@ import SwiftUI
 public struct LoginView: View {
     @StateObject private var viewModel: LoginViewModel
     @EnvironmentObject private var container: AppContainer
+    @ObservedObject private var localization = LocalizationManager.shared
     private let onSuccess: () -> Void
 
     public init(viewModel: LoginViewModel, onSuccess: @escaping () -> Void) {
@@ -89,11 +90,11 @@ public struct LoginView: View {
         VStack(spacing: Dimensions.Space.l) {
             // Headline
             VStack(spacing: Dimensions.Space.s) {
-                Text("Welcome Back")
+                Text(localization.string("login.welcome_back"))
                     .font(.system(size: 30, weight: .bold))
                     .foregroundColor(.onSurface)
 
-                Text("Sign in to access your health data")
+                Text(localization.string("login.subtitle"))
                     .font(Typography.bodyLarge)
                     .foregroundColor(.onSurfaceVariant)
             }
@@ -106,7 +107,7 @@ public struct LoginView: View {
                         Image(systemName: "g.circle.fill")
                             .font(.system(size: 20))
                             .foregroundColor(.onSurface)
-                        Text("Continue with Google")
+                        Text(localization.string("login.google"))
                             .font(Typography.labelLarge)
                             .foregroundColor(.onSurface)
                     }
@@ -126,7 +127,7 @@ public struct LoginView: View {
                         Image(systemName: "apple.logo")
                             .font(.system(size: 18))
                             .foregroundColor(.white)
-                        Text("Continue with Apple")
+                        Text(localization.string("login.apple"))
                             .font(Typography.labelLarge)
                             .foregroundColor(.white)
                     }
@@ -142,7 +143,7 @@ public struct LoginView: View {
                 Rectangle()
                     .fill(Color.outlineVariant)
                     .frame(height: 1)
-                Text("SECURED ACCESS")
+                Text(localization.string("login.secured_access").uppercased())
                     .font(Typography.overline)
                     .tracking(1)
                     .foregroundColor(.onSurfaceVariant)
@@ -155,7 +156,7 @@ public struct LoginView: View {
             // Email / Password fields
             VStack(spacing: Dimensions.Space.m) {
                 H2UTextField(
-                    title: "Email",
+                    title: localization.string("login.email"),
                     text: $viewModel.state.email,
                     placeholder: "you@example.com",
                     keyboardType: .email,
@@ -163,7 +164,7 @@ public struct LoginView: View {
                 )
 
                 H2UPasswordField(
-                    title: "Password",
+                    title: localization.string("login.password"),
                     text: $viewModel.state.password,
                     error: nil
                 )
@@ -182,17 +183,17 @@ public struct LoginView: View {
             }
 
             // Sign In button
-            PrimaryButton(title: "Sign In", isLoading: viewModel.state.isLoading) {
+            PrimaryButton(title: localization.string("login.sign_in"), isLoading: viewModel.state.isLoading) {
                 Task { await viewModel.signIn() }
             }
 
             // "Don't have an account? Join Hub" link
             HStack(spacing: Dimensions.Space.xxs) {
-                Text("Don't have an account?")
+                Text(localization.string("login.no_account"))
                     .font(Typography.bodySmall)
                     .foregroundColor(.onSurfaceVariant)
                 Button(action: { container.path.append(.registration) }) {
-                    Text("Join Hub")
+                    Text(localization.string("login.join"))
                         .font(Typography.labelMedium)
                         .foregroundColor(.secondary)
                 }
@@ -209,7 +210,7 @@ public struct LoginView: View {
     private var bottomLinks: some View {
         HStack(spacing: Dimensions.Space.l) {
             Button(action: {}) {
-                Text("Terms of Service")
+                Text(localization.string("login.terms"))
                     .font(Typography.labelSmall)
                     .foregroundColor(.onSurfaceVariant)
             }
@@ -217,7 +218,7 @@ public struct LoginView: View {
                 .font(Typography.labelSmall)
                 .foregroundColor(.outlineVariant)
             Button(action: {}) {
-                Text("Privacy Policy")
+                Text(localization.string("login.privacy"))
                     .font(Typography.labelSmall)
                     .foregroundColor(.onSurfaceVariant)
             }

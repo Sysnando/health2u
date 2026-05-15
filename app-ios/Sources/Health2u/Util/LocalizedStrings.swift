@@ -129,6 +129,147 @@ public enum LocalizedStrings {
         "empty.no_data": "No data available",
         "empty.no_exams": "No exams found",
         "empty.no_appointments": "No appointments scheduled",
+
+        // Dashboard extras
+        "dashboard.cardiovascular_message": "Your cardiovascular health improved by 4% since your last visit.",
+        "dashboard.see_all": "See All",
+
+        // Login extras
+        "login.email": "Email",
+        "login.password": "Password",
+
+        // Exams extras
+        "exams.all_records": "All Records",
+        "exams.lab_results": "Lab Results",
+        "exams.cardiology": "Cardiology",
+        "exams.general": "General",
+        "exams.imaging": "Imaging",
+        "exams.live": "Live",
+
+        // Exam Detail
+        "exam_detail.loading": "Loading exam...",
+        "exam_detail.title": "Exam Details",
+        "exam_detail.file_preview": "File Preview",
+        "exam_detail.no_file": "No file attached",
+        "exam_detail.details_section": "Details",
+        "exam_detail.type_label": "Type",
+        "exam_detail.date_label": "Date",
+        "exam_detail.created_label": "Created",
+        "exam_detail.updated_label": "Updated",
+        "exam_detail.notes_section": "Notes",
+        "exam_detail.delete_button": "Delete Exam",
+
+        // Appointments extras
+        "appointments.loading": "Loading appointments...",
+        "appointments.error_title": "Unable to load appointments",
+        "appointments.no_appointments_title": "No appointments",
+        "appointments.no_upcoming_message": "You have no upcoming appointments.",
+        "appointments.no_upcoming": "No upcoming appointments",
+        "appointments.no_past": "No past appointments",
+        "appointments.completed": "Completed",
+        "appointments.cancelled": "Cancelled",
+        "appointments.schedule_new": "Schedule New",
+
+        // Appointment Detail
+        "appointment_detail.loading": "Loading appointment...",
+        "appointment_detail.title": "Appointment Details",
+        "appointment_detail.doctor_label": "Doctor",
+        "appointment_detail.date_time_label": "Date & Time",
+        "appointment_detail.location_label": "Location",
+        "appointment_detail.reminder_label": "Reminder",
+        "appointment_detail.minutes_before": "minutes before",
+        "appointment_detail.description_label": "Description",
+        "appointment_detail.cancel_button": "Cancel Appointment",
+
+        // Profile extras
+        "profile.date_of_birth": "Date of Birth",
+        "profile.not_set": "Not set",
+        "profile.gender": "Gender",
+        "profile.height": "Height",
+        "profile.weight": "Weight",
+        "profile.blood_type": "Blood Type",
+        "profile.allergies": "Allergies",
+        "profile.medications": "Medications",
+        "profile.past_conditions": "Past Conditions",
+        "profile.chronic_conditions": "Chronic Conditions",
+        "profile.active_asthma": "Active Asthma",
+        "profile.view_all": "View All",
+        "profile.emergency_contact_placeholder": "Emergency Contact",
+        "profile.tap_to_manage": "Tap to manage",
+
+        // Edit Profile
+        "edit_profile.title": "Edit Profile",
+        "edit_profile.save_button": "Save Changes",
+        "edit_profile.change_photo": "Change Photo",
+        "edit_profile.full_name": "Full Name",
+        "edit_profile.email": "Email",
+        "edit_profile.phone": "Phone",
+        "edit_profile.date_of_birth": "Date of Birth",
+        "edit_profile.gender": "Gender",
+        "edit_profile.gender_male": "Male",
+        "edit_profile.gender_female": "Female",
+        "edit_profile.gender_other": "Other",
+        "edit_profile.gender_prefer_not": "Prefer not to say",
+        "edit_profile.height_cm": "Height (cm)",
+        "edit_profile.weight_kg": "Weight (kg)",
+        "edit_profile.blood_type": "Blood Type",
+        "common.select": "Select",
+
+        // Upload extras
+        "upload.upload_button": "Upload Exam",
+        "upload.photo_captured": "Photo captured",
+        "upload.add_exam_title": "Add your exam",
+        "upload.file_types_message": "PDF, JPG, PNG up to 10MB",
+        "upload.type_label": "Type",
+        "upload.title_label": "Title (Optional)",
+        "upload.title_placeholder": "Optional — AI will name this",
+        "upload.exam_date_label": "Exam Date",
+        "upload.notes_label": "Notes",
+        "common.remove": "Remove",
+
+        // Emergency Contacts
+        "emergency_contacts.loading": "Loading contacts...",
+        "emergency_contacts.error_title": "Unable to load contacts",
+        "emergency_contacts.no_contacts_title": "No Emergency Contacts",
+        "emergency_contacts.no_contacts_message": "Add your emergency contacts so they can be reached quickly when needed.",
+        "emergency_contacts.add_contact": "Add Contact",
+        "emergency_contacts.primary_badge": "Primary",
+        "emergency_contacts.name_field": "Name",
+        "emergency_contacts.relationship_field": "Relationship",
+        "emergency_contacts.phone_field": "Phone",
+        "emergency_contacts.email_field": "Email",
+
+        // Registration
+        "registration.success_title": "Account Created",
+        "registration.success_message": "Account created! Please sign in.",
+        "registration.create_account": "Create Account",
+        "registration.subtitle": "Join to manage your health records",
+        "registration.full_name": "Full Name",
+        "registration.email": "Email",
+        "registration.password": "Password",
+        "registration.confirm_password": "Confirm Password",
+        "registration.agree_terms": "I agree to the Terms of Service",
+        "registration.already_have_account": "Already have an account?",
+
+        // Notifications
+        "notifications.title": "Notifications",
+        "notifications.loading": "Loading notifications...",
+        "notifications.no_notifications_title": "No notifications yet",
+        "notifications.no_notifications_message": "We'll let you know when something needs your attention.",
+        "notifications.time_just_now": "Just now",
+        "notifications.time_yesterday": "Yesterday",
+
+        // Insights extras
+        "insights.no_insights_title": "No insights yet",
+        "insights.no_insights_message": "Insights will appear as you add more health data.",
+        "insights.metabolic_stability": "Metabolic Stability",
+        "insights.longevity_score_title": "Predictive Longevity Score",
+        "insights.longevity_score_message": "Based on your current health metrics",
+        "insights.metric_sleep": "Sleep",
+        "insights.metric_stress": "Stress",
+        "insights.metric_activity": "Activity",
+        "insights.metric_nutrition": "Nutrition",
+        "insights.recent_reports": "Recent Reports",
     ]
 
     // MARK: - Spanish
@@ -248,6 +389,147 @@ public enum LocalizedStrings {
         "empty.no_data": "No hay datos disponibles",
         "empty.no_exams": "No se encontraron examenes",
         "empty.no_appointments": "No hay citas programadas",
+
+        // Dashboard extras
+        "dashboard.cardiovascular_message": "Tu salud cardiovascular mejoro un 4% desde tu ultima visita.",
+        "dashboard.see_all": "Ver Todo",
+
+        // Login extras
+        "login.email": "Correo Electronico",
+        "login.password": "Contrasena",
+
+        // Exams extras
+        "exams.all_records": "Todos los Registros",
+        "exams.lab_results": "Resultados de Laboratorio",
+        "exams.cardiology": "Cardiologia",
+        "exams.general": "General",
+        "exams.imaging": "Imagenologia",
+        "exams.live": "En Vivo",
+
+        // Exam Detail
+        "exam_detail.loading": "Cargando examen...",
+        "exam_detail.title": "Detalles del Examen",
+        "exam_detail.file_preview": "Vista Previa del Archivo",
+        "exam_detail.no_file": "Sin archivo adjunto",
+        "exam_detail.details_section": "Detalles",
+        "exam_detail.type_label": "Tipo",
+        "exam_detail.date_label": "Fecha",
+        "exam_detail.created_label": "Creado",
+        "exam_detail.updated_label": "Actualizado",
+        "exam_detail.notes_section": "Notas",
+        "exam_detail.delete_button": "Eliminar Examen",
+
+        // Appointments extras
+        "appointments.loading": "Cargando citas...",
+        "appointments.error_title": "No se pudieron cargar las citas",
+        "appointments.no_appointments_title": "Sin citas",
+        "appointments.no_upcoming_message": "No tienes citas proximas.",
+        "appointments.no_upcoming": "Sin citas proximas",
+        "appointments.no_past": "Sin citas anteriores",
+        "appointments.completed": "Completada",
+        "appointments.cancelled": "Cancelada",
+        "appointments.schedule_new": "Agendar Nueva",
+
+        // Appointment Detail
+        "appointment_detail.loading": "Cargando cita...",
+        "appointment_detail.title": "Detalles de la Cita",
+        "appointment_detail.doctor_label": "Medico",
+        "appointment_detail.date_time_label": "Fecha y Hora",
+        "appointment_detail.location_label": "Ubicacion",
+        "appointment_detail.reminder_label": "Recordatorio",
+        "appointment_detail.minutes_before": "minutos antes",
+        "appointment_detail.description_label": "Descripcion",
+        "appointment_detail.cancel_button": "Cancelar Cita",
+
+        // Profile extras
+        "profile.date_of_birth": "Fecha de Nacimiento",
+        "profile.not_set": "No definido",
+        "profile.gender": "Genero",
+        "profile.height": "Estatura",
+        "profile.weight": "Peso",
+        "profile.blood_type": "Tipo de Sangre",
+        "profile.allergies": "Alergias",
+        "profile.medications": "Medicamentos",
+        "profile.past_conditions": "Condiciones Previas",
+        "profile.chronic_conditions": "Condiciones Cronicas",
+        "profile.active_asthma": "Asma Activa",
+        "profile.view_all": "Ver Todo",
+        "profile.emergency_contact_placeholder": "Contacto de Emergencia",
+        "profile.tap_to_manage": "Toca para gestionar",
+
+        // Edit Profile
+        "edit_profile.title": "Editar Perfil",
+        "edit_profile.save_button": "Guardar Cambios",
+        "edit_profile.change_photo": "Cambiar Foto",
+        "edit_profile.full_name": "Nombre Completo",
+        "edit_profile.email": "Correo Electronico",
+        "edit_profile.phone": "Telefono",
+        "edit_profile.date_of_birth": "Fecha de Nacimiento",
+        "edit_profile.gender": "Genero",
+        "edit_profile.gender_male": "Masculino",
+        "edit_profile.gender_female": "Femenino",
+        "edit_profile.gender_other": "Otro",
+        "edit_profile.gender_prefer_not": "Prefiero no decir",
+        "edit_profile.height_cm": "Estatura (cm)",
+        "edit_profile.weight_kg": "Peso (kg)",
+        "edit_profile.blood_type": "Tipo de Sangre",
+        "common.select": "Seleccionar",
+
+        // Upload extras
+        "upload.upload_button": "Subir Examen",
+        "upload.photo_captured": "Foto capturada",
+        "upload.add_exam_title": "Agrega tu examen",
+        "upload.file_types_message": "PDF, JPG, PNG hasta 10MB",
+        "upload.type_label": "Tipo",
+        "upload.title_label": "Titulo (Opcional)",
+        "upload.title_placeholder": "Opcional — la IA lo nombrara",
+        "upload.exam_date_label": "Fecha del Examen",
+        "upload.notes_label": "Notas",
+        "common.remove": "Eliminar",
+
+        // Emergency Contacts
+        "emergency_contacts.loading": "Cargando contactos...",
+        "emergency_contacts.error_title": "No se pudieron cargar los contactos",
+        "emergency_contacts.no_contacts_title": "Sin Contactos de Emergencia",
+        "emergency_contacts.no_contacts_message": "Agrega tus contactos de emergencia para que puedan ser contactados rapidamente cuando sea necesario.",
+        "emergency_contacts.add_contact": "Agregar Contacto",
+        "emergency_contacts.primary_badge": "Principal",
+        "emergency_contacts.name_field": "Nombre",
+        "emergency_contacts.relationship_field": "Parentesco",
+        "emergency_contacts.phone_field": "Telefono",
+        "emergency_contacts.email_field": "Correo Electronico",
+
+        // Registration
+        "registration.success_title": "Cuenta Creada",
+        "registration.success_message": "Cuenta creada! Inicia sesion.",
+        "registration.create_account": "Crear Cuenta",
+        "registration.subtitle": "Registrate para gestionar tus registros de salud",
+        "registration.full_name": "Nombre Completo",
+        "registration.email": "Correo Electronico",
+        "registration.password": "Contrasena",
+        "registration.confirm_password": "Confirmar Contrasena",
+        "registration.agree_terms": "Acepto los Terminos de Servicio",
+        "registration.already_have_account": "Ya tienes una cuenta?",
+
+        // Notifications
+        "notifications.title": "Notificaciones",
+        "notifications.loading": "Cargando notificaciones...",
+        "notifications.no_notifications_title": "Sin notificaciones",
+        "notifications.no_notifications_message": "Te avisaremos cuando algo necesite tu atencion.",
+        "notifications.time_just_now": "Ahora mismo",
+        "notifications.time_yesterday": "Ayer",
+
+        // Insights extras
+        "insights.no_insights_title": "Sin analisis aun",
+        "insights.no_insights_message": "Los analisis apareceran a medida que agregues mas datos de salud.",
+        "insights.metabolic_stability": "Estabilidad Metabolica",
+        "insights.longevity_score_title": "Puntuacion Predictiva de Longevidad",
+        "insights.longevity_score_message": "Basado en tus metricas de salud actuales",
+        "insights.metric_sleep": "Sueno",
+        "insights.metric_stress": "Estres",
+        "insights.metric_activity": "Actividad",
+        "insights.metric_nutrition": "Nutricion",
+        "insights.recent_reports": "Informes Recientes",
     ]
 
     // MARK: - Portuguese (Brazil)
@@ -367,6 +649,147 @@ public enum LocalizedStrings {
         "empty.no_data": "Nenhum dado disponivel",
         "empty.no_exams": "Nenhum exame encontrado",
         "empty.no_appointments": "Nenhuma consulta agendada",
+
+        // Dashboard extras
+        "dashboard.cardiovascular_message": "Sua saude cardiovascular melhorou 4% desde sua ultima visita.",
+        "dashboard.see_all": "Ver Tudo",
+
+        // Login extras
+        "login.email": "E-mail",
+        "login.password": "Senha",
+
+        // Exams extras
+        "exams.all_records": "Todos os Registros",
+        "exams.lab_results": "Resultados Laboratoriais",
+        "exams.cardiology": "Cardiologia",
+        "exams.general": "Geral",
+        "exams.imaging": "Imagem",
+        "exams.live": "Ao Vivo",
+
+        // Exam Detail
+        "exam_detail.loading": "Carregando exame...",
+        "exam_detail.title": "Detalhes do Exame",
+        "exam_detail.file_preview": "Pre-visualizacao do Arquivo",
+        "exam_detail.no_file": "Nenhum arquivo anexado",
+        "exam_detail.details_section": "Detalhes",
+        "exam_detail.type_label": "Tipo",
+        "exam_detail.date_label": "Data",
+        "exam_detail.created_label": "Criado",
+        "exam_detail.updated_label": "Atualizado",
+        "exam_detail.notes_section": "Observacoes",
+        "exam_detail.delete_button": "Excluir Exame",
+
+        // Appointments extras
+        "appointments.loading": "Carregando consultas...",
+        "appointments.error_title": "Nao foi possivel carregar as consultas",
+        "appointments.no_appointments_title": "Sem consultas",
+        "appointments.no_upcoming_message": "Voce nao tem consultas proximas.",
+        "appointments.no_upcoming": "Sem consultas proximas",
+        "appointments.no_past": "Sem consultas anteriores",
+        "appointments.completed": "Concluida",
+        "appointments.cancelled": "Cancelada",
+        "appointments.schedule_new": "Agendar Nova",
+
+        // Appointment Detail
+        "appointment_detail.loading": "Carregando consulta...",
+        "appointment_detail.title": "Detalhes da Consulta",
+        "appointment_detail.doctor_label": "Medico",
+        "appointment_detail.date_time_label": "Data e Hora",
+        "appointment_detail.location_label": "Local",
+        "appointment_detail.reminder_label": "Lembrete",
+        "appointment_detail.minutes_before": "minutos antes",
+        "appointment_detail.description_label": "Descricao",
+        "appointment_detail.cancel_button": "Cancelar Consulta",
+
+        // Profile extras
+        "profile.date_of_birth": "Data de Nascimento",
+        "profile.not_set": "Nao definido",
+        "profile.gender": "Genero",
+        "profile.height": "Altura",
+        "profile.weight": "Peso",
+        "profile.blood_type": "Tipo Sanguineo",
+        "profile.allergies": "Alergias",
+        "profile.medications": "Medicamentos",
+        "profile.past_conditions": "Condicoes Anteriores",
+        "profile.chronic_conditions": "Condicoes Cronicas",
+        "profile.active_asthma": "Asma Ativa",
+        "profile.view_all": "Ver Tudo",
+        "profile.emergency_contact_placeholder": "Contato de Emergencia",
+        "profile.tap_to_manage": "Toque para gerenciar",
+
+        // Edit Profile
+        "edit_profile.title": "Editar Perfil",
+        "edit_profile.save_button": "Salvar Alteracoes",
+        "edit_profile.change_photo": "Alterar Foto",
+        "edit_profile.full_name": "Nome Completo",
+        "edit_profile.email": "E-mail",
+        "edit_profile.phone": "Telefone",
+        "edit_profile.date_of_birth": "Data de Nascimento",
+        "edit_profile.gender": "Genero",
+        "edit_profile.gender_male": "Masculino",
+        "edit_profile.gender_female": "Feminino",
+        "edit_profile.gender_other": "Outro",
+        "edit_profile.gender_prefer_not": "Prefiro nao dizer",
+        "edit_profile.height_cm": "Altura (cm)",
+        "edit_profile.weight_kg": "Peso (kg)",
+        "edit_profile.blood_type": "Tipo Sanguineo",
+        "common.select": "Selecionar",
+
+        // Upload extras
+        "upload.upload_button": "Enviar Exame",
+        "upload.photo_captured": "Foto capturada",
+        "upload.add_exam_title": "Adicione seu exame",
+        "upload.file_types_message": "PDF, JPG, PNG ate 10MB",
+        "upload.type_label": "Tipo",
+        "upload.title_label": "Titulo (Opcional)",
+        "upload.title_placeholder": "Opcional — a IA nomeara isso",
+        "upload.exam_date_label": "Data do Exame",
+        "upload.notes_label": "Observacoes",
+        "common.remove": "Remover",
+
+        // Emergency Contacts
+        "emergency_contacts.loading": "Carregando contatos...",
+        "emergency_contacts.error_title": "Nao foi possivel carregar os contatos",
+        "emergency_contacts.no_contacts_title": "Sem Contatos de Emergencia",
+        "emergency_contacts.no_contacts_message": "Adicione seus contatos de emergencia para que possam ser acionados rapidamente quando necessario.",
+        "emergency_contacts.add_contact": "Adicionar Contato",
+        "emergency_contacts.primary_badge": "Principal",
+        "emergency_contacts.name_field": "Nome",
+        "emergency_contacts.relationship_field": "Parentesco",
+        "emergency_contacts.phone_field": "Telefone",
+        "emergency_contacts.email_field": "E-mail",
+
+        // Registration
+        "registration.success_title": "Conta Criada",
+        "registration.success_message": "Conta criada! Faca login.",
+        "registration.create_account": "Criar Conta",
+        "registration.subtitle": "Cadastre-se para gerenciar seus registros de saude",
+        "registration.full_name": "Nome Completo",
+        "registration.email": "E-mail",
+        "registration.password": "Senha",
+        "registration.confirm_password": "Confirmar Senha",
+        "registration.agree_terms": "Concordo com os Termos de Servico",
+        "registration.already_have_account": "Ja tem uma conta?",
+
+        // Notifications
+        "notifications.title": "Notificacoes",
+        "notifications.loading": "Carregando notificacoes...",
+        "notifications.no_notifications_title": "Sem notificacoes",
+        "notifications.no_notifications_message": "Avisaremos quando algo precisar da sua atencao.",
+        "notifications.time_just_now": "Agora mesmo",
+        "notifications.time_yesterday": "Ontem",
+
+        // Insights extras
+        "insights.no_insights_title": "Sem analises ainda",
+        "insights.no_insights_message": "As analises aparecerao conforme voce adicionar mais dados de saude.",
+        "insights.metabolic_stability": "Estabilidade Metabolica",
+        "insights.longevity_score_title": "Pontuacao Preditiva de Longevidade",
+        "insights.longevity_score_message": "Baseado nas suas metricas de saude atuais",
+        "insights.metric_sleep": "Sono",
+        "insights.metric_stress": "Estresse",
+        "insights.metric_activity": "Atividade",
+        "insights.metric_nutrition": "Nutricao",
+        "insights.recent_reports": "Relatorios Recentes",
     ]
 
     // MARK: - Portuguese (Portugal)
@@ -486,6 +909,147 @@ public enum LocalizedStrings {
         "empty.no_data": "Sem dados disponiveis",
         "empty.no_exams": "Nenhum exame encontrado",
         "empty.no_appointments": "Nenhuma consulta marcada",
+
+        // Dashboard extras
+        "dashboard.cardiovascular_message": "A sua saude cardiovascular melhorou 4% desde a sua ultima visita.",
+        "dashboard.see_all": "Ver Tudo",
+
+        // Login extras
+        "login.email": "E-mail",
+        "login.password": "Palavra-passe",
+
+        // Exams extras
+        "exams.all_records": "Todos os Registos",
+        "exams.lab_results": "Resultados Laboratoriais",
+        "exams.cardiology": "Cardiologia",
+        "exams.general": "Geral",
+        "exams.imaging": "Imagiologia",
+        "exams.live": "Em Direto",
+
+        // Exam Detail
+        "exam_detail.loading": "A carregar exame...",
+        "exam_detail.title": "Detalhes do Exame",
+        "exam_detail.file_preview": "Pre-visualizacao do Ficheiro",
+        "exam_detail.no_file": "Nenhum ficheiro anexado",
+        "exam_detail.details_section": "Detalhes",
+        "exam_detail.type_label": "Tipo",
+        "exam_detail.date_label": "Data",
+        "exam_detail.created_label": "Criado",
+        "exam_detail.updated_label": "Atualizado",
+        "exam_detail.notes_section": "Notas",
+        "exam_detail.delete_button": "Eliminar Exame",
+
+        // Appointments extras
+        "appointments.loading": "A carregar consultas...",
+        "appointments.error_title": "Nao foi possivel carregar as consultas",
+        "appointments.no_appointments_title": "Sem consultas",
+        "appointments.no_upcoming_message": "Nao tem consultas proximas.",
+        "appointments.no_upcoming": "Sem consultas proximas",
+        "appointments.no_past": "Sem consultas anteriores",
+        "appointments.completed": "Concluida",
+        "appointments.cancelled": "Cancelada",
+        "appointments.schedule_new": "Marcar Nova",
+
+        // Appointment Detail
+        "appointment_detail.loading": "A carregar consulta...",
+        "appointment_detail.title": "Detalhes da Consulta",
+        "appointment_detail.doctor_label": "Medico",
+        "appointment_detail.date_time_label": "Data e Hora",
+        "appointment_detail.location_label": "Local",
+        "appointment_detail.reminder_label": "Lembrete",
+        "appointment_detail.minutes_before": "minutos antes",
+        "appointment_detail.description_label": "Descricao",
+        "appointment_detail.cancel_button": "Cancelar Consulta",
+
+        // Profile extras
+        "profile.date_of_birth": "Data de Nascimento",
+        "profile.not_set": "Nao definido",
+        "profile.gender": "Genero",
+        "profile.height": "Altura",
+        "profile.weight": "Peso",
+        "profile.blood_type": "Tipo Sanguineo",
+        "profile.allergies": "Alergias",
+        "profile.medications": "Medicamentos",
+        "profile.past_conditions": "Condicoes Anteriores",
+        "profile.chronic_conditions": "Condicoes Cronicas",
+        "profile.active_asthma": "Asma Ativa",
+        "profile.view_all": "Ver Tudo",
+        "profile.emergency_contact_placeholder": "Contacto de Emergencia",
+        "profile.tap_to_manage": "Toque para gerir",
+
+        // Edit Profile
+        "edit_profile.title": "Editar Perfil",
+        "edit_profile.save_button": "Guardar Alteracoes",
+        "edit_profile.change_photo": "Alterar Fotografia",
+        "edit_profile.full_name": "Nome Completo",
+        "edit_profile.email": "E-mail",
+        "edit_profile.phone": "Telefone",
+        "edit_profile.date_of_birth": "Data de Nascimento",
+        "edit_profile.gender": "Genero",
+        "edit_profile.gender_male": "Masculino",
+        "edit_profile.gender_female": "Feminino",
+        "edit_profile.gender_other": "Outro",
+        "edit_profile.gender_prefer_not": "Prefiro nao dizer",
+        "edit_profile.height_cm": "Altura (cm)",
+        "edit_profile.weight_kg": "Peso (kg)",
+        "edit_profile.blood_type": "Tipo Sanguineo",
+        "common.select": "Selecionar",
+
+        // Upload extras
+        "upload.upload_button": "Carregar Exame",
+        "upload.photo_captured": "Fotografia capturada",
+        "upload.add_exam_title": "Adicione o seu exame",
+        "upload.file_types_message": "PDF, JPG, PNG ate 10MB",
+        "upload.type_label": "Tipo",
+        "upload.title_label": "Titulo (Opcional)",
+        "upload.title_placeholder": "Opcional — a IA nomeara isto",
+        "upload.exam_date_label": "Data do Exame",
+        "upload.notes_label": "Notas",
+        "common.remove": "Remover",
+
+        // Emergency Contacts
+        "emergency_contacts.loading": "A carregar contactos...",
+        "emergency_contacts.error_title": "Nao foi possivel carregar os contactos",
+        "emergency_contacts.no_contacts_title": "Sem Contactos de Emergencia",
+        "emergency_contacts.no_contacts_message": "Adicione os seus contactos de emergencia para que possam ser contactados rapidamente quando necessario.",
+        "emergency_contacts.add_contact": "Adicionar Contacto",
+        "emergency_contacts.primary_badge": "Principal",
+        "emergency_contacts.name_field": "Nome",
+        "emergency_contacts.relationship_field": "Parentesco",
+        "emergency_contacts.phone_field": "Telefone",
+        "emergency_contacts.email_field": "E-mail",
+
+        // Registration
+        "registration.success_title": "Conta Criada",
+        "registration.success_message": "Conta criada! Inicie sessao.",
+        "registration.create_account": "Criar Conta",
+        "registration.subtitle": "Registe-se para gerir os seus registos de saude",
+        "registration.full_name": "Nome Completo",
+        "registration.email": "E-mail",
+        "registration.password": "Palavra-passe",
+        "registration.confirm_password": "Confirmar Palavra-passe",
+        "registration.agree_terms": "Concordo com os Termos de Servico",
+        "registration.already_have_account": "Ja tem uma conta?",
+
+        // Notifications
+        "notifications.title": "Notificacoes",
+        "notifications.loading": "A carregar notificacoes...",
+        "notifications.no_notifications_title": "Sem notificacoes",
+        "notifications.no_notifications_message": "Avisaremos quando algo precisar da sua atencao.",
+        "notifications.time_just_now": "Agora mesmo",
+        "notifications.time_yesterday": "Ontem",
+
+        // Insights extras
+        "insights.no_insights_title": "Sem analises ainda",
+        "insights.no_insights_message": "As analises aparecerao a medida que adicionar mais dados de saude.",
+        "insights.metabolic_stability": "Estabilidade Metabolica",
+        "insights.longevity_score_title": "Pontuacao Preditiva de Longevidade",
+        "insights.longevity_score_message": "Baseado nas suas metricas de saude atuais",
+        "insights.metric_sleep": "Sono",
+        "insights.metric_stress": "Stress",
+        "insights.metric_activity": "Atividade",
+        "insights.metric_nutrition": "Nutricao",
+        "insights.recent_reports": "Relatorios Recentes",
     ]
 
     // MARK: - French
@@ -605,6 +1169,147 @@ public enum LocalizedStrings {
         "empty.no_data": "Aucune donnee disponible",
         "empty.no_exams": "Aucun examen trouve",
         "empty.no_appointments": "Aucun rendez-vous programme",
+
+        // Dashboard extras
+        "dashboard.cardiovascular_message": "Votre sante cardiovasculaire s'est amelioree de 4% depuis votre derniere visite.",
+        "dashboard.see_all": "Tout Voir",
+
+        // Login extras
+        "login.email": "E-mail",
+        "login.password": "Mot de passe",
+
+        // Exams extras
+        "exams.all_records": "Tous les Dossiers",
+        "exams.lab_results": "Resultats de Laboratoire",
+        "exams.cardiology": "Cardiologie",
+        "exams.general": "General",
+        "exams.imaging": "Imagerie",
+        "exams.live": "En Direct",
+
+        // Exam Detail
+        "exam_detail.loading": "Chargement de l'examen...",
+        "exam_detail.title": "Details de l'Examen",
+        "exam_detail.file_preview": "Apercu du Fichier",
+        "exam_detail.no_file": "Aucun fichier joint",
+        "exam_detail.details_section": "Details",
+        "exam_detail.type_label": "Type",
+        "exam_detail.date_label": "Date",
+        "exam_detail.created_label": "Cree",
+        "exam_detail.updated_label": "Mis a jour",
+        "exam_detail.notes_section": "Notes",
+        "exam_detail.delete_button": "Supprimer l'Examen",
+
+        // Appointments extras
+        "appointments.loading": "Chargement des rendez-vous...",
+        "appointments.error_title": "Impossible de charger les rendez-vous",
+        "appointments.no_appointments_title": "Aucun rendez-vous",
+        "appointments.no_upcoming_message": "Vous n'avez pas de rendez-vous a venir.",
+        "appointments.no_upcoming": "Aucun rendez-vous a venir",
+        "appointments.no_past": "Aucun rendez-vous passe",
+        "appointments.completed": "Termine",
+        "appointments.cancelled": "Annule",
+        "appointments.schedule_new": "Nouveau Rendez-vous",
+
+        // Appointment Detail
+        "appointment_detail.loading": "Chargement du rendez-vous...",
+        "appointment_detail.title": "Details du Rendez-vous",
+        "appointment_detail.doctor_label": "Medecin",
+        "appointment_detail.date_time_label": "Date et Heure",
+        "appointment_detail.location_label": "Lieu",
+        "appointment_detail.reminder_label": "Rappel",
+        "appointment_detail.minutes_before": "minutes avant",
+        "appointment_detail.description_label": "Description",
+        "appointment_detail.cancel_button": "Annuler le Rendez-vous",
+
+        // Profile extras
+        "profile.date_of_birth": "Date de Naissance",
+        "profile.not_set": "Non defini",
+        "profile.gender": "Genre",
+        "profile.height": "Taille",
+        "profile.weight": "Poids",
+        "profile.blood_type": "Groupe Sanguin",
+        "profile.allergies": "Allergies",
+        "profile.medications": "Medicaments",
+        "profile.past_conditions": "Antecedents Medicaux",
+        "profile.chronic_conditions": "Maladies Chroniques",
+        "profile.active_asthma": "Asthme Actif",
+        "profile.view_all": "Tout Voir",
+        "profile.emergency_contact_placeholder": "Contact d'Urgence",
+        "profile.tap_to_manage": "Appuyez pour gerer",
+
+        // Edit Profile
+        "edit_profile.title": "Modifier le Profil",
+        "edit_profile.save_button": "Enregistrer les Modifications",
+        "edit_profile.change_photo": "Changer la Photo",
+        "edit_profile.full_name": "Nom Complet",
+        "edit_profile.email": "E-mail",
+        "edit_profile.phone": "Telephone",
+        "edit_profile.date_of_birth": "Date de Naissance",
+        "edit_profile.gender": "Genre",
+        "edit_profile.gender_male": "Homme",
+        "edit_profile.gender_female": "Femme",
+        "edit_profile.gender_other": "Autre",
+        "edit_profile.gender_prefer_not": "Je prefere ne pas dire",
+        "edit_profile.height_cm": "Taille (cm)",
+        "edit_profile.weight_kg": "Poids (kg)",
+        "edit_profile.blood_type": "Groupe Sanguin",
+        "common.select": "Selectionner",
+
+        // Upload extras
+        "upload.upload_button": "Telecharger l'Examen",
+        "upload.photo_captured": "Photo capturee",
+        "upload.add_exam_title": "Ajoutez votre examen",
+        "upload.file_types_message": "PDF, JPG, PNG jusqu'a 10 Mo",
+        "upload.type_label": "Type",
+        "upload.title_label": "Titre (Facultatif)",
+        "upload.title_placeholder": "Facultatif — l'IA le nommera",
+        "upload.exam_date_label": "Date de l'Examen",
+        "upload.notes_label": "Notes",
+        "common.remove": "Supprimer",
+
+        // Emergency Contacts
+        "emergency_contacts.loading": "Chargement des contacts...",
+        "emergency_contacts.error_title": "Impossible de charger les contacts",
+        "emergency_contacts.no_contacts_title": "Aucun Contact d'Urgence",
+        "emergency_contacts.no_contacts_message": "Ajoutez vos contacts d'urgence afin qu'ils puissent etre joints rapidement en cas de besoin.",
+        "emergency_contacts.add_contact": "Ajouter un Contact",
+        "emergency_contacts.primary_badge": "Principal",
+        "emergency_contacts.name_field": "Nom",
+        "emergency_contacts.relationship_field": "Lien de parente",
+        "emergency_contacts.phone_field": "Telephone",
+        "emergency_contacts.email_field": "E-mail",
+
+        // Registration
+        "registration.success_title": "Compte Cree",
+        "registration.success_message": "Compte cree ! Veuillez vous connecter.",
+        "registration.create_account": "Creer un Compte",
+        "registration.subtitle": "Inscrivez-vous pour gerer vos dossiers de sante",
+        "registration.full_name": "Nom Complet",
+        "registration.email": "E-mail",
+        "registration.password": "Mot de passe",
+        "registration.confirm_password": "Confirmer le Mot de passe",
+        "registration.agree_terms": "J'accepte les Conditions d'Utilisation",
+        "registration.already_have_account": "Vous avez deja un compte ?",
+
+        // Notifications
+        "notifications.title": "Notifications",
+        "notifications.loading": "Chargement des notifications...",
+        "notifications.no_notifications_title": "Aucune notification",
+        "notifications.no_notifications_message": "Nous vous informerons lorsque quelque chose necessite votre attention.",
+        "notifications.time_just_now": "A l'instant",
+        "notifications.time_yesterday": "Hier",
+
+        // Insights extras
+        "insights.no_insights_title": "Aucune analyse pour le moment",
+        "insights.no_insights_message": "Les analyses apparaitront au fur et a mesure que vous ajouterez des donnees de sante.",
+        "insights.metabolic_stability": "Stabilite Metabolique",
+        "insights.longevity_score_title": "Score Predictif de Longevite",
+        "insights.longevity_score_message": "Base sur vos metriques de sante actuelles",
+        "insights.metric_sleep": "Sommeil",
+        "insights.metric_stress": "Stress",
+        "insights.metric_activity": "Activite",
+        "insights.metric_nutrition": "Nutrition",
+        "insights.recent_reports": "Rapports Recents",
     ]
 }
 // swiftlint:enable file_length type_body_length

@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct ExamDetailView: View {
     @StateObject private var viewModel: ExamDetailViewModel
+    @ObservedObject private var localization = LocalizationManager.shared
     @Environment(\.dismiss) private var dismiss
 
     public init(viewModel: ExamDetailViewModel) {
@@ -11,13 +12,13 @@ public struct ExamDetailView: View {
     public var body: some View {
         Group {
             if viewModel.state.isLoading {
-                LoadingIndicator(message: "Loading exam...")
+                LoadingIndicator(message: localization.string("exam_detail.loading"))
             } else if let error = viewModel.state.error, viewModel.state.exam == nil {
                 EmptyState(
                     icon: "exclamationmark.triangle",
-                    title: "Error",
+                    title: localization.string("common.error"),
                     message: error,
-                    actionTitle: "Retry",
+                    actionTitle: localization.string("common.retry"),
                     action: { Task { await viewModel.load() } }
                 )
             } else if let exam = viewModel.state.exam {
@@ -25,7 +26,7 @@ public struct ExamDetailView: View {
             }
         }
         .background(Color.background)
-        .navigationTitle("Exam Details")
+        .navigationTitle(localization.string("exam_detail.title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -121,7 +122,7 @@ public struct ExamDetailView: View {
                             Image(systemName: "doc.richtext")
                                 .font(.system(size: 40))
                                 .foregroundColor(.outline)
-                            Text("File Preview")
+                            Text(localization.string("exam_detail.file_preview"))
                                 .font(Typography.labelMedium)
                                 .foregroundColor(.onSurfaceVariant)
                         }
@@ -135,7 +136,7 @@ public struct ExamDetailView: View {
                             Image(systemName: "doc.badge.plus")
                                 .font(.system(size: 32))
                                 .foregroundColor(.outline)
-                            Text("No file attached")
+                            Text(localization.string("exam_detail.no_file"))
                                 .font(Typography.labelMedium)
                                 .foregroundColor(.onSurfaceVariant)
                         }
@@ -149,14 +150,14 @@ public struct ExamDetailView: View {
 
     private func detailsSection(_ exam: Exam) -> some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-            Text("Details")
+            Text(localization.string("exam_detail.details_section"))
                 .font(Typography.titleMedium)
                 .foregroundColor(.onSurface)
 
-            detailRow(icon: "doc.text", label: "Type", value: exam.type)
-            detailRow(icon: "calendar", label: "Date", value: Self.formattedDate(exam.date))
-            detailRow(icon: "clock", label: "Created", value: Self.formattedDateTime(exam.createdAt))
-            detailRow(icon: "arrow.triangle.2.circlepath", label: "Updated", value: Self.formattedDateTime(exam.updatedAt))
+            detailRow(icon: "doc.text", label: localization.string("exam_detail.type_label"), value: exam.type)
+            detailRow(icon: "calendar", label: localization.string("exam_detail.date_label"), value: Self.formattedDate(exam.date))
+            detailRow(icon: "clock", label: localization.string("exam_detail.created_label"), value: Self.formattedDateTime(exam.createdAt))
+            detailRow(icon: "arrow.triangle.2.circlepath", label: localization.string("exam_detail.updated_label"), value: Self.formattedDateTime(exam.updatedAt))
         }
         .padding(Dimensions.Space.m)
         .background(Color.surfaceContainerLowest)
@@ -186,7 +187,7 @@ public struct ExamDetailView: View {
 
     private func notesSection(_ notes: String) -> some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.s) {
-            Text("Notes")
+            Text(localization.string("exam_detail.notes_section"))
                 .font(Typography.titleMedium)
                 .foregroundColor(.onSurface)
             Text(notes)
@@ -215,7 +216,7 @@ public struct ExamDetailView: View {
                 } else {
                     Image(systemName: "trash")
                         .font(.system(size: 16))
-                    Text("Delete Exam")
+                    Text(localization.string("exam_detail.delete_button"))
                         .font(Typography.button)
                 }
                 Spacer()

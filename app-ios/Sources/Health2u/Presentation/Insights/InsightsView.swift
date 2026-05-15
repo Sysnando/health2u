@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct InsightsView: View {
     @StateObject private var viewModel: InsightsViewModel
+    @ObservedObject private var localization = LocalizationManager.shared
 
     public init(viewModel: InsightsViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -10,27 +11,27 @@ public struct InsightsView: View {
     public var body: some View {
         Group {
             if viewModel.state.isLoading && viewModel.state.insights.isEmpty {
-                LoadingIndicator(message: "Loading insights...")
+                LoadingIndicator(message: localization.string("common.loading"))
             } else if let error = viewModel.state.error, viewModel.state.insights.isEmpty {
                 EmptyState(
                     icon: "lightbulb",
-                    title: "Unable to load insights",
+                    title: localization.string("common.error"),
                     message: error,
-                    actionTitle: "Retry",
+                    actionTitle: localization.string("common.retry"),
                     action: { Task { await viewModel.load() } }
                 )
             } else if viewModel.state.insights.isEmpty {
                 EmptyState(
                     icon: "lightbulb",
-                    title: "No insights yet",
-                    message: "Insights will appear as you add more health data."
+                    title: localization.string("insights.no_insights_title"),
+                    message: localization.string("insights.no_insights_message")
                 )
             } else {
                 content
             }
         }
         .background(Color.background)
-        .navigationTitle("Health Insights")
+        .navigationTitle(localization.string("insights.health_insights"))
         .task { await viewModel.load() }
     }
 
@@ -72,7 +73,7 @@ public struct InsightsView: View {
                     .font(.system(size: 20))
                     .foregroundColor(.onSurfaceVariant)
             }
-            Text("Health Insights")
+            Text(localization.string("insights.health_insights"))
                 .font(Typography.headlineLarge)
                 .foregroundColor(.primary)
 
@@ -109,7 +110,7 @@ public struct InsightsView: View {
         let metabolicInsights = grouped.first?.value ?? Array(viewModel.state.insights.prefix(3))
 
         return VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-            Text("Metabolic Stability")
+            Text(localization.string("insights.metabolic_stability"))
                 .font(Typography.titleMedium)
                 .foregroundColor(.onSurface)
 
@@ -160,10 +161,10 @@ public struct InsightsView: View {
 
         return HStack {
             VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                Text("Predictive Longevity Score")
+                Text(localization.string("insights.longevity_score_title"))
                     .font(Typography.titleMedium)
                     .foregroundColor(.surfaceContainerLowest)
-                Text("Based on your current health metrics")
+                Text(localization.string("insights.longevity_score_message"))
                     .font(Typography.bodySmall)
                     .foregroundColor(.surfaceContainerLowest.opacity(0.7))
             }
@@ -207,10 +208,10 @@ public struct InsightsView: View {
 
             // Breakdown metrics
             HStack(spacing: Dimensions.Space.l) {
-                breakdownMetric(title: "Sleep", icon: "moon.fill", color: .surfaceTint)
-                breakdownMetric(title: "Stress", icon: "brain.head.profile", color: .warningOrange)
-                breakdownMetric(title: "Activity", icon: "figure.walk", color: .onTertiaryContainer)
-                breakdownMetric(title: "Nutrition", icon: "fork.knife", color: .secondary)
+                breakdownMetric(title: localization.string("insights.metric_sleep"), icon: "moon.fill", color: .surfaceTint)
+                breakdownMetric(title: localization.string("insights.metric_stress"), icon: "brain.head.profile", color: .warningOrange)
+                breakdownMetric(title: localization.string("insights.metric_activity"), icon: "figure.walk", color: .onTertiaryContainer)
+                breakdownMetric(title: localization.string("insights.metric_nutrition"), icon: "fork.knife", color: .secondary)
             }
         }
         .padding(Dimensions.Space.l)
@@ -242,7 +243,7 @@ public struct InsightsView: View {
 
     private var recentReports: some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-            Text("Recent Reports")
+            Text(localization.string("insights.recent_reports"))
                 .font(Typography.titleMedium)
                 .foregroundColor(.onSurface)
                 .padding(.horizontal, Dimensions.Space.m)

@@ -3,6 +3,7 @@ import SwiftUI
 public struct DashboardView: View {
     @StateObject private var viewModel: DashboardViewModel
     @EnvironmentObject private var container: AppContainer
+    @ObservedObject private var localization = LocalizationManager.shared
 
     public init(viewModel: DashboardViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -11,13 +12,13 @@ public struct DashboardView: View {
     public var body: some View {
         Group {
             if viewModel.state.isLoading && viewModel.state.recentExams.isEmpty {
-                LoadingIndicator(message: "Loading your dashboard...")
+                LoadingIndicator(message: localization.string("common.loading"))
             } else if let error = viewModel.state.error, viewModel.state.recentExams.isEmpty {
                 EmptyState(
                     icon: "exclamationmark.triangle",
-                    title: "Something went wrong",
+                    title: localization.string("common.error"),
                     message: error,
-                    actionTitle: "Retry",
+                    actionTitle: localization.string("common.retry"),
                     action: { Task { await viewModel.load() } }
                 )
             } else {
@@ -92,7 +93,7 @@ public struct DashboardView: View {
 
     private var healthScoreSection: some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.s) {
-            Text("YOUR HEALTH SCORE")
+            Text(localization.string("dashboard.health_score").uppercased())
                 .font(Typography.overline)
                 .tracking(1.5)
                 .foregroundColor(.onSurfaceVariant)
@@ -106,7 +107,7 @@ public struct DashboardView: View {
                     .foregroundColor(.onSurfaceVariant)
             }
 
-            Text("Your cardiovascular health improved by 4% since your last visit.")
+            Text(localization.string("dashboard.cardiovascular_message"))
                 .font(Typography.bodyMedium)
                 .foregroundColor(.onSurfaceVariant)
                 .fixedSize(horizontal: false, vertical: true)
@@ -116,7 +117,7 @@ public struct DashboardView: View {
                 Circle()
                     .fill(Color.onTertiaryContainer)
                     .frame(width: 6, height: 6)
-                Text("LAST UPDATED")
+                Text(localization.string("dashboard.last_updated").uppercased())
                     .font(Typography.overline)
                     .tracking(0.5)
                     .foregroundColor(.onSurfaceVariant)
@@ -136,7 +137,7 @@ public struct DashboardView: View {
 
     private var criticalVitalsSection: some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-            Text("CRITICAL VITALS OVERVIEW")
+            Text(localization.string("dashboard.vitals_overview").uppercased())
                 .font(Typography.overline)
                 .tracking(1.5)
                 .foregroundColor(.onSurfaceVariant)
@@ -147,7 +148,7 @@ public struct DashboardView: View {
                 GridItem(.flexible(), spacing: Dimensions.Space.m)
             ], spacing: Dimensions.Space.m) {
                 vitalCard(
-                    title: "Heart Rate",
+                    title: localization.string("dashboard.heart_rate"),
                     value: "72",
                     unit: "BPM",
                     icon: "heart.fill",
@@ -155,7 +156,7 @@ public struct DashboardView: View {
                     showSparkline: true
                 )
                 vitalCard(
-                    title: "Blood Pressure",
+                    title: localization.string("dashboard.blood_pressure"),
                     value: "118/75",
                     unit: "mmHg",
                     icon: "waveform.path.ecg",
@@ -163,7 +164,7 @@ public struct DashboardView: View {
                     showSparkline: false
                 )
                 vitalCard(
-                    title: "Blood Sugar",
+                    title: localization.string("dashboard.blood_sugar"),
                     value: "9.2",
                     unit: "mmol/L",
                     icon: "drop.fill",
@@ -171,7 +172,7 @@ public struct DashboardView: View {
                     showSparkline: false
                 )
                 vitalCard(
-                    title: "SpO2",
+                    title: localization.string("dashboard.spo2"),
                     value: "94",
                     unit: "%",
                     icon: "lungs.fill",
@@ -246,7 +247,7 @@ public struct DashboardView: View {
         Group {
             if !viewModel.state.recentExams.isEmpty {
                 VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-                    sectionHeader(title: "Recent Lab Results") {
+                    sectionHeader(title: localization.string("dashboard.recent_labs")) {
                         container.path.append(.exams)
                     }
 
@@ -344,7 +345,7 @@ public struct DashboardView: View {
         Group {
             if !viewModel.state.upcomingAppointments.isEmpty {
                 VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-                    sectionHeader(title: "Upcoming Checkups") {
+                    sectionHeader(title: localization.string("dashboard.upcoming")) {
                         container.path.append(.appointments)
                     }
 
@@ -414,7 +415,7 @@ public struct DashboardView: View {
             Spacer()
             Button(action: action) {
                 HStack(spacing: Dimensions.Space.xxs) {
-                    Text("See All")
+                    Text(localization.string("dashboard.see_all"))
                         .font(Typography.labelMedium)
                         .foregroundColor(.secondary)
                     Image(systemName: "chevron.right")

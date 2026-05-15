@@ -8,6 +8,7 @@ public struct WelcomeView: View {
         self.onSignIn = onSignIn; self.onSignUp = onSignUp
     }
 
+    @ObservedObject private var localization = LocalizationManager.shared
     @State private var progress: CGFloat = 0.0
     @State private var dotOpacity: Double = 0.4
 
@@ -61,7 +62,7 @@ public struct WelcomeView: View {
                                 value: dotOpacity
                             )
                     }
-                    Text("SECURE DATA SYNC ACTIVE")
+                    Text(localization.string("welcome.sync_active").uppercased())
                         .font(Typography.overline)
                         .tracking(1.5)
                         .foregroundColor(.onSurfaceVariant)
@@ -89,7 +90,7 @@ public struct WelcomeView: View {
                     Image(systemName: "lock.fill")
                         .font(.system(size: 12))
                         .foregroundColor(.onSurfaceVariant)
-                    Text("END-TO-END ENCRYPTED ARCHITECTURE")
+                    Text(localization.string("welcome.encrypted").uppercased())
                         .font(Typography.caption)
                         .tracking(1)
                         .foregroundColor(.onSurfaceVariant)

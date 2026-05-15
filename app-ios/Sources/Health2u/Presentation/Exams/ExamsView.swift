@@ -3,19 +3,36 @@ import SwiftUI
 public struct ExamsView: View {
     @StateObject private var viewModel: ExamsViewModel
     @EnvironmentObject private var container: AppContainer
+    @ObservedObject private var localization = LocalizationManager.shared
 
     @State private var searchText = ""
     @State private var showUploadSheet = false
 
-    private let filterOptions = ["All Records", "Lab Results", "Radiology", "Cardiology", "General"]
+    private struct FilterOption: Identifiable {
+        let id: String          // stable key for ForEach identity
+        let backendType: String? // nil means "All"
+    }
 
-    /// Maps display names to the actual exam type values used by the backend.
-    private let filterTypeMapping: [String: String] = [
-        "Lab Results": "Labs",
-        "Radiology": "Imaging",
-        "Cardiology": "Cardiology",
-        "General": "General",
-    ]
+    private var filterOptions: [FilterOption] {
+        [
+            FilterOption(id: "all", backendType: nil),
+            FilterOption(id: "labs", backendType: "Labs"),
+            FilterOption(id: "radiology", backendType: "Imaging"),
+            FilterOption(id: "cardiology", backendType: "Cardiology"),
+            FilterOption(id: "general", backendType: "General"),
+        ]
+    }
+
+    private func filterDisplayName(_ option: FilterOption) -> String {
+        switch option.id {
+        case "all": return localization.string("exams.all_records")
+        case "labs": return localization.string("exams.lab_results")
+        case "radiology": return localization.string("exams.radiology")
+        case "cardiology": return localization.string("exams.cardiology")
+        case "general": return localization.string("exams.general")
+        default: return option.id
+        }
+    }
 
     public init(viewModel: ExamsViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -24,21 +41,21 @@ public struct ExamsView: View {
     public var body: some View {
         Group {
             if viewModel.state.isLoading && viewModel.state.exams.isEmpty {
-                LoadingIndicator(message: "Loading exams...")
+                LoadingIndicator(message: localization.string("common.loading"))
             } else if let error = viewModel.state.error, viewModel.state.exams.isEmpty {
                 EmptyState(
                     icon: "doc.text",
-                    title: "Unable to load exams",
+                    title: localization.string("common.error"),
                     message: error,
-                    actionTitle: "Retry",
+                    actionTitle: localization.string("common.retry"),
                     action: { Task { await viewModel.load() } }
                 )
             } else if viewModel.state.exams.isEmpty {
                 EmptyState(
                     icon: "doc.text",
-                    title: "No exams yet",
-                    message: "Upload your first exam to get started.",
-                    actionTitle: "Upload",
+                    title: localization.string("empty.no_exams"),
+                    message: localization.string("empty.no_data"),
+                    actionTitle: localization.string("upload.title"),
                     action: { showUploadSheet = true }
                 )
             } else {
@@ -90,11 +107,11 @@ public struct ExamsView: View {
     private var headerSection: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                Text("CLINICAL RECORDS")
+                Text(localization.string("exams.clinical_records").uppercased())
                     .font(Typography.overline)
                     .foregroundColor(.onSurfaceVariant)
                     .tracking(1.2)
-                Text("Exams")
+                Text(localization.string("exams.title"))
                     .font(Typography.headlineLarge)
                     .foregroundColor(.primary)
             }
@@ -103,7 +120,7 @@ public struct ExamsView: View {
                 Circle()
                     .fill(Color.onTertiaryContainer)
                     .frame(width: 8, height: 8)
-                Text("Live")
+                Text(localization.string("exams.live"))
                     .font(Typography.labelSmall)
                     .foregroundColor(.onTertiaryContainer)
             }
@@ -120,16 +137,15 @@ public struct ExamsView: View {
     private var filterChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Dimensions.Space.s) {
-                ForEach(filterOptions, id: \.self) { option in
-                    let mappedValue = filterTypeMapping[option]
-                    let isSelected = (option == "All Records" && viewModel.state.filter == nil)
-                        || viewModel.state.filter == mappedValue
+                ForEach(filterOptions) { option in
+                    let isSelected = (option.backendType == nil && viewModel.state.filter == nil)
+                        || viewModel.state.filter == option.backendType
                     Button {
                         Task {
-                            await viewModel.setFilter(mappedValue)
+                            await viewModel.setFilter(option.backendType)
                         }
                     } label: {
-                        Text(option)
+                        Text(filterDisplayName(option))
                             .font(Typography.labelMedium)
                             .foregroundColor(isSelected ? .surfaceContainerLowest : .onSurfaceVariant)
                             .padding(.horizontal, Dimensions.Space.m)
@@ -150,7 +166,7 @@ public struct ExamsView: View {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.outline)
                 .font(.system(size: 16))
-            TextField("Search exams...", text: $searchText)
+            TextField(localization.string("exams.search"), text: $searchText)
                 .font(Typography.bodyMedium)
                 .foregroundColor(.onSurface)
         }
@@ -225,7 +241,7 @@ public struct ExamsView: View {
 
                 VStack {
                     Spacer()
-                    Text("View Report")
+                    Text(localization.string("exams.view_report"))
                         .font(Typography.labelSmall)
                         .foregroundColor(.secondary)
                     Spacer()

@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct AppointmentDetailView: View {
     @StateObject private var viewModel: AppointmentDetailViewModel
+    @ObservedObject private var localization = LocalizationManager.shared
     @Environment(\.dismiss) private var dismiss
 
     public init(viewModel: AppointmentDetailViewModel) {
@@ -11,13 +12,13 @@ public struct AppointmentDetailView: View {
     public var body: some View {
         Group {
             if viewModel.state.isLoading {
-                LoadingIndicator(message: "Loading appointment...")
+                LoadingIndicator(message: localization.string("appointment_detail.loading"))
             } else if let error = viewModel.state.error, viewModel.state.appointment == nil {
                 EmptyState(
                     icon: "exclamationmark.triangle",
-                    title: "Error",
+                    title: localization.string("common.error"),
                     message: error,
-                    actionTitle: "Retry",
+                    actionTitle: localization.string("common.retry"),
                     action: { Task { await viewModel.load() } }
                 )
             } else if let appointment = viewModel.state.appointment {
@@ -25,7 +26,7 @@ public struct AppointmentDetailView: View {
             }
         }
         .background(Color.background)
-        .navigationTitle("Appointment Details")
+        .navigationTitle(localization.string("appointment_detail.title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -82,7 +83,7 @@ public struct AppointmentDetailView: View {
                 )
 
             VStack(spacing: Dimensions.Space.xs) {
-                Text(appointment.doctorName ?? "Doctor")
+                Text(appointment.doctorName ?? localization.string("appointment_detail.doctor_label"))
                     .font(Typography.headlineSmall)
                     .foregroundColor(.onSurface)
 
@@ -119,9 +120,9 @@ public struct AppointmentDetailView: View {
 
     private func statusConfig(_ status: AppointmentStatus) -> (String, Color) {
         switch status {
-        case .upcoming: return ("Confirmed", .onTertiaryContainer)
-        case .completed: return ("Completed", .secondary)
-        case .cancelled: return ("Cancelled", .error)
+        case .upcoming: return (localization.string("appointments.confirmed"), .onTertiaryContainer)
+        case .completed: return (localization.string("appointments.completed"), .secondary)
+        case .cancelled: return (localization.string("appointments.cancelled"), .error)
         }
     }
 
@@ -129,13 +130,13 @@ public struct AppointmentDetailView: View {
 
     private func detailsCard(_ appointment: Appointment) -> some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-            Text("Appointment Details")
+            Text(localization.string("appointment_detail.title"))
                 .font(Typography.titleMedium)
                 .foregroundColor(.onSurface)
 
             detailRow(
                 icon: "calendar",
-                label: "DATE & TIME",
+                label: localization.string("appointment_detail.date_time_label").uppercased(),
                 value: Self.formattedDateTime(appointment.dateTime)
             )
 
@@ -144,7 +145,7 @@ public struct AppointmentDetailView: View {
                     .background(Color.outlineVariant)
                 detailRow(
                     icon: "mappin.and.ellipse",
-                    label: "LOCATION",
+                    label: localization.string("appointment_detail.location_label").uppercased(),
                     value: location
                 )
             }
@@ -154,8 +155,8 @@ public struct AppointmentDetailView: View {
                     .background(Color.outlineVariant)
                 detailRow(
                     icon: "bell",
-                    label: "REMINDER",
-                    value: "\(reminderMinutes) minutes before"
+                    label: localization.string("appointment_detail.reminder_label").uppercased(),
+                    value: "\(reminderMinutes) \(localization.string("appointment_detail.minutes_before"))"
                 )
             }
         }
@@ -188,7 +189,7 @@ public struct AppointmentDetailView: View {
 
     private func descriptionCard(_ description: String) -> some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.s) {
-            Text("Description")
+            Text(localization.string("appointment_detail.description_label"))
                 .font(Typography.titleMedium)
                 .foregroundColor(.onSurface)
             Text(description)
@@ -217,7 +218,7 @@ public struct AppointmentDetailView: View {
                 } else {
                     Image(systemName: "xmark.circle")
                         .font(.system(size: 16))
-                    Text("Cancel Appointment")
+                    Text(localization.string("appointment_detail.cancel_button"))
                         .font(Typography.button)
                 }
                 Spacer()

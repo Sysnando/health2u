@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct RootNavigationView: View {
     @EnvironmentObject var container: AppContainer
+    @ObservedObject private var localization = LocalizationManager.shared
     @State private var selectedTab: Tab = .home
     @State private var showUploadSheet = false
 
@@ -115,14 +116,14 @@ public struct RootNavigationView: View {
             tabBarItem(
                 icon: "square.grid.2x2",
                 filledIcon: "square.grid.2x2.fill",
-                label: "Home",
+                label: localization.string("tab.home"),
                 tab: .home
             )
 
             tabBarItem(
                 icon: "doc.text",
                 filledIcon: "doc.text.fill",
-                label: "Exams",
+                label: localization.string("tab.exams"),
                 tab: .exams
             )
 
@@ -131,14 +132,14 @@ public struct RootNavigationView: View {
             tabBarItem(
                 icon: "chart.line.uptrend.xyaxis",
                 filledIcon: "chart.line.uptrend.xyaxis.circle.fill",
-                label: "Insights",
+                label: localization.string("tab.insights"),
                 tab: .insights
             )
 
             tabBarItem(
                 icon: "folder",
                 filledIcon: "folder.fill",
-                label: "Records",
+                label: localization.string("tab.records"),
                 tab: .records
             )
         }
@@ -204,7 +205,7 @@ public struct RootNavigationView: View {
                 }
                 .offset(y: -4)
 
-                Text("AI Upload")
+                Text(localization.string("tab.ai_upload"))
                     .font(.system(size: 9, weight: .bold))
                     .tracking(0.8)
                     .textCase(.uppercase)

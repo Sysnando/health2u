@@ -3,6 +3,7 @@ import SwiftUI
 public struct ProfileView: View {
     @StateObject private var viewModel: ProfileViewModel
     @EnvironmentObject private var container: AppContainer
+    @ObservedObject private var localization = LocalizationManager.shared
 
     public init(viewModel: ProfileViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -11,13 +12,13 @@ public struct ProfileView: View {
     public var body: some View {
         Group {
             if viewModel.state.isLoading && viewModel.state.user == nil {
-                LoadingIndicator(message: "Loading profile...")
+                LoadingIndicator(message: localization.string("common.loading"))
             } else if let error = viewModel.state.error, viewModel.state.user == nil {
                 EmptyState(
                     icon: "person.crop.circle.badge.exclamationmark",
-                    title: "Error",
+                    title: localization.string("common.error"),
                     message: error,
-                    actionTitle: "Retry",
+                    actionTitle: localization.string("common.retry"),
                     action: { Task { await viewModel.load() } }
                 )
             } else {
@@ -103,7 +104,7 @@ public struct ProfileView: View {
                 Button {
                     container.path.append(.editProfile)
                 } label: {
-                    Text("Edit Profile")
+                    Text(localization.string("profile.edit"))
                         .font(Typography.button)
                         .foregroundColor(.surfaceContainerLowest)
                         .padding(.horizontal, Dimensions.Space.l)
@@ -128,32 +129,32 @@ public struct ProfileView: View {
             if let user = viewModel.state.user {
                 infoRow(
                     icon: "calendar",
-                    label: "Date of Birth",
-                    value: user.dateOfBirth.map(Self.formattedDate) ?? "Not set"
+                    label: localization.string("profile.date_of_birth"),
+                    value: user.dateOfBirth.map(Self.formattedDate) ?? localization.string("profile.not_set")
                 )
                 Divider().padding(.leading, 56)
                 infoRow(
                     icon: "person",
-                    label: "Gender",
-                    value: user.gender ?? "Not set"
+                    label: localization.string("profile.gender"),
+                    value: user.gender ?? localization.string("profile.not_set")
                 )
                 Divider().padding(.leading, 56)
                 infoRow(
                     icon: "ruler",
-                    label: "Height",
-                    value: user.heightCm.map { "\(String(format: "%.0f", $0)) cm" } ?? "Not set"
+                    label: localization.string("profile.height"),
+                    value: user.heightCm.map { "\(String(format: "%.0f", $0)) cm" } ?? localization.string("profile.not_set")
                 )
                 Divider().padding(.leading, 56)
                 infoRow(
                     icon: "scalemass",
-                    label: "Weight",
-                    value: user.weightKg.map { "\(String(format: "%.1f", $0)) kg" } ?? "Not set"
+                    label: localization.string("profile.weight"),
+                    value: user.weightKg.map { "\(String(format: "%.1f", $0)) kg" } ?? localization.string("profile.not_set")
                 )
                 Divider().padding(.leading, 56)
                 infoRow(
                     icon: "drop.fill",
-                    label: "Blood Type",
-                    value: user.bloodType ?? "Not set"
+                    label: localization.string("profile.blood_type"),
+                    value: user.bloodType ?? localization.string("profile.not_set")
                 )
             }
         }
@@ -186,12 +187,12 @@ public struct ProfileView: View {
 
     private var medicalRecordsSection: some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-            Text("Medical Records")
+            Text(localization.string("profile.medical_records"))
                 .font(Typography.titleMedium)
                 .foregroundColor(.onSurface)
                 .padding(.horizontal, Dimensions.Space.m)
 
-            let categories = ["Allergies", "Medications", "Past Conditions", "Chronic Conditions", "Active Asthma"]
+            let categories = [localization.string("profile.allergies"), localization.string("profile.medications"), localization.string("profile.past_conditions"), localization.string("profile.chronic_conditions"), localization.string("profile.active_asthma")]
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: Dimensions.Space.s) {
                     ForEach(categories, id: \.self) { category in
@@ -214,14 +215,14 @@ public struct ProfileView: View {
     private var emergencyContactsSection: some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.m) {
             HStack {
-                Text("Emergency Contacts")
+                Text(localization.string("profile.emergency_contacts"))
                     .font(Typography.titleMedium)
                     .foregroundColor(.onSurface)
                 Spacer()
                 Button {
                     container.path.append(.emergencyContacts)
                 } label: {
-                    Text("View All")
+                    Text(localization.string("profile.view_all"))
                         .font(Typography.labelMedium)
                         .foregroundColor(.secondary)
                 }
@@ -230,7 +231,7 @@ public struct ProfileView: View {
 
             // Placeholder contact cards
             VStack(spacing: Dimensions.Space.s) {
-                emergencyContactRow(name: "Emergency Contact", phone: "Tap to manage")
+                emergencyContactRow(name: localization.string("profile.emergency_contact_placeholder"), phone: localization.string("profile.tap_to_manage"))
             }
             .padding(.horizontal, Dimensions.Space.m)
         }
@@ -279,7 +280,7 @@ public struct ProfileView: View {
                 Spacer()
                 Image(systemName: "gearshape")
                     .font(.system(size: 16))
-                Text("Settings")
+                Text(localization.string("settings.title"))
                     .font(Typography.button)
                 Spacer()
             }

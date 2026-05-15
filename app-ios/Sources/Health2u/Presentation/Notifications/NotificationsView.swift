@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct NotificationsView: View {
     @StateObject private var viewModel: NotificationsViewModel
+    @ObservedObject private var localization = LocalizationManager.shared
 
     public init(viewModel: NotificationsViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -10,7 +11,7 @@ public struct NotificationsView: View {
     public var body: some View {
         Group {
             if viewModel.state.isLoading && viewModel.state.notifications.isEmpty {
-                LoadingIndicator(message: "Loading notifications...")
+                LoadingIndicator(message: localization.string("notifications.loading"))
             } else if viewModel.state.notifications.isEmpty {
                 emptyState
             } else {
@@ -18,7 +19,7 @@ public struct NotificationsView: View {
             }
         }
         .background(Color.background.ignoresSafeArea())
-        .navigationTitle("Notifications")
+        .navigationTitle(localization.string("notifications.title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.large)
         #endif
@@ -33,10 +34,10 @@ public struct NotificationsView: View {
             Image(systemName: "bell.slash")
                 .font(.system(size: 48))
                 .foregroundColor(.onSurfaceVariant.opacity(0.4))
-            Text("No notifications yet")
+            Text(localization.string("notifications.no_notifications_title"))
                 .font(Typography.titleMedium)
                 .foregroundColor(.onSurfaceVariant)
-            Text("We'll let you know when something needs your attention.")
+            Text(localization.string("notifications.no_notifications_message"))
                 .font(Typography.bodyMedium)
                 .foregroundColor(.onSurfaceVariant.opacity(0.7))
                 .multilineTextAlignment(.center)
@@ -114,10 +115,10 @@ public struct NotificationsView: View {
         let hours = Int(interval / 3600)
         let days = Int(interval / 86400)
 
-        if minutes < 1 { return "Just now" }
+        if minutes < 1 { return localization.string("notifications.time_just_now") }
         if minutes < 60 { return "\(minutes)m ago" }
         if hours < 24 { return "\(hours)h ago" }
-        if days == 1 { return "Yesterday" }
+        if days == 1 { return localization.string("notifications.time_yesterday") }
         return "\(days)d ago"
     }
 }

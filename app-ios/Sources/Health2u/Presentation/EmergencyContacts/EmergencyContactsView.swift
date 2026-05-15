@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct EmergencyContactsView: View {
     @StateObject private var viewModel: EmergencyContactsViewModel
+    @ObservedObject private var localization = LocalizationManager.shared
 
     public init(viewModel: EmergencyContactsViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -10,13 +11,13 @@ public struct EmergencyContactsView: View {
     public var body: some View {
         Group {
             if viewModel.state.isLoading && viewModel.state.contacts.isEmpty {
-                LoadingIndicator(message: "Loading contacts...")
+                LoadingIndicator(message: localization.string("emergency_contacts.loading"))
             } else if let error = viewModel.state.error, viewModel.state.contacts.isEmpty {
                 EmptyState(
                     icon: "person.2",
-                    title: "Unable to load contacts",
+                    title: localization.string("emergency_contacts.error_title"),
                     message: error,
-                    actionTitle: "Retry",
+                    actionTitle: localization.string("common.retry"),
                     action: { Task { await viewModel.load() } }
                 )
             } else if viewModel.state.contacts.isEmpty {
@@ -26,7 +27,7 @@ public struct EmergencyContactsView: View {
             }
         }
         .background(Color.background)
-        .navigationTitle("Emergency Contacts")
+        .navigationTitle(localization.string("profile.emergency_contacts"))
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button { viewModel.state.showAddSheet = true } label: {
@@ -58,10 +59,10 @@ public struct EmergencyContactsView: View {
                 )
 
             VStack(spacing: Dimensions.Space.s) {
-                Text("No Emergency Contacts")
+                Text(localization.string("emergency_contacts.no_contacts_title"))
                     .font(Typography.titleMedium)
                     .foregroundColor(.onSurface)
-                Text("Add your emergency contacts so they can be reached quickly when needed.")
+                Text(localization.string("emergency_contacts.no_contacts_message"))
                     .font(Typography.bodyMedium)
                     .foregroundColor(.onSurfaceVariant)
                     .multilineTextAlignment(.center)
@@ -74,7 +75,7 @@ public struct EmergencyContactsView: View {
                 HStack(spacing: Dimensions.Space.s) {
                     Image(systemName: "plus")
                         .font(.system(size: 16, weight: .semibold))
-                    Text("Add Contact")
+                    Text(localization.string("emergency_contacts.add_contact"))
                         .font(Typography.button)
                 }
                 .foregroundColor(.surfaceContainerLowest)
@@ -123,7 +124,7 @@ public struct EmergencyContactsView: View {
                         .foregroundColor(.onSurface)
 
                     if contact.isPrimary {
-                        Text("Primary")
+                        Text(localization.string("emergency_contacts.primary_badge"))
                             .font(Typography.labelSmall)
                             .foregroundColor(.onTertiaryContainer)
                             .padding(.horizontal, Dimensions.Space.s)
@@ -181,23 +182,23 @@ public struct EmergencyContactsView: View {
 
                     VStack(spacing: Dimensions.Space.m) {
                         H2UTextField(
-                            title: "Name",
+                            title: localization.string("emergency_contacts.name_field"),
                             text: $viewModel.state.newName,
                             placeholder: "Contact name"
                         )
                         H2UTextField(
-                            title: "Relationship",
+                            title: localization.string("emergency_contacts.relationship_field"),
                             text: $viewModel.state.newRelationship,
                             placeholder: "e.g. Spouse, Parent, Sibling"
                         )
                         H2UTextField(
-                            title: "Phone",
+                            title: localization.string("emergency_contacts.phone_field"),
                             text: $viewModel.state.newPhone,
                             placeholder: "Phone number",
                             keyboardType: .phone
                         )
                         H2UTextField(
-                            title: "Email",
+                            title: localization.string("emergency_contacts.email_field"),
                             text: $viewModel.state.newEmail,
                             placeholder: "Email (optional)",
                             keyboardType: .email
@@ -211,7 +212,7 @@ public struct EmergencyContactsView: View {
                     }
 
                     PrimaryButton(
-                        title: "Add Contact",
+                        title: localization.string("emergency_contacts.add_contact"),
                         isLoading: viewModel.state.isSaving
                     ) {
                         Task { await viewModel.addContact() }
@@ -220,13 +221,13 @@ public struct EmergencyContactsView: View {
                 .padding(Dimensions.Space.m)
             }
             .background(Color.background)
-            .navigationTitle("Add Contact")
+            .navigationTitle(localization.string("emergency_contacts.add_contact"))
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { viewModel.state.showAddSheet = false }
+                    Button(localization.string("common.cancel")) { viewModel.state.showAddSheet = false }
                         .foregroundColor(.secondary)
                 }
             }

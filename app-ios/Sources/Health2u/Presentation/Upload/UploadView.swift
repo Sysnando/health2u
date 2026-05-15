@@ -7,6 +7,7 @@ import UIKit
 public struct UploadView: View {
     @StateObject private var viewModel: UploadViewModel
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var localization = LocalizationManager.shared
     @State private var showDocumentPicker = false
     #if canImport(UIKit)
     @State private var showCamera = false
@@ -38,7 +39,7 @@ public struct UploadView: View {
 
                 // Upload button
                 PrimaryButton(
-                    title: "Upload Exam",
+                    title: localization.string("upload.upload_button"),
                     isLoading: viewModel.state.isUploading
                 ) {
                     Task { await viewModel.upload() }
@@ -49,7 +50,7 @@ public struct UploadView: View {
             .padding(.top, Dimensions.Space.m)
         }
         .background(Color.background)
-        .navigationTitle("Upload Exam")
+        .navigationTitle(localization.string("upload.title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -132,7 +133,7 @@ public struct UploadView: View {
                     .frame(maxHeight: 160)
                     .cornerRadius(Dimensions.CornerRadius.m)
 
-                Text("Photo captured")
+                Text(localization.string("upload.photo_captured"))
                     .font(Typography.labelSmall)
                     .foregroundColor(.onSurfaceVariant)
 
@@ -140,7 +141,7 @@ public struct UploadView: View {
                     capturedImage = nil
                     viewModel.state.imageData = nil
                 } label: {
-                    Text("Remove")
+                    Text(localization.string("common.remove"))
                         .font(Typography.labelSmall)
                         .foregroundColor(.error)
                 }
@@ -187,7 +188,7 @@ public struct UploadView: View {
             VStack(spacing: Dimensions.Space.xs) {
                 Image(systemName: "doc.fill")
                     .font(.system(size: 24))
-                Text("Choose File")
+                Text(localization.string("upload.choose_file"))
                     .font(Typography.labelMedium)
             }
             .foregroundColor(.secondary)
@@ -205,10 +206,10 @@ public struct UploadView: View {
     #if canImport(UIKit)
     private var emptyUploadView: some View {
         VStack(spacing: Dimensions.Space.m) {
-            Text("Add your exam")
+            Text(localization.string("upload.add_exam_title"))
                 .font(Typography.titleSmall)
                 .foregroundColor(.onSurface)
-            Text("PDF, JPG, PNG up to 10MB")
+            Text(localization.string("upload.file_types_message"))
                 .font(Typography.labelSmall)
                 .foregroundColor(.onSurfaceVariant)
 
@@ -219,7 +220,7 @@ public struct UploadView: View {
                     VStack(spacing: Dimensions.Space.xs) {
                         Image(systemName: "camera.fill")
                             .font(.system(size: 24))
-                        Text("Take Photo")
+                        Text(localization.string("upload.take_photo"))
                             .font(Typography.labelMedium)
                     }
                     .foregroundColor(.secondary)
@@ -245,7 +246,7 @@ public struct UploadView: View {
         VStack(spacing: Dimensions.Space.m) {
             // Type selector
             VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                Text("Type")
+                Text(localization.string("upload.type_label"))
                     .font(Typography.labelMedium)
                     .foregroundColor(.onSurfaceVariant)
 
@@ -275,14 +276,14 @@ public struct UploadView: View {
 
             // Title (optional)
             H2UTextField(
-                title: "Title (Optional)",
+                title: localization.string("upload.title_label"),
                 text: $viewModel.state.title,
-                placeholder: "Optional — AI will name this"
+                placeholder: localization.string("upload.title_placeholder")
             )
 
             // Date picker
             VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                Text("Exam Date")
+                Text(localization.string("upload.exam_date_label"))
                     .font(Typography.labelMedium)
                     .foregroundColor(.onSurfaceVariant)
                 DatePicker("", selection: $viewModel.state.date, displayedComponents: .date)
@@ -298,7 +299,7 @@ public struct UploadView: View {
 
             // Notes
             VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                Text("Notes")
+                Text(localization.string("upload.notes_label"))
                     .font(Typography.labelMedium)
                     .foregroundColor(.onSurfaceVariant)
                 TextEditor(text: $viewModel.state.notes)

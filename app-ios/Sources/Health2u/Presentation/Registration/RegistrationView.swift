@@ -4,6 +4,7 @@ public struct RegistrationView: View {
     @StateObject private var viewModel: RegistrationViewModel
     @EnvironmentObject private var container: AppContainer
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var localization = LocalizationManager.shared
     @State private var showSuccessAlert = false
 
     public init(viewModel: RegistrationViewModel) {
@@ -60,10 +61,10 @@ public struct RegistrationView: View {
         .onChange(of: viewModel.state.didSucceed) { _, newValue in
             if newValue { showSuccessAlert = true }
         }
-        .alert("Account Created", isPresented: $showSuccessAlert) {
-            Button("Sign In") { dismiss() }
+        .alert(localization.string("registration.success_title"), isPresented: $showSuccessAlert) {
+            Button(localization.string("login.sign_in")) { dismiss() }
         } message: {
-            Text("Account created! Please sign in.")
+            Text(localization.string("registration.success_message"))
         }
     }
 
@@ -92,11 +93,11 @@ public struct RegistrationView: View {
         VStack(spacing: Dimensions.Space.l) {
             // Headline
             VStack(spacing: Dimensions.Space.s) {
-                Text("Create Account")
+                Text(localization.string("registration.create_account"))
                     .font(.system(size: 30, weight: .bold))
                     .foregroundColor(.onSurface)
 
-                Text("Join to manage your health records")
+                Text(localization.string("registration.subtitle"))
                     .font(Typography.bodyLarge)
                     .foregroundColor(.onSurfaceVariant)
             }
@@ -104,25 +105,25 @@ public struct RegistrationView: View {
             // Fields
             VStack(spacing: Dimensions.Space.m) {
                 H2UTextField(
-                    title: "Full Name",
+                    title: localization.string("registration.full_name"),
                     text: $viewModel.state.name,
                     placeholder: "Your full name"
                 )
 
                 H2UTextField(
-                    title: "Email",
+                    title: localization.string("registration.email"),
                     text: $viewModel.state.email,
                     placeholder: "you@example.com",
                     keyboardType: .email
                 )
 
                 H2UPasswordField(
-                    title: "Password",
+                    title: localization.string("registration.password"),
                     text: $viewModel.state.password
                 )
 
                 H2UPasswordField(
-                    title: "Confirm Password",
+                    title: localization.string("registration.confirm_password"),
                     text: $viewModel.state.confirmPassword
                 )
             }
@@ -136,7 +137,7 @@ public struct RegistrationView: View {
                         .font(.system(size: 20))
                         .foregroundColor(viewModel.state.agreedToTerms ? .secondary : .outlineVariant)
 
-                    Text("I agree to the Terms of Service")
+                    Text(localization.string("registration.agree_terms"))
                         .font(Typography.bodySmall)
                         .foregroundColor(.onSurfaceVariant)
                         .multilineTextAlignment(.leading)
@@ -158,17 +159,17 @@ public struct RegistrationView: View {
             }
 
             // Create Account button
-            PrimaryButton(title: "Create Account", isLoading: viewModel.state.isLoading) {
+            PrimaryButton(title: localization.string("registration.create_account"), isLoading: viewModel.state.isLoading) {
                 Task { await viewModel.register() }
             }
 
             // "Already have an account? Sign In" link
             HStack(spacing: Dimensions.Space.xxs) {
-                Text("Already have an account?")
+                Text(localization.string("registration.already_have_account"))
                     .font(Typography.bodySmall)
                     .foregroundColor(.onSurfaceVariant)
                 Button(action: { dismiss() }) {
-                    Text("Sign In")
+                    Text(localization.string("login.sign_in"))
                         .font(Typography.labelMedium)
                         .foregroundColor(.secondary)
                 }
@@ -185,7 +186,7 @@ public struct RegistrationView: View {
     private var bottomLinks: some View {
         HStack(spacing: Dimensions.Space.l) {
             Button(action: {}) {
-                Text("Terms of Service")
+                Text(localization.string("login.terms"))
                     .font(Typography.labelSmall)
                     .foregroundColor(.onSurfaceVariant)
             }
@@ -193,7 +194,7 @@ public struct RegistrationView: View {
                 .font(Typography.labelSmall)
                 .foregroundColor(.outlineVariant)
             Button(action: {}) {
-                Text("Privacy Policy")
+                Text(localization.string("login.privacy"))
                     .font(Typography.labelSmall)
                     .foregroundColor(.onSurfaceVariant)
             }

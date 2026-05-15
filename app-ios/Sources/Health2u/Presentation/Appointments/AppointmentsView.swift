@@ -2,13 +2,14 @@ import SwiftUI
 
 public struct AppointmentsView: View {
     @StateObject private var viewModel: AppointmentsViewModel
+    @ObservedObject private var localization = LocalizationManager.shared
     @EnvironmentObject private var container: AppContainer
 
     @State private var selectedTab: AppointmentTab = .upcoming
 
-    private enum AppointmentTab: String, CaseIterable {
-        case upcoming = "Upcoming"
-        case past = "Past"
+    private enum AppointmentTab: CaseIterable {
+        case upcoming
+        case past
     }
 
     public init(viewModel: AppointmentsViewModel) {
@@ -19,20 +20,20 @@ public struct AppointmentsView: View {
         ZStack(alignment: .bottomTrailing) {
             Group {
                 if viewModel.state.isLoading && viewModel.state.appointments.isEmpty {
-                    LoadingIndicator(message: "Loading appointments...")
+                    LoadingIndicator(message: localization.string("appointments.loading"))
                 } else if let error = viewModel.state.error, viewModel.state.appointments.isEmpty {
                     EmptyState(
                         icon: "calendar",
-                        title: "Unable to load appointments",
+                        title: localization.string("appointments.error_title"),
                         message: error,
-                        actionTitle: "Retry",
+                        actionTitle: localization.string("common.retry"),
                         action: { Task { await viewModel.load() } }
                     )
                 } else if viewModel.state.appointments.isEmpty {
                     EmptyState(
                         icon: "calendar",
-                        title: "No appointments",
-                        message: "You have no upcoming appointments."
+                        title: localization.string("appointments.no_appointments_title"),
+                        message: localization.string("appointments.no_upcoming_message")
                     )
                 } else {
                     content
@@ -43,7 +44,7 @@ public struct AppointmentsView: View {
             fabButton
         }
         .background(Color.background)
-        .navigationTitle("Appointments")
+        .navigationTitle(localization.string("appointments.title"))
         .task { await viewModel.load() }
     }
 
@@ -66,7 +67,7 @@ public struct AppointmentsView: View {
                             Image(systemName: selectedTab == .upcoming ? "calendar.badge.clock" : "calendar.badge.checkmark")
                                 .font(.system(size: 40))
                                 .foregroundColor(.outlineVariant)
-                            Text(selectedTab == .upcoming ? "No upcoming appointments" : "No past appointments")
+                            Text(selectedTab == .upcoming ? localization.string("appointments.no_upcoming") : localization.string("appointments.no_past"))
                                 .font(Typography.bodyMedium)
                                 .foregroundColor(.onSurfaceVariant)
                         }
@@ -90,7 +91,7 @@ public struct AppointmentsView: View {
                     }
                 } label: {
                     VStack(spacing: Dimensions.Space.s) {
-                        Text(tab.rawValue)
+                        Text(tabTitle(for: tab))
                             .font(Typography.labelLarge)
                             .foregroundColor(selectedTab == tab ? .secondary : .onSurfaceVariant)
                         Rectangle()
@@ -103,6 +104,13 @@ public struct AppointmentsView: View {
         }
         .padding(.horizontal, Dimensions.Space.m)
         .background(Color.surfaceContainerLowest)
+    }
+
+    private func tabTitle(for tab: AppointmentTab) -> String {
+        switch tab {
+        case .upcoming: return localization.string("appointments.upcoming")
+        case .past: return localization.string("appointments.past")
+        }
     }
 
     private var filteredAppointments: [Appointment] {
@@ -174,7 +182,7 @@ public struct AppointmentsView: View {
                 // View details button
                 HStack {
                     Spacer()
-                    Text("View Details")
+                    Text(localization.string("appointments.view_details"))
                         .font(Typography.button)
                         .foregroundColor(.secondary)
                         .padding(.horizontal, Dimensions.Space.m)
@@ -206,9 +214,9 @@ public struct AppointmentsView: View {
 
     private func statusConfig(_ status: AppointmentStatus) -> (String, Color) {
         switch status {
-        case .upcoming: return ("Confirmed", .onTertiaryContainer)
-        case .completed: return ("Completed", .secondary)
-        case .cancelled: return ("Cancelled", .error)
+        case .upcoming: return (localization.string("appointments.confirmed"), .onTertiaryContainer)
+        case .completed: return (localization.string("appointments.completed"), .secondary)
+        case .cancelled: return (localization.string("appointments.cancelled"), .error)
         }
     }
 
@@ -230,7 +238,7 @@ public struct AppointmentsView: View {
             HStack(spacing: Dimensions.Space.s) {
                 Image(systemName: "plus")
                     .font(.system(size: 16, weight: .semibold))
-                Text("Schedule New")
+                Text(localization.string("appointments.schedule_new"))
                     .font(Typography.button)
             }
             .foregroundColor(.primary)
