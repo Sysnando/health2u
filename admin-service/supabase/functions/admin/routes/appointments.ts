@@ -8,6 +8,16 @@ app.use("*", requireAuth);
 
 const VALID_STATUSES = new Set(["UPCOMING", "COMPLETED", "CANCELLED"]);
 
+// Convert timestamptz strings to epoch-ms so the mobile client can decode
+// them with its millisecondsSince1970 date strategy.
+function appointmentDto(row: Record<string, unknown>) {
+  const { created_at, ...rest } = row;
+  return {
+    ...rest,
+    created_at: new Date(created_at as string).getTime(),
+  };
+}
+
 const COLUMNS =
   "id, user_id, title, description, doctor_name, location, date_time, reminder_minutes, status, created_at";
 
@@ -20,7 +30,7 @@ app.get("/", async (c) => {
     .order("date_time", { ascending: true });
 
   if (error) return internal(c, error.message);
-  return c.json(data ?? []);
+  return c.json((data ?? []).map(appointmentDto));
 });
 
 app.post("/", async (c) => {
@@ -61,7 +71,7 @@ app.post("/", async (c) => {
     .single();
 
   if (error) return internal(c, error.message);
-  return c.json(data, 201);
+  return c.json(appointmentDto(data), 201);
 });
 
 app.put("/:id", async (c) => {
@@ -87,7 +97,7 @@ app.put("/:id", async (c) => {
 
   if (error) return internal(c, error.message);
   if (!data) return notFound(c, "Appointment not found");
-  return c.json(data);
+  return c.json(appointmentDto(data));
 });
 
 app.delete("/:id", async (c) => {

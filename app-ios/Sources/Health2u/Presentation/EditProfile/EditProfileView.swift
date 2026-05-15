@@ -4,6 +4,7 @@ import PhotosUI
 public struct EditProfileView: View {
     @StateObject private var viewModel: EditProfileViewModel
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject private var localization = LocalizationManager.shared
     @State private var selectedPhoto: PhotosPickerItem? = nil
 
     public init(viewModel: EditProfileViewModel) {
@@ -13,13 +14,13 @@ public struct EditProfileView: View {
     public var body: some View {
         Group {
             if viewModel.state.isLoading {
-                LoadingIndicator(message: "Loading profile...")
+                LoadingIndicator(message: localization.string("common.loading"))
             } else {
                 formContent
             }
         }
         .background(Color.background)
-        .navigationTitle("Edit Profile")
+        .navigationTitle(localization.string("edit_profile.title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -50,7 +51,7 @@ public struct EditProfileView: View {
 
                 // Save button
                 PrimaryButton(
-                    title: "Save Changes",
+                    title: localization.string("edit_profile.save_button"),
                     isLoading: viewModel.state.isSaving
                 ) {
                     Task { await viewModel.save() }
@@ -59,6 +60,17 @@ public struct EditProfileView: View {
                 .padding(.bottom, Dimensions.Space.l)
             }
             .padding(.top, Dimensions.Space.m)
+        }
+    }
+
+    @ViewBuilder
+    private var photoUploadOverlay: some View {
+        if viewModel.state.isUploadingPhoto {
+            Circle()
+                .fill(Color.black.opacity(0.4))
+                .frame(width: 96, height: 96)
+            ProgressView()
+                .tint(.white)
         }
     }
 
@@ -76,15 +88,7 @@ public struct EditProfileView: View {
                                 .font(.system(size: 40))
                                 .foregroundColor(.outlineVariant)
                         )
-                        .overlay {
-                            if viewModel.state.isUploadingPhoto {
-                                Circle()
-                                    .fill(Color.black.opacity(0.4))
-                                    .frame(width: 96, height: 96)
-                                ProgressView()
-                                    .tint(.white)
-                            }
-                        }
+                        .overlay(photoUploadOverlay)
 
                     Circle()
                         .fill(Color.secondary)
@@ -97,7 +101,7 @@ public struct EditProfileView: View {
                         .offset(x: 2, y: 2)
                 }
 
-                Text("Change Photo")
+                Text(localization.string("edit_profile.change_photo"))
                     .font(Typography.labelMedium)
                     .foregroundColor(.secondary)
             }
@@ -119,20 +123,20 @@ public struct EditProfileView: View {
     private var formFieldsCard: some View {
         VStack(spacing: Dimensions.Space.m) {
             H2UTextField(
-                title: "Full Name",
+                title: localization.string("edit_profile.full_name"),
                 text: $viewModel.state.name,
                 placeholder: "Your full name"
             )
 
             H2UTextField(
-                title: "Email",
+                title: localization.string("edit_profile.email"),
                 text: $viewModel.state.email,
                 placeholder: "Your email address",
                 keyboardType: .email
             )
 
             H2UTextField(
-                title: "Phone",
+                title: localization.string("edit_profile.phone"),
                 text: $viewModel.state.phone,
                 placeholder: "Your phone number",
                 keyboardType: .phone
@@ -140,7 +144,7 @@ public struct EditProfileView: View {
 
             // Date of Birth picker
             VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                Text("Date of Birth")
+                Text(localization.string("edit_profile.date_of_birth"))
                     .font(Typography.labelMedium)
                     .foregroundColor(.onSurfaceVariant)
 
@@ -164,16 +168,16 @@ public struct EditProfileView: View {
 
             // Gender picker
             VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                Text("Gender")
+                Text(localization.string("edit_profile.gender"))
                     .font(Typography.labelMedium)
                     .foregroundColor(.onSurfaceVariant)
 
-                Picker("Gender", selection: $viewModel.state.gender) {
-                    Text("Select").tag("")
-                    Text("Male").tag("Male")
-                    Text("Female").tag("Female")
-                    Text("Other").tag("Other")
-                    Text("Prefer not to say").tag("Prefer not to say")
+                Picker(localization.string("edit_profile.gender"), selection: $viewModel.state.gender) {
+                    Text(localization.string("common.select")).tag("")
+                    Text(localization.string("edit_profile.gender_male")).tag("Male")
+                    Text(localization.string("edit_profile.gender_female")).tag("Female")
+                    Text(localization.string("edit_profile.gender_other")).tag("Other")
+                    Text(localization.string("edit_profile.gender_prefer_not")).tag("Prefer not to say")
                 }
                 .pickerStyle(.menu)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -187,7 +191,7 @@ public struct EditProfileView: View {
 
             // Height
             H2UTextField(
-                title: "Height (cm)",
+                title: localization.string("edit_profile.height_cm"),
                 text: $viewModel.state.heightCm,
                 placeholder: "e.g. 170",
                 keyboardType: .numeric
@@ -195,7 +199,7 @@ public struct EditProfileView: View {
 
             // Weight
             H2UTextField(
-                title: "Weight (kg)",
+                title: localization.string("edit_profile.weight_kg"),
                 text: $viewModel.state.weightKg,
                 placeholder: "e.g. 70",
                 keyboardType: .numeric
@@ -203,12 +207,12 @@ public struct EditProfileView: View {
 
             // Blood Type picker
             VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                Text("Blood Type")
+                Text(localization.string("edit_profile.blood_type"))
                     .font(Typography.labelMedium)
                     .foregroundColor(.onSurfaceVariant)
 
-                Picker("Blood Type", selection: $viewModel.state.bloodType) {
-                    Text("Select").tag("")
+                Picker(localization.string("edit_profile.blood_type"), selection: $viewModel.state.bloodType) {
+                    Text(localization.string("common.select")).tag("")
                     Text("A+").tag("A+")
                     Text("A-").tag("A-")
                     Text("B+").tag("B+")

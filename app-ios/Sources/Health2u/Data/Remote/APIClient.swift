@@ -1,43 +1,65 @@
 import Foundation
+import os.log
+
+private let log = Logger(subsystem: "com.health2u.ios", category: "APIClient")
 
 public actor APIClient {
     private let baseURL: URL
     private let session: URLSession
     private let tokenProvider: @Sendable () async -> String?
+    private let sessionStore: SessionStore?
+    private var isRefreshing = false
 
     public init(
         baseURL: URL,
         session: URLSession = .shared,
+        sessionStore: SessionStore? = nil,
         tokenProvider: @escaping @Sendable () async -> String? = { nil }
     ) {
         self.baseURL = baseURL
         self.session = session
+        self.sessionStore = sessionStore
         self.tokenProvider = tokenProvider
+        log.info("APIClient initialized with baseURL: \(baseURL.absoluteString)")
     }
 
     // MARK: - Auth
 
     public func login(email: String, password: String) async -> Result<AuthResponseDTO, APIError> {
+        log.info("🔐 Login attempt for email: \(email)")
         let body = LoginRequestDTO(email: email, password: password)
         guard let request = try? buildRequest(method: "POST", path: "auth/login", body: body) else {
+            log.error("🔐 Login failed: could not build request")
             return .failure(.invalidResponse)
         }
-        return await perform(request)
+        let result: Result<AuthResponseDTO, APIError> = await perform(request)
+        if case .failure(let err) = result { log.error("🔐 Login failed: \(String(describing: err))") }
+        else { log.info("🔐 Login succeeded") }
+        return result
     }
 
     public func refresh(refreshToken: String) async -> Result<AuthResponseDTO, APIError> {
+        log.info("🔄 Refreshing access token")
         let body = RefreshTokenRequestDTO(refreshToken: refreshToken)
         guard let request = try? buildRequest(method: "POST", path: "auth/refresh", body: body) else {
+            log.error("🔄 Token refresh failed: could not build request")
             return .failure(.invalidResponse)
         }
-        return await perform(request)
+        let result: Result<AuthResponseDTO, APIError> = await perform(request)
+        if case .failure(let err) = result { log.error("🔄 Token refresh failed: \(String(describing: err))") }
+        else { log.info("🔄 Token refresh succeeded") }
+        return result
     }
 
     public func logout() async -> Result<Void, APIError> {
+        log.info("🚪 Logout requested")
         guard let request = await buildAuthorizedRequest(method: "POST", path: "auth/logout") else {
             return .failure(.invalidResponse)
         }
-        return await performVoid(request)
+        let result = await performVoid(request)
+        if case .failure(let err) = result { log.error("🚪 Logout failed: \(String(describing: err))") }
+        else { log.info("🚪 Logout succeeded") }
+        return result
     }
 
     // MARK: - User Profile
@@ -58,66 +80,26 @@ public actor APIClient {
 
     public func uploadProfilePhoto(imageData: Data, filename: String) async -> Result<UserDTO, APIError> {
         let contentType = filename.hasSuffix(".png") ? "image/png" : "image/jpeg"
+        let boundary = "Health2u-\(UUID().uuidString)"
 
-        // Step 1: Get presigned upload URL
-        struct PhotoUploadURLRequest: Encodable {
-            let filename: String
-            let content_type: String
-        }
-        struct PhotoUploadURLResponse: Decodable {
-            let upload_url: String
-            let key: String
-            let expires_in: Int
+        let url = baseURL.appendingPathComponent("user/profile/photo-upload")
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        if let token = await tokenProvider() {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
 
-        guard let urlRequest = await buildAuthorizedRequest(
-            method: "POST",
-            path: "user/profile/photo-upload-url",
-            body: PhotoUploadURLRequest(filename: filename, content_type: contentType)
-        ) else {
-            return .failure(.invalidResponse)
-        }
+        var body = Data()
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: \(contentType)\r\n\r\n".data(using: .utf8)!)
+        body.append(imageData)
+        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
 
-        let uploadURLResult: Result<PhotoUploadURLResponse, APIError> = await perform(urlRequest)
-        let uploadInfo: PhotoUploadURLResponse
-        switch uploadURLResult {
-        case .success(let info): uploadInfo = info
-        case .failure(let error): return .failure(error)
-        }
+        request.httpBody = body
 
-        // Step 2: PUT image directly to R2
-        guard let r2URL = URL(string: uploadInfo.upload_url) else {
-            return .failure(.invalidResponse)
-        }
-        var r2Request = URLRequest(url: r2URL)
-        r2Request.httpMethod = "PUT"
-        r2Request.setValue(contentType, forHTTPHeaderField: "Content-Type")
-        r2Request.httpBody = imageData
-
-        do {
-            let (_, r2Response) = try await session.data(for: r2Request)
-            guard let httpResponse = r2Response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode) else {
-                return .failure(.network(code: (r2Response as? HTTPURLResponse)?.statusCode ?? -1))
-            }
-        } catch let error as URLError where error.code == .notConnectedToInternet || error.code == .networkConnectionLost {
-            return .failure(.offline)
-        } catch {
-            return .failure(.network(code: (error as? URLError)?.errorCode ?? -1))
-        }
-
-        // Step 3: Update profile with the photo key as profile_picture_url
-        struct ProfilePhotoUpdate: Encodable {
-            let profile_picture_url: String
-        }
-        guard let updateRequest = await buildAuthorizedRequest(
-            method: "PUT",
-            path: "user/profile",
-            body: ProfilePhotoUpdate(profile_picture_url: uploadInfo.key)
-        ) else {
-            return .failure(.invalidResponse)
-        }
-        return await perform(updateRequest)
+        return await perform(request)
     }
 
     // MARK: - Exams
@@ -142,76 +124,41 @@ public actor APIClient {
 
     public func uploadExam(metadata: ExamUploadMetadata, fileData: Data, filename: String) async -> Result<ExamDTO, APIError> {
         let contentType = Self.mimeType(for: filename)
+        let boundary = "Health2u-\(UUID().uuidString)"
 
-        // Step 1: Get presigned upload URL
-        struct UploadURLRequest: Encodable {
-            let filename: String
-            let content_type: String
-        }
-        struct UploadURLResponse: Decodable {
-            let upload_url: String
-            let key: String
-            let expires_in: Int
+        let url = baseURL.appendingPathComponent("exams/upload")
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        if let token = await tokenProvider() {
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
 
-        guard let urlRequest = await buildAuthorizedRequest(
-            method: "POST",
-            path: "exams/upload-url",
-            body: UploadURLRequest(filename: filename, content_type: contentType)
-        ) else {
-            return .failure(.invalidResponse)
+        // Build multipart body
+        var body = Data()
+        let dateMs = String(Int64(metadata.date.timeIntervalSince1970 * 1000))
+
+        for (name, value) in [("title", metadata.title), ("type", metadata.type), ("date", dateMs)] {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(name)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(value)\r\n".data(using: .utf8)!)
+        }
+        if let notes = metadata.notes {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"notes\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(notes)\r\n".data(using: .utf8)!)
         }
 
-        let uploadURLResult: Result<UploadURLResponse, APIError> = await perform(urlRequest)
-        let uploadInfo: UploadURLResponse
-        switch uploadURLResult {
-        case .success(let info): uploadInfo = info
-        case .failure(let error): return .failure(error)
-        }
+        // File part
+        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(filename)\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: \(contentType)\r\n\r\n".data(using: .utf8)!)
+        body.append(fileData)
+        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
 
-        // Step 2: PUT file directly to R2 presigned URL
-        guard let r2URL = URL(string: uploadInfo.upload_url) else {
-            return .failure(.invalidResponse)
-        }
-        var r2Request = URLRequest(url: r2URL)
-        r2Request.httpMethod = "PUT"
-        r2Request.setValue(contentType, forHTTPHeaderField: "Content-Type")
-        r2Request.httpBody = fileData
+        request.httpBody = body
 
-        do {
-            let (_, r2Response) = try await session.data(for: r2Request)
-            guard let httpResponse = r2Response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode) else {
-                return .failure(.network(code: (r2Response as? HTTPURLResponse)?.statusCode ?? -1))
-            }
-        } catch let error as URLError where error.code == .notConnectedToInternet || error.code == .networkConnectionLost {
-            return .failure(.offline)
-        } catch {
-            return .failure(.network(code: (error as? URLError)?.errorCode ?? -1))
-        }
-
-        // Step 3: Create exam record with the uploaded file key
-        struct CreateExamRequest: Encodable {
-            let title: String
-            let type: String
-            let date: Int64
-            let notes: String?
-            let key: String
-        }
-
-        let createBody = CreateExamRequest(
-            title: metadata.title,
-            type: metadata.type,
-            date: Int64(metadata.date.timeIntervalSince1970 * 1000),
-            notes: metadata.notes,
-            key: uploadInfo.key
-        )
-
-        guard let createRequest = await buildAuthorizedRequest(method: "POST", path: "exams", body: createBody) else {
-            return .failure(.invalidResponse)
-        }
-
-        return await perform(createRequest)
+        return await perform(request)
     }
 
     private static func mimeType(for filename: String) -> String {
@@ -392,52 +339,128 @@ public actor APIClient {
         return request
     }
 
-    private func perform<T: Decodable>(_ request: URLRequest) async -> Result<T, APIError> {
+    private func perform<T: Decodable>(_ request: URLRequest, isRetry: Bool = false) async -> Result<T, APIError> {
+        let method = request.httpMethod ?? "?"
+        let path = request.url?.path ?? "?"
+        log.debug("📡 \(method) \(path) → sending\(isRetry ? " (retry)" : "")")
         do {
             let (data, response) = try await session.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse else {
+                log.error("📡 \(method) \(path) → no HTTPURLResponse")
                 return .failure(.invalidResponse)
+            }
+            log.debug("📡 \(method) \(path) → HTTP \(httpResponse.statusCode) (\(data.count) bytes)")
+
+            if httpResponse.statusCode == 401 && !isRetry {
+                log.warning("📡 \(method) \(path) → 401, attempting token refresh")
+                if await attemptRefresh() {
+                    var retryRequest = request
+                    if let token = await tokenProvider() {
+                        retryRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                    }
+                    return await perform(retryRequest, isRetry: true)
+                }
+                return .failure(.unauthorized)
             }
 
             if httpResponse.statusCode == 401 {
+                log.error("📡 \(method) \(path) → 401 after retry, unauthorized")
                 return .failure(.unauthorized)
             }
 
             guard (200..<300).contains(httpResponse.statusCode) else {
+                log.error("📡 \(method) \(path) → server error \(httpResponse.statusCode)")
                 return decodeErrorEnvelope(data: data, status: httpResponse.statusCode)
             }
 
             let decoded = try JSONDecoder.health2u.decode(T.self, from: data)
             return .success(decoded)
         } catch let error as URLError where error.code == .notConnectedToInternet || error.code == .networkConnectionLost {
+            log.error("📡 \(method) \(path) → offline")
             return .failure(.offline)
         } catch is DecodingError {
+            log.error("📡 \(method) \(path) → decoding failed for \(String(describing: T.self))")
             return .failure(.decoding("Failed to decode \(T.self)"))
         } catch {
+            log.error("📡 \(method) \(path) → network error: \(error.localizedDescription)")
             return .failure(.network(code: (error as? URLError)?.errorCode ?? -1))
         }
     }
 
-    private func performVoid(_ request: URLRequest) async -> Result<Void, APIError> {
+    private func performVoid(_ request: URLRequest, isRetry: Bool = false) async -> Result<Void, APIError> {
+        let method = request.httpMethod ?? "?"
+        let path = request.url?.path ?? "?"
+        log.debug("📡 \(method) \(path) → sending (void)\(isRetry ? " (retry)" : "")")
         do {
             let (data, response) = try await session.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse else {
+                log.error("📡 \(method) \(path) → no HTTPURLResponse")
                 return .failure(.invalidResponse)
+            }
+            log.debug("📡 \(method) \(path) → HTTP \(httpResponse.statusCode)")
+
+            if httpResponse.statusCode == 401 && !isRetry {
+                log.warning("📡 \(method) \(path) → 401, attempting token refresh")
+                if await attemptRefresh() {
+                    var retryRequest = request
+                    if let token = await tokenProvider() {
+                        retryRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                    }
+                    return await performVoid(retryRequest, isRetry: true)
+                }
+                return .failure(.unauthorized)
             }
 
             if httpResponse.statusCode == 401 {
+                log.error("📡 \(method) \(path) → 401 after retry, unauthorized")
                 return .failure(.unauthorized)
             }
 
             guard (200..<300).contains(httpResponse.statusCode) else {
+                log.error("📡 \(method) \(path) → server error \(httpResponse.statusCode)")
                 return decodeErrorEnvelope(data: data, status: httpResponse.statusCode)
             }
 
             return .success(())
         } catch let error as URLError where error.code == .notConnectedToInternet || error.code == .networkConnectionLost {
+            log.error("📡 \(method) \(path) → offline")
             return .failure(.offline)
         } catch {
+            log.error("📡 \(method) \(path) → network error: \(error.localizedDescription)")
             return .failure(.network(code: (error as? URLError)?.errorCode ?? -1))
+        }
+    }
+
+    private func attemptRefresh() async -> Bool {
+        guard let sessionStore, !isRefreshing else {
+            log.debug("🔄 Refresh skipped (no store or already refreshing)")
+            return false
+        }
+        isRefreshing = true
+        defer { isRefreshing = false }
+
+        guard let rt = await sessionStore.refreshToken() else {
+            log.warning("🔄 No refresh token available")
+            return false
+        }
+        switch await refresh(refreshToken: rt) {
+        case .success(let resp):
+            do {
+                try await sessionStore.setSession(
+                    userId: resp.user.id,
+                    accessToken: resp.accessToken,
+                    refreshToken: resp.refreshToken
+                )
+                log.info("🔄 Token refresh succeeded, session updated")
+                return true
+            } catch {
+                log.error("🔄 Token refresh succeeded but session save failed: \(error.localizedDescription)")
+                return false
+            }
+        case .failure:
+            log.error("🔄 Token refresh failed, clearing session")
+            try? await sessionStore.clear()
+            return false
         }
     }
 

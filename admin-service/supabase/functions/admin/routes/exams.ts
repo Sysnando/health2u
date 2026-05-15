@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { currentUser, requireAuth } from "../../_shared/auth.ts";
 import { db } from "../../_shared/db.ts";
 import { badRequest, internal, notFound } from "../../_shared/errors.ts";
-import { buildExamKey, fetchObject, presignDownload, presignUpload } from "../../_shared/r2.ts";
+import { buildExamKey, fetchObject, presignDownload, presignUpload, uploadObject } from "../../_shared/r2.ts";
 import { examDto, analysisDto, type AnalysisRow } from "../../_shared/dto.ts";
 import { analyzeDocument } from "../../_shared/ai.ts";
 
@@ -61,6 +61,88 @@ app.post("/upload-url", async (c) => {
   const key = buildExamKey(me.id, filename);
   const uploadUrl = await presignUpload(key, content_type ?? "application/octet-stream");
   return c.json({ upload_url: uploadUrl, key, expires_in: 300 });
+});
+
+// Single-step upload: client sends file + metadata as multipart form data.
+// The backend uploads to R2 server-side, avoiding R2 S3 TLS issues on mobile.
+app.post("/upload", async (c) => {
+  const me = currentUser(c);
+  const body = await c.req.parseBody();
+
+  const file = body["file"];
+  const title = body["title"] as string | undefined;
+  const type = body["type"] as string | undefined;
+  const dateStr = body["date"] as string | undefined;
+  const notes = body["notes"] as string | undefined;
+
+  if (!title || !type || !dateStr) {
+    return badRequest(c, "Missing required fields: title, type, date");
+  }
+  if (!(file instanceof File)) {
+    return badRequest(c, "Missing file");
+  }
+
+  const fileBytes = new Uint8Array(await file.arrayBuffer());
+  const key = buildExamKey(me.id, file.name || "upload");
+  const contentType = file.type || "application/octet-stream";
+
+  await uploadObject(key, fileBytes, contentType);
+
+  const { data, error } = await db()
+    .from("exams")
+    .insert({
+      user_id: me.id,
+      title,
+      type,
+      date: Number(dateStr),
+      file_key: key,
+      notes: notes || null,
+    })
+    .select(EXAM_COLUMNS)
+    .single();
+
+  if (error) return internal(c, error.message);
+
+  let analysis = null;
+
+  // Insert processing row and run AI analysis
+  await db()
+    .from("document_analyses")
+    .insert({ exam_id: data.id, user_id: me.id, status: "processing" });
+
+  try {
+    const result = await analyzeDocument(fileBytes, contentType);
+
+    await db()
+      .from("document_analyses")
+      .update({
+        status: "completed",
+        document_type: result.document_type,
+        summary: result.summary,
+        extracted_data: result.extracted_data,
+        raw_ai_response: result.raw_response,
+        model_used: result.model,
+      })
+      .eq("exam_id", data.id);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    await db()
+      .from("document_analyses")
+      .update({ status: "failed", error_message: message })
+      .eq("exam_id", data.id);
+  }
+
+  const { data: analysisRow } = await db()
+    .from("document_analyses")
+    .select("*")
+    .eq("exam_id", data.id)
+    .single();
+
+  if (analysisRow) {
+    analysis = analysisDto(analysisRow as AnalysisRow);
+  }
+
+  return c.json({ ...examDto(data), analysis }, 201);
 });
 
 // Two-step upload, step 2: create the exam record after the client has

@@ -3,7 +3,7 @@ import { currentUser, requireAuth } from "../../_shared/auth.ts";
 import { db } from "../../_shared/db.ts";
 import { badRequest, internal, notFound } from "../../_shared/errors.ts";
 import { userDto } from "../../_shared/dto.ts";
-import { buildProfilePhotoKey, presignUpload } from "../../_shared/r2.ts";
+import { buildProfilePhotoKey, presignUpload, uploadObject } from "../../_shared/r2.ts";
 
 const app = new Hono();
 app.use("*", requireAuth);
@@ -36,6 +36,35 @@ app.post("/profile/photo-upload-url", async (c) => {
   const key = buildProfilePhotoKey(me.id, filename);
   const uploadUrl = await presignUpload(key, content_type ?? "image/jpeg");
   return c.json({ upload_url: uploadUrl, key, expires_in: 300 });
+});
+
+// Proxy photo upload: client sends multipart form data, backend stores to
+// Supabase Storage and updates the profile in one step.
+app.post("/profile/photo-upload", async (c) => {
+  const me = currentUser(c);
+  const body = await c.req.parseBody();
+
+  const file = body["file"];
+  if (!(file instanceof File)) {
+    return badRequest(c, "Missing file");
+  }
+
+  const fileBytes = new Uint8Array(await file.arrayBuffer());
+  const key = buildProfilePhotoKey(me.id, file.name || "photo.jpg");
+  const contentType = file.type || "image/jpeg";
+
+  await uploadObject(key, fileBytes, contentType);
+
+  const { data, error } = await db()
+    .from("users")
+    .update({ profile_picture_url: key })
+    .eq("id", me.id)
+    .select(USER_COLUMNS)
+    .maybeSingle();
+
+  if (error) return internal(c, error.message);
+  if (!data) return notFound(c, "User not found");
+  return c.json(userDto(data));
 });
 
 app.put("/profile", async (c) => {

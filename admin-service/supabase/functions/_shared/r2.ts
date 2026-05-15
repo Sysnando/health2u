@@ -1,89 +1,80 @@
-import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { env } from "./env.ts";
+import { db } from "./db.ts";
 
-// Cloudflare R2 is S3-compatible. The endpoint is
-// https://<account_id>.r2.cloudflarestorage.com and the region is always "auto".
-let client: S3Client | null = null;
+// Storage helpers using Supabase Storage instead of Cloudflare R2.
+// Supabase Storage avoids the TLS handshake failures that the R2 S3 endpoint
+// causes for both iOS clients and Deno edge functions.
 
-function r2Client(): S3Client {
-  if (!client) {
-    client = new S3Client({
-      region: "auto",
-      endpoint: `https://${env.r2AccountId}.r2.cloudflarestorage.com`,
-      credentials: {
-        accessKeyId: env.r2AccessKeyId,
-        secretAccessKey: env.r2SecretAccessKey,
-      },
-    });
-  }
-  return client;
-}
+const EXAM_BUCKET = "exam-files";
+const PROFILE_BUCKET = "profile-photos";
 
-// Presigned PUT the mobile client uses to upload a file directly to R2.
-// ExpiresIn is short because the client should upload immediately.
-export function presignUpload(
+// Upload a file to Supabase Storage.
+export async function uploadObject(
   key: string,
+  body: Uint8Array,
   contentType: string,
-  expiresInSeconds = 300,
-): Promise<string> {
-  return getSignedUrl(
-    r2Client(),
-    new PutObjectCommand({
-      Bucket: env.r2Bucket,
-      Key: key,
-      ContentType: contentType,
-    }),
-    { expiresIn: expiresInSeconds },
-  );
+): Promise<void> {
+  const bucket = key.startsWith("profiles/") ? PROFILE_BUCKET : EXAM_BUCKET;
+  const { error } = await db().storage.from(bucket).upload(key, body, {
+    contentType,
+    upsert: true,
+  });
+  if (error) throw new Error(`Storage upload failed: ${error.message}`);
 }
 
-// Presigned GET for reading an already-uploaded file.
-export function presignDownload(
-  key: string,
-  expiresInSeconds = 300,
-): Promise<string> {
-  return getSignedUrl(
-    r2Client(),
-    new GetObjectCommand({
-      Bucket: env.r2Bucket,
-      Key: key,
-    }),
-    { expiresIn: expiresInSeconds },
-  );
-}
-
-// Fetch a file from R2 server-side (used by AI document analysis).
+// Fetch a file from Supabase Storage (used by AI document analysis).
 export async function fetchObject(
   key: string,
 ): Promise<{ body: Uint8Array; contentType: string }> {
-  const response = await r2Client().send(
-    new GetObjectCommand({
-      Bucket: env.r2Bucket,
-      Key: key,
-    }),
-  );
-
-  const body = await response.Body?.transformToByteArray();
-  if (!body) {
-    throw new Error(`Empty body for R2 object: ${key}`);
+  const bucket = key.startsWith("profiles/") ? PROFILE_BUCKET : EXAM_BUCKET;
+  const { data, error } = await db().storage.from(bucket).download(key);
+  if (error || !data) {
+    throw new Error(`Storage download failed: ${error?.message ?? "empty body"}`);
   }
 
+  const arrayBuffer = await data.arrayBuffer();
   return {
-    body,
-    contentType: response.ContentType ?? "application/octet-stream",
+    body: new Uint8Array(arrayBuffer),
+    contentType: data.type || "application/octet-stream",
   };
+}
+
+// Create a short-lived signed URL for the client to download a file.
+export async function presignDownload(
+  key: string,
+  expiresInSeconds = 300,
+): Promise<string> {
+  const bucket = key.startsWith("profiles/") ? PROFILE_BUCKET : EXAM_BUCKET;
+  const { data, error } = await db().storage.from(bucket).createSignedUrl(key, expiresInSeconds);
+  if (error || !data?.signedUrl) {
+    throw new Error(`Signed URL failed: ${error?.message ?? "no URL returned"}`);
+  }
+  return data.signedUrl;
+}
+
+// Legacy presignUpload kept for backwards compatibility with the /upload-url
+// endpoint — but mobile clients should prefer POST /exams/upload instead.
+export async function presignUpload(
+  key: string,
+  _contentType: string,
+  expiresInSeconds = 300,
+): Promise<string> {
+  const bucket = key.startsWith("profiles/") ? PROFILE_BUCKET : EXAM_BUCKET;
+  const { data, error } = await db().storage.from(bucket).createSignedUploadUrl(key);
+  if (error || !data) {
+    throw new Error(`Signed upload URL failed: ${error?.message ?? "no URL returned"}`);
+  }
+  return data.signedUrl;
 }
 
 // Build an opaque-ish but human-debuggable object key.
 export function buildExamKey(userId: string, originalName: string): string {
   const ts = Date.now();
   const safe = originalName.replace(/[^a-zA-Z0-9._-]/g, "_");
-  return `exams/${userId}/${ts}_${safe}`;
+  return `${userId}/${ts}_${safe}`;
 }
 
 export function buildProfilePhotoKey(userId: string, filename: string): string {
   const ts = Date.now();
   const safe = filename.replace(/[^a-zA-Z0-9._-]/g, "_");
-  return `profiles/${userId}/${ts}_${safe}`;
+  return `${userId}/${ts}_${safe}`;
 }
