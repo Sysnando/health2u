@@ -1,4 +1,7 @@
 import Foundation
+import os.log
+
+private let log = Logger(subsystem: "com.health2u.ios", category: "UploadVM")
 
 @MainActor
 public final class UploadViewModel: ObservableObject {
@@ -15,6 +18,7 @@ public final class UploadViewModel: ObservableObject {
     }
 
     public func upload() async {
+        log.info("📤 Upload started")
         state.isUploading = true
         state.error = nil
 
@@ -37,11 +41,13 @@ public final class UploadViewModel: ObservableObject {
             fileData = pickedData
             filename = pickedName
         } else {
+            log.warning("📤 Upload blocked — no file selected")
             state.error = "Please select a file or take a photo."
             state.isUploading = false
             return
         }
 
+        log.info("📤 Uploading '\(effectiveTitle)' (\(filename), \(fileData.count) bytes)")
         let result = await examRepository.uploadExam(
             metadata: metadata,
             fileData: fileData,
@@ -50,8 +56,10 @@ public final class UploadViewModel: ObservableObject {
 
         switch result {
         case .success:
+            log.info("📤 Upload succeeded")
             state.didSucceed = true
         case .failure(let err):
+            log.error("📤 Upload failed: \(String(describing: err))")
             state.error = Self.errorMessage(err)
         }
 

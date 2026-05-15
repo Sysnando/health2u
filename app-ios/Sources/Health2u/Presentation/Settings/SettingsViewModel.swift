@@ -1,4 +1,7 @@
 import Foundation
+import os.log
+
+private let log = Logger(subsystem: "com.health2u.ios", category: "SettingsVM")
 
 @MainActor
 public final class SettingsViewModel: ObservableObject {
@@ -15,6 +18,7 @@ public final class SettingsViewModel: ObservableObject {
     }
 
     public func logout() async -> Bool {
+        log.info("🚪 Logout initiated from settings")
         state.isLoggingOut = true
         state.error = nil
 
@@ -24,8 +28,10 @@ public final class SettingsViewModel: ObservableObject {
 
         switch result {
         case .success:
+            log.info("🚪 Logout succeeded")
             return true
         case .failure(let err):
+            log.error("🚪 Logout failed: \(String(describing: err))")
             state.error = Self.errorMessage(err)
             return false
         }

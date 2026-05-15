@@ -1,5 +1,8 @@
 import Foundation
 import SwiftUI
+import os.log
+
+private let log = Logger(subsystem: "com.health2u.ios", category: "AppContainer")
 
 @MainActor
 public final class AppContainer: ObservableObject {
@@ -25,7 +28,7 @@ public final class AppContainer: ObservableObject {
         #endif
         let sessionStore = SessionStore()
         self.sessionStore = sessionStore
-        self.apiClient = APIClient(baseURL: baseURL, tokenProvider: { await sessionStore.accessToken() })
+        self.apiClient = APIClient(baseURL: baseURL, sessionStore: sessionStore, tokenProvider: { await sessionStore.accessToken() })
         self.database = HealthDatabase()
         self.userRepository = UserRepositoryImpl(apiClient: apiClient, database: database)
         self.examRepository = ExamRepositoryImpl(apiClient: apiClient, database: database)
@@ -34,12 +37,14 @@ public final class AppContainer: ObservableObject {
         self.healthInsightRepository = HealthInsightRepositoryImpl(apiClient: apiClient, database: database)
         self.authRepository = AuthRepositoryImpl(apiClient: apiClient, sessionStore: sessionStore)
 
+        log.info("🏗️ AppContainer initializing")
         Task {
             await sessionStore.loadFromKeychain()
             let auth = await sessionStore.isAuthenticated()
             await MainActor.run {
                 self.isAuthenticated = auth
                 self.isReady = true
+                log.info("🏗️ AppContainer ready — authenticated: \(auth)")
             }
         }
     }
@@ -48,12 +53,19 @@ public final class AppContainer: ObservableObject {
         LoginViewModel(authRepository: authRepository)
     }
 
+    public func forceLogout() {
+        log.warning("🚪 Force logout triggered")
+        isAuthenticated = false
+        path = []
+    }
+
     public func makeDashboardViewModel() -> DashboardViewModel {
         DashboardViewModel(
             userRepository: userRepository,
             examRepository: examRepository,
             appointmentRepository: appointmentRepository,
-            healthInsightRepository: healthInsightRepository
+            healthInsightRepository: healthInsightRepository,
+            onSessionExpired: { [weak self] in self?.forceLogout() }
         )
     }
 

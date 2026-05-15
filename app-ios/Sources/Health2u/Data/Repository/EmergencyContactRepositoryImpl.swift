@@ -1,4 +1,7 @@
 import Foundation
+import os.log
+
+private let log = Logger(subsystem: "com.health2u.ios", category: "ContactRepo")
 
 public final class EmergencyContactRepositoryImpl: EmergencyContactRepository, @unchecked Sendable {
     private let apiClient: APIClient
@@ -10,14 +13,20 @@ public final class EmergencyContactRepositoryImpl: EmergencyContactRepository, @
     }
 
     public func getEmergencyContacts() async -> Result<[EmergencyContact], APIError> {
+        log.info("🆘 getEmergencyContacts")
         switch await apiClient.getEmergencyContacts() {
         case .success(let dtos):
             let domains = dtos.map { $0.toDomain() }
             await database.upsert(contacts: domains.map { $0.toEntity() })
+            log.info("🆘 getEmergencyContacts → \(domains.count) from API")
             return .success(domains)
         case .failure(let error):
             let cached = await database.allContacts().map { $0.toDomain() }
-            if !cached.isEmpty { return .success(cached) }
+            if !cached.isEmpty {
+                log.warning("🆘 getEmergencyContacts → API failed, returning \(cached.count) cached")
+                return .success(cached)
+            }
+            log.error("🆘 getEmergencyContacts → failed: \(String(describing: error))")
             return .failure(error)
         }
     }

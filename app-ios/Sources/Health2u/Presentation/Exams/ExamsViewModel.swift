@@ -1,4 +1,7 @@
 import Foundation
+import os.log
+
+private let log = Logger(subsystem: "com.health2u.ios", category: "ExamsVM")
 
 @MainActor
 public final class ExamsViewModel: ObservableObject {
@@ -11,6 +14,7 @@ public final class ExamsViewModel: ObservableObject {
     }
 
     public func load() async {
+        log.info("📋 ExamsVM loading (filter: \(self.state.filter ?? "none"))")
         state.isLoading = true
         state.error = nil
 
@@ -19,7 +23,9 @@ public final class ExamsViewModel: ObservableObject {
         switch result {
         case .success(let exams):
             state.exams = exams
+            log.info("📋 ExamsVM loaded \(exams.count) exams")
         case .failure(let err):
+            log.error("📋 ExamsVM load failed: \(String(describing: err))")
             state.error = Self.errorMessage(err)
         }
 
@@ -27,6 +33,7 @@ public final class ExamsViewModel: ObservableObject {
     }
 
     public func setFilter(_ filter: String?) async {
+        log.info("📋 ExamsVM filter changed to: \(filter ?? "none")")
         state.filter = filter
         await load()
     }

@@ -1,5 +1,8 @@
 import Foundation
 import Security
+import os.log
+
+private let log = Logger(subsystem: "com.health2u.ios", category: "Keychain")
 
 public enum KeychainError: Error, Equatable { case unhandled(OSStatus) }
 
@@ -19,7 +22,10 @@ public struct KeychainTokenStore: Sendable {
         attrs[kSecValueData as String] = data
         attrs[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         let status = SecItemAdd(attrs as CFDictionary, nil)
-        if status != errSecSuccess { throw KeychainError.unhandled(status) }
+        if status != errSecSuccess {
+            log.error("🔐 Keychain save failed for key '\(key)': OSStatus \(status)")
+            throw KeychainError.unhandled(status)
+        }
     }
 
     public func load(key: String) -> String? {
