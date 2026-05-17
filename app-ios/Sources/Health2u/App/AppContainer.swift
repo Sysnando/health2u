@@ -14,11 +14,20 @@ public final class AppContainer: ObservableObject {
     public let appointmentRepository: any AppointmentRepository
     public let emergencyContactRepository: any EmergencyContactRepository
     public let healthInsightRepository: any HealthInsightRepository
+    public let allergyRepository: any AllergyRepository
     public let authRepository: any AuthRepository
 
     @Published public var isAuthenticated: Bool = false
     @Published public var isReady: Bool = false
     @Published public var path: [Route] = []
+    // Bumped after a successful exam upload so listing views can re-fetch via `.task(id:)`.
+    @Published public var examsRefreshTrigger: UUID = UUID()
+
+    public func notifyExamsChanged() {
+        let new = UUID()
+        log.info("🔔 notifyExamsChanged — examsRefreshTrigger bumped \(self.examsRefreshTrigger) → \(new)")
+        examsRefreshTrigger = new
+    }
 
     public init() {
         #if DEBUG
@@ -35,6 +44,7 @@ public final class AppContainer: ObservableObject {
         self.appointmentRepository = AppointmentRepositoryImpl(apiClient: apiClient, database: database)
         self.emergencyContactRepository = EmergencyContactRepositoryImpl(apiClient: apiClient, database: database)
         self.healthInsightRepository = HealthInsightRepositoryImpl(apiClient: apiClient, database: database)
+        self.allergyRepository = AllergyRepositoryImpl(apiClient: apiClient, database: database)
         self.authRepository = AuthRepositoryImpl(apiClient: apiClient, sessionStore: sessionStore)
 
         log.info("🏗️ AppContainer initializing")
@@ -63,8 +73,6 @@ public final class AppContainer: ObservableObject {
         DashboardViewModel(
             userRepository: userRepository,
             examRepository: examRepository,
-            appointmentRepository: appointmentRepository,
-            healthInsightRepository: healthInsightRepository,
             onSessionExpired: { [weak self] in self?.forceLogout() }
         )
     }
@@ -82,7 +90,10 @@ public final class AppContainer: ObservableObject {
     }
 
     public func makeUploadViewModel() -> UploadViewModel {
-        UploadViewModel(examRepository: examRepository)
+        UploadViewModel(
+            examRepository: examRepository,
+            onUploaded: { [weak self] in self?.notifyExamsChanged() }
+        )
     }
 
     public func makeAppointmentsViewModel() -> AppointmentsViewModel {
@@ -115,5 +126,13 @@ public final class AppContainer: ObservableObject {
 
     public func makeNotificationsViewModel() -> NotificationsViewModel {
         NotificationsViewModel()
+    }
+
+    public func makeMyHealthViewModel() -> MyHealthViewModel {
+        MyHealthViewModel(examRepository: examRepository)
+    }
+
+    public func makeAllergiesViewModel() -> AllergiesViewModel {
+        AllergiesViewModel(allergyRepository: allergyRepository)
     }
 }

@@ -9,6 +9,7 @@ public actor HealthDatabase {
     private var appointments: [String: AppointmentEntity] = [:]
     private var emergencyContacts: [String: EmergencyContactEntity] = [:]
     private var healthInsights: [String: HealthInsightEntity] = [:]
+    private var allergies: [String: AllergyEntity] = [:]
 
     // Users
     public func getUser(id: String) -> UserEntity? { users[id] }
@@ -42,10 +43,16 @@ public actor HealthDatabase {
     public func allInsights() -> [HealthInsightEntity] { Array(healthInsights.values).sorted { $0.timestamp > $1.timestamp } }
     public func upsert(insights new: [HealthInsightEntity]) { for i in new { healthInsights[i.id] = i } }
 
+    // Allergies
+    public func allAllergies() -> [AllergyEntity] { Array(allergies.values).sorted { $0.createdAt > $1.createdAt } }
+    public func upsert(allergy: AllergyEntity) { allergies[allergy.id] = allergy }
+    public func upsert(allergies new: [AllergyEntity]) { for a in new { allergies[a.id] = a } }
+    public func deleteAllergy(id: String) { allergies.removeValue(forKey: id) }
+
     // Reset
     public func clear() {
         users.removeAll(); exams.removeAll(); appointments.removeAll()
-        emergencyContacts.removeAll(); healthInsights.removeAll()
+        emergencyContacts.removeAll(); healthInsights.removeAll(); allergies.removeAll()
     }
 }
 

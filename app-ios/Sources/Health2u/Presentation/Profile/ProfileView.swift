@@ -156,11 +156,55 @@ public struct ProfileView: View {
                     label: localization.string("profile.blood_type"),
                     value: user.bloodType ?? localization.string("profile.not_set")
                 )
+                Divider().padding(.leading, 56)
+                infoRow(
+                    icon: "cross.case.fill",
+                    label: localization.string("profile.diabetes"),
+                    value: user.hasDiabetes == true
+                        ? localization.string("common.yes")
+                        : localization.string("common.no")
+                )
+                Divider().padding(.leading, 56)
+                allergyInfoRow(user: user)
             }
         }
         .background(Color.surfaceContainerLowest)
         .cornerRadius(Dimensions.CornerRadius.l)
         .padding(.horizontal, Dimensions.Space.m)
+    }
+
+    private func allergyInfoRow(user: User) -> some View {
+        Button {
+            if user.hasAllergies == true {
+                container.path.append(.allergies)
+            }
+        } label: {
+            HStack(spacing: Dimensions.Space.m) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.system(size: 18))
+                    .foregroundColor(.secondary)
+                    .frame(width: 24)
+                VStack(alignment: .leading, spacing: Dimensions.Space.xxs) {
+                    Text(localization.string("profile.has_allergies"))
+                        .font(Typography.labelSmall)
+                        .foregroundColor(.onSurfaceVariant)
+                    Text(user.hasAllergies == true
+                        ? localization.string("common.yes")
+                        : localization.string("common.no"))
+                        .font(Typography.bodyMedium)
+                        .foregroundColor(.onSurface)
+                }
+                Spacer()
+                if user.hasAllergies == true {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 14))
+                        .foregroundColor(.outlineVariant)
+                }
+            }
+            .padding(.horizontal, Dimensions.Space.m)
+            .padding(.vertical, Dimensions.Space.m)
+        }
+        .buttonStyle(.plain)
     }
 
     private func infoRow(icon: String, label: String, value: String) -> some View {

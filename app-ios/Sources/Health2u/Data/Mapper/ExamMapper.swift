@@ -11,7 +11,8 @@ extension ExamDTO {
             fileUrl: fileUrl,
             notes: notes,
             createdAt: createdAt,
-            updatedAt: updatedAt
+            updatedAt: updatedAt,
+            analysis: analysis?.toDomain()
         )
     }
 }
@@ -27,7 +28,8 @@ extension Exam {
             fileUrl: fileUrl,
             notes: notes,
             createdAt: createdAt,
-            updatedAt: updatedAt
+            updatedAt: updatedAt,
+            analysis: analysis?.toDTO()
         )
     }
 
@@ -41,7 +43,8 @@ extension Exam {
             fileUrl: fileUrl,
             notes: notes,
             createdAt: createdAt,
-            updatedAt: updatedAt
+            updatedAt: updatedAt,
+            analysis: analysis?.toEntity()
         )
     }
 }
@@ -57,7 +60,8 @@ extension ExamEntity {
             fileUrl: fileUrl,
             notes: notes,
             createdAt: createdAt,
-            updatedAt: updatedAt
+            updatedAt: updatedAt,
+            analysis: analysis?.toDomain()
         )
     }
 }

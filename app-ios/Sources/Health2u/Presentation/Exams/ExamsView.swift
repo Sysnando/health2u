@@ -5,34 +5,7 @@ public struct ExamsView: View {
     @EnvironmentObject private var container: AppContainer
     @ObservedObject private var localization = LocalizationManager.shared
 
-    @State private var searchText = ""
     @State private var showUploadSheet = false
-
-    private struct FilterOption: Identifiable {
-        let id: String          // stable key for ForEach identity
-        let backendType: String? // nil means "All"
-    }
-
-    private var filterOptions: [FilterOption] {
-        [
-            FilterOption(id: "all", backendType: nil),
-            FilterOption(id: "labs", backendType: "Labs"),
-            FilterOption(id: "radiology", backendType: "Imaging"),
-            FilterOption(id: "cardiology", backendType: "Cardiology"),
-            FilterOption(id: "general", backendType: "General"),
-        ]
-    }
-
-    private func filterDisplayName(_ option: FilterOption) -> String {
-        switch option.id {
-        case "all": return localization.string("exams.all_records")
-        case "labs": return localization.string("exams.lab_results")
-        case "radiology": return localization.string("exams.radiology")
-        case "cardiology": return localization.string("exams.cardiology")
-        case "general": return localization.string("exams.general")
-        default: return option.id
-        }
-    }
 
     public init(viewModel: ExamsViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -62,22 +35,42 @@ public struct ExamsView: View {
                 content
             }
         }
-        .background(Color.background)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.background.ignoresSafeArea())
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button { showUploadSheet = true } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.title3)
-                        .foregroundColor(.secondary)
+                HStack(spacing: Dimensions.Space.s) {
+                    Button { showUploadSheet = true } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title3)
+                            .foregroundColor(.secondary)
+                    }
+                    NavigationLink(value: Route.profile) {
+                        Circle()
+                            .fill(Color.secondaryContainer)
+                            .frame(width: 34, height: 34)
+                            .overlay(
+                                Image(systemName: "person.fill")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
+                            )
+                    }
                 }
             }
         }
-        .sheet(isPresented: $showUploadSheet) {
+        .sheet(isPresented: $showUploadSheet, onDismiss: {
+            print("🔄 [ExamsView] Upload sheet dismissed — calling notifyExamsChanged()")
+            container.notifyExamsChanged()
+        }) {
             NavigationStack {
                 UploadView(viewModel: container.makeUploadViewModel())
             }
         }
-        .task { await viewModel.load() }
+        .task(id: container.examsRefreshTrigger) {
+            print("🔄 [ExamsView] .task fired (trigger=\(container.examsRefreshTrigger)) — calling viewModel.load()")
+            await viewModel.load()
+            print("🔄 [ExamsView] viewModel.load() returned — exams.count=\(viewModel.state.exams.count)")
+        }
     }
 
     // MARK: - Content
@@ -88,14 +81,8 @@ public struct ExamsView: View {
                 // Header
                 headerSection
 
-                // Filter chips
-                filterChips
-
-                // Search bar
-                searchBar
-
-                // Exam cards
-                examList
+                // Category cards grid
+                categoryGrid
             }
             .padding(.vertical, Dimensions.Space.m)
         }
@@ -132,160 +119,59 @@ public struct ExamsView: View {
         .padding(.horizontal, Dimensions.Space.m)
     }
 
-    // MARK: - Filter Chips
+    // MARK: - Category Grid
 
-    private var filterChips: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: Dimensions.Space.s) {
-                ForEach(filterOptions) { option in
-                    let isSelected = (option.backendType == nil && viewModel.state.filter == nil)
-                        || viewModel.state.filter == option.backendType
-                    Button {
-                        Task {
-                            await viewModel.setFilter(option.backendType)
-                        }
-                    } label: {
-                        Text(filterDisplayName(option))
+    private var categoryGrid: some View {
+        LazyVGrid(columns: [
+            GridItem(.flexible(), spacing: Dimensions.Space.m),
+            GridItem(.flexible(), spacing: Dimensions.Space.m)
+        ], spacing: Dimensions.Space.m) {
+            ForEach(ExamCategory.allCases, id: \.self) { category in
+                categoryCard(category)
+            }
+        }
+        .padding(.horizontal, Dimensions.Space.m)
+    }
+
+    private func categoryCard(_ category: ExamCategory) -> some View {
+        Button {
+            container.path.append(.examCategory(category: category.rawValue))
+        } label: {
+            VStack(alignment: .leading, spacing: Dimensions.Space.s) {
+                HStack {
+                    Image(systemName: category.icon)
+                        .font(.system(size: 24))
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    let count = viewModel.state.examCountsByCategory[category.rawValue] ?? 0
+                    if count > 0 {
+                        Text("\(count)")
                             .font(Typography.labelMedium)
-                            .foregroundColor(isSelected ? .surfaceContainerLowest : .onSurfaceVariant)
-                            .padding(.horizontal, Dimensions.Space.m)
-                            .padding(.vertical, Dimensions.Space.s)
-                            .background(isSelected ? Color.secondary : Color.surfaceContainerLow)
+                            .foregroundColor(.surfaceContainerLowest)
+                            .frame(width: 26, height: 26)
+                            .background(Color.secondary)
                             .cornerRadius(Dimensions.CornerRadius.full)
                     }
                 }
-            }
-            .padding(.horizontal, Dimensions.Space.m)
-        }
-    }
 
-    // MARK: - Search Bar
+                Text(localization.string(category.localizationKey))
+                    .font(Typography.titleMedium)
+                    .foregroundColor(.onSurface)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(2)
 
-    private var searchBar: some View {
-        HStack(spacing: Dimensions.Space.s) {
-            Image(systemName: "magnifyingglass")
-                .foregroundColor(.outline)
-                .font(.system(size: 16))
-            TextField(localization.string("exams.search"), text: $searchText)
-                .font(Typography.bodyMedium)
-                .foregroundColor(.onSurface)
-        }
-        .padding(.horizontal, Dimensions.Space.m)
-        .padding(.vertical, Dimensions.Space.s + 2)
-        .background(Color.surfaceContainerLow)
-        .cornerRadius(Dimensions.CornerRadius.l)
-        .padding(.horizontal, Dimensions.Space.m)
-    }
-
-    // MARK: - Exam List
-
-    private var examList: some View {
-        let filtered = filteredExams
-        return LazyVStack(spacing: Dimensions.Space.s) {
-            ForEach(filtered) { exam in
-                examCard(exam)
-                    .padding(.horizontal, Dimensions.Space.m)
-            }
-        }
-    }
-
-    private var filteredExams: [Exam] {
-        if searchText.isEmpty { return viewModel.state.exams }
-        return viewModel.state.exams.filter {
-            $0.title.localizedCaseInsensitiveContains(searchText)
-                || $0.type.localizedCaseInsensitiveContains(searchText)
-        }
-    }
-
-    // MARK: - Exam Card
-
-    private func examCard(_ exam: Exam) -> some View {
-        Button {
-            container.path.append(.examDetail(id: exam.id))
-        } label: {
-            HStack(alignment: .top, spacing: Dimensions.Space.m) {
-                // Type icon circle
-                examTypeIcon(exam.type)
-
-                VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                    Text(exam.title)
-                        .font(Typography.titleMedium)
-                        .foregroundColor(.onSurface)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-
-                    if let notes = exam.notes, !notes.isEmpty {
-                        Text(notes)
-                            .font(Typography.bodySmall)
-                            .foregroundColor(.onSurfaceVariant)
-                            .lineLimit(1)
-                    }
-
-                    Text(Self.formattedDate(exam.date))
-                        .font(Typography.labelSmall)
-                        .foregroundColor(.outline)
-
-                    // Metric pill
-                    HStack(spacing: Dimensions.Space.xs) {
-                        Text(exam.type)
-                            .font(Typography.labelSmall)
-                            .foregroundColor(.secondary)
-                            .padding(.horizontal, Dimensions.Space.s)
-                            .padding(.vertical, Dimensions.Space.xxs)
-                            .background(Color.secondaryFixed.opacity(0.5))
-                            .cornerRadius(Dimensions.CornerRadius.s)
-                    }
-                }
-
-                Spacer(minLength: 0)
-
-                VStack {
-                    Spacer()
-                    Text(localization.string("exams.view_report"))
-                        .font(Typography.labelSmall)
-                        .foregroundColor(.secondary)
-                    Spacer()
-                }
+                Text(localization.string(category.descriptionKey))
+                    .font(Typography.bodySmall)
+                    .foregroundColor(.onSurfaceVariant)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
             }
             .padding(Dimensions.Space.m)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .background(Color.surfaceContainerLowest)
-            .cornerRadius(Dimensions.CornerRadius.l)
-            .overlay(
-                RoundedRectangle(cornerRadius: Dimensions.CornerRadius.l)
-                    .stroke(Color.outlineVariant.opacity(0.5), lineWidth: 1)
-            )
+            .cornerRadius(Dimensions.CornerRadius.xl)
+            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
         }
         .buttonStyle(.plain)
-    }
-
-    private func examTypeIcon(_ type: String) -> some View {
-        let (iconName, color) = examTypeConfig(type)
-        return Circle()
-            .fill(color.opacity(0.15))
-            .frame(width: 44, height: 44)
-            .overlay(
-                Image(systemName: iconName)
-                    .font(.system(size: 18))
-                    .foregroundColor(color)
-            )
-    }
-
-    private func examTypeConfig(_ type: String) -> (String, Color) {
-        switch type.lowercased() {
-        case "labs", "lab results":
-            return ("drop.fill", .onTertiaryContainer)
-        case "radiology", "imaging":
-            return ("rays", .secondary)
-        case "cardiology":
-            return ("heart.fill", .error)
-        default:
-            return ("doc.text.fill", .surfaceTint)
-        }
-    }
-
-    private static func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter.string(from: date)
     }
 }

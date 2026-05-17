@@ -16,4 +16,7 @@ public enum Route: Hashable, Sendable {
     case settings
     case registration
     case notifications
+    case myHealth
+    case examCategory(category: String)
+    case allergies
 }

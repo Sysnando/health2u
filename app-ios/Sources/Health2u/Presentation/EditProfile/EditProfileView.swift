@@ -3,6 +3,7 @@ import PhotosUI
 
 public struct EditProfileView: View {
     @StateObject private var viewModel: EditProfileViewModel
+    @EnvironmentObject private var container: AppContainer
     @Environment(\.dismiss) private var dismiss
     @ObservedObject private var localization = LocalizationManager.shared
     @State private var selectedPhoto: PhotosPickerItem? = nil
@@ -230,6 +231,54 @@ public struct EditProfileView: View {
                     RoundedRectangle(cornerRadius: Dimensions.CornerRadius.m)
                         .stroke(Color.outlineVariant.opacity(0.5), lineWidth: 1)
                 )
+            }
+
+            // Diabetes Toggle
+            Toggle(isOn: $viewModel.state.hasDiabetes) {
+                HStack(spacing: Dimensions.Space.s) {
+                    Image(systemName: "cross.case.fill")
+                        .font(.system(size: 16))
+                        .foregroundColor(.secondary)
+                    Text(localization.string("edit_profile.diabetes"))
+                        .font(Typography.bodyMedium)
+                        .foregroundColor(.onSurface)
+                }
+            }
+            .tint(.secondary)
+
+            // Allergies Toggle
+            Toggle(isOn: $viewModel.state.hasAllergies) {
+                HStack(spacing: Dimensions.Space.s) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.system(size: 16))
+                        .foregroundColor(.secondary)
+                    Text(localization.string("edit_profile.allergies"))
+                        .font(Typography.bodyMedium)
+                        .foregroundColor(.onSurface)
+                }
+            }
+            .tint(.secondary)
+
+            if viewModel.state.hasAllergies {
+                Button {
+                    dismiss()
+                    // Navigate to allergies after dismissal
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        container.path.append(.allergies)
+                    }
+                } label: {
+                    HStack(spacing: Dimensions.Space.s) {
+                        Image(systemName: "list.bullet")
+                            .font(.system(size: 14))
+                        Text(localization.string("edit_profile.manage_allergies"))
+                            .font(Typography.labelMedium)
+                    }
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, Dimensions.Space.m)
+                    .padding(.vertical, Dimensions.Space.s)
+                    .background(Color.secondaryFixed.opacity(0.3))
+                    .cornerRadius(Dimensions.CornerRadius.full)
+                }
             }
         }
         .padding(Dimensions.Space.m)

@@ -130,6 +130,10 @@ public actor APIClient {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        // Backend runs OpenAI analysis synchronously before inserting the exam,
+        // which on a multi-page PDF can take 60+ seconds. Default URLSession
+        // timeout (60s) is too tight — give the request 3 minutes.
+        request.timeoutInterval = 180
         if let token = await tokenProvider() {
             request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         }
@@ -158,6 +162,69 @@ public actor APIClient {
 
         request.httpBody = body
 
+        let bodySize = body.count
+        log.info("📤 [API] POST exams/upload — body=\(bodySize) bytes, file=\(fileData.count) bytes, timeout=\(request.timeoutInterval)s, title='\(metadata.title)', type='\(metadata.type)'")
+        let t0 = Date()
+
+        // We do bespoke handling here so a 422 NOT_A_MEDICAL_DOCUMENT envelope
+        // surfaces as a dedicated APIError instead of a generic .server(...).
+        do {
+            let (data, response) = try await session.data(for: request)
+            let elapsed = Date().timeIntervalSince(t0)
+            guard let httpResponse = response as? HTTPURLResponse else {
+                log.error("📤 [API] No HTTPURLResponse after \(String(format: "%.2f", elapsed))s")
+                return .failure(.invalidResponse)
+            }
+            log.info("📤 [API] HTTP \(httpResponse.statusCode) after \(String(format: "%.2f", elapsed))s — \(data.count) bytes")
+
+            if httpResponse.statusCode == 401 {
+                log.warning("📤 [API] 401 unauthorized")
+                return .failure(.unauthorized)
+            }
+
+            if httpResponse.statusCode == 422 {
+                if let envelope = try? JSONDecoder.health2u.decode(APIErrorEnvelope.self, from: data),
+                   envelope.error.code == "NOT_A_MEDICAL_DOCUMENT" {
+                    log.warning("📤 [API] 422 NOT_A_MEDICAL_DOCUMENT: \(envelope.error.message)")
+                    return .failure(.notAMedicalDocument(reason: envelope.error.message))
+                }
+                log.error("📤 [API] 422 (other) — body=\(String(data: data, encoding: .utf8) ?? "<binary>")")
+                return decodeErrorEnvelope(data: data, status: httpResponse.statusCode)
+            }
+
+            guard (200..<300).contains(httpResponse.statusCode) else {
+                log.error("📤 [API] non-2xx \(httpResponse.statusCode) — body=\(String(data: data, encoding: .utf8) ?? "<binary>")")
+                return decodeErrorEnvelope(data: data, status: httpResponse.statusCode)
+            }
+
+            do {
+                let decoded = try JSONDecoder.health2u.decode(ExamDTO.self, from: data)
+                log.info("📤 [API] ✅ Decoded ExamDTO — id=\(decoded.id) title='\(decoded.title)'")
+                return .success(decoded)
+            } catch {
+                log.error("📤 [API] Decode ExamDTO failed: \(String(describing: error)) — raw=\(String(data: data, encoding: .utf8) ?? "<binary>")")
+                return .failure(.decoding("Failed to decode ExamDTO"))
+            }
+        } catch let error as URLError where error.code == .notConnectedToInternet || error.code == .networkConnectionLost {
+            let elapsed = Date().timeIntervalSince(t0)
+            log.error("📤 [API] Offline after \(String(format: "%.2f", elapsed))s")
+            return .failure(.offline)
+        } catch let error as URLError where error.code == .timedOut {
+            let elapsed = Date().timeIntervalSince(t0)
+            log.error("📤 [API] ⏰ Timeout after \(String(format: "%.2f", elapsed))s (limit was \(request.timeoutInterval)s) — backend may still complete and save the exam")
+            return .failure(.network(code: URLError.timedOut.rawValue))
+        } catch {
+            let elapsed = Date().timeIntervalSince(t0)
+            let urlErr = error as? URLError
+            log.error("📤 [API] Network error after \(String(format: "%.2f", elapsed))s — code=\(urlErr?.errorCode ?? -1) desc=\(error.localizedDescription)")
+            return .failure(.network(code: urlErr?.errorCode ?? -1))
+        }
+    }
+
+    public func reanalyzeExam(id: String) async -> Result<ExamDTO, APIError> {
+        guard let request = await buildAuthorizedRequest(method: "POST", path: "exams/\(id)/analyze") else {
+            return .failure(.invalidResponse)
+        }
         return await perform(request)
     }
 
@@ -299,6 +366,30 @@ public actor APIClient {
         guard let request = await buildAuthorizedRequest(method: "DELETE", path: "emergency-contacts/\(id)") else {
             return .failure(.invalidResponse)
         }
+        return await performVoid(request)
+    }
+
+    // MARK: - Allergies
+
+    public func getAllergies() async -> Result<[AllergyDTO], APIError> {
+        guard let request = await buildAuthorizedRequest(method: "GET", path: "allergies") else { return .failure(.invalidResponse) }
+        return await perform(request)
+    }
+
+    public func createAllergy(name: String, severity: String?, notes: String?) async -> Result<AllergyDTO, APIError> {
+        struct Body: Encodable { let name: String; let severity: String?; let notes: String? }
+        guard let request = await buildAuthorizedRequest(method: "POST", path: "allergies", body: Body(name: name, severity: severity, notes: notes)) else { return .failure(.invalidResponse) }
+        return await perform(request)
+    }
+
+    public func updateAllergy(id: String, name: String?, severity: String?, notes: String?) async -> Result<AllergyDTO, APIError> {
+        struct Body: Encodable { let name: String?; let severity: String?; let notes: String? }
+        guard let request = await buildAuthorizedRequest(method: "PUT", path: "allergies/\(id)", body: Body(name: name, severity: severity, notes: notes)) else { return .failure(.invalidResponse) }
+        return await perform(request)
+    }
+
+    public func deleteAllergy(id: String) async -> Result<Void, APIError> {
+        guard let request = await buildAuthorizedRequest(method: "DELETE", path: "allergies/\(id)") else { return .failure(.invalidResponse) }
         return await performVoid(request)
     }
 

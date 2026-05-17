@@ -14,7 +14,7 @@ public final class ExamsViewModel: ObservableObject {
     }
 
     public func load() async {
-        log.info("📋 ExamsVM loading (filter: \(self.state.filter ?? "none"))")
+        log.info("📋 [VM] load() start (filter: \(self.state.filter ?? "none"))")
         state.isLoading = true
         state.error = nil
 
@@ -23,9 +23,22 @@ public final class ExamsViewModel: ObservableObject {
         switch result {
         case .success(let exams):
             state.exams = exams
-            log.info("📋 ExamsVM loaded \(exams.count) exams")
+            var counts: [String: Int] = [:]
+            var unmapped: [String] = []
+            for exam in exams {
+                if let cat = ExamCategory.category(for: exam.type) {
+                    counts[cat.rawValue, default: 0] += 1
+                } else {
+                    unmapped.append(exam.type)
+                }
+            }
+            state.examCountsByCategory = counts
+            log.info("📋 [VM] load() ✅ \(exams.count) exams — counts=\(counts)")
+            if !unmapped.isEmpty {
+                log.warning("📋 [VM] \(unmapped.count) exams have UNMAPPED types (won't appear under any category): \(unmapped)")
+            }
         case .failure(let err):
-            log.error("📋 ExamsVM load failed: \(String(describing: err))")
+            log.error("📋 [VM] load() ❌ \(String(describing: err))")
             state.error = Self.errorMessage(err)
         }
 

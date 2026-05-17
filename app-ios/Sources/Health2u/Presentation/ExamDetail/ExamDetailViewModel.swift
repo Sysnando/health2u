@@ -42,6 +42,22 @@ public final class ExamDetailViewModel: ObservableObject {
         state.isDeleting = false
     }
 
+    public func reanalyze() async {
+        state.isReanalyzing = true
+        state.error = nil
+
+        let result = await examRepository.reanalyzeExam(id: id)
+
+        switch result {
+        case .success(let exam):
+            state.exam = exam
+        case .failure(let err):
+            state.error = Self.errorMessage(err)
+        }
+
+        state.isReanalyzing = false
+    }
+
     private static func errorMessage(_ err: APIError) -> String {
         switch err {
         case .offline: return "You appear to be offline."

@@ -13,20 +13,23 @@ public final class ExamRepositoryImpl: ExamRepository, @unchecked Sendable {
     }
 
     public func getExams(filter: String?) async -> Result<[Exam], APIError> {
-        log.info("📋 getExams(filter: \(filter ?? "nil"))")
+        log.info("📋 [Repo] getExams(filter: \(filter ?? "nil"))")
         switch await apiClient.getExams(filter: filter) {
         case .success(let dtos):
             let domains = dtos.map { $0.toDomain() }
             await database.upsert(exams: domains.map { $0.toEntity() })
-            log.info("📋 getExams → \(domains.count) from API, cached")
+            log.info("📋 [Repo] getExams → API returned \(dtos.count) DTOs, mapped to \(domains.count) domain, cached")
+            for d in domains.prefix(10) {
+                log.debug("📋 [Repo]   • \(d.id) | '\(d.title)' | type='\(d.type)' | date=\(d.date.timeIntervalSince1970)")
+            }
             return .success(domains)
         case .failure(let error):
             let cached = await database.allExams().map { $0.toDomain() }
             if !cached.isEmpty {
-                log.warning("📋 getExams → API failed (\(String(describing: error))), returning \(cached.count) cached")
+                log.warning("📋 [Repo] getExams → API failed (\(String(describing: error))), returning \(cached.count) cached")
                 return .success(cached)
             }
-            log.error("📋 getExams → API failed, no cache: \(String(describing: error))")
+            log.error("📋 [Repo] getExams → API failed, NO cache: \(String(describing: error))")
             return .failure(error)
         }
     }
@@ -77,6 +80,20 @@ public final class ExamRepositoryImpl: ExamRepository, @unchecked Sendable {
             return .success(())
         case .failure(let error):
             log.error("🗑️ deleteExam → failed: \(String(describing: error))")
+            return .failure(error)
+        }
+    }
+
+    public func reanalyzeExam(id: String) async -> Result<Exam, APIError> {
+        log.info("🤖 reanalyzeExam(id: \(id))")
+        switch await apiClient.reanalyzeExam(id: id) {
+        case .success(let dto):
+            let domain = dto.toDomain()
+            await database.upsert(exam: domain.toEntity())
+            log.info("🤖 reanalyzeExam → success, status: \(domain.analysis?.status.rawValue ?? "nil")")
+            return .success(domain)
+        case .failure(let error):
+            log.error("🤖 reanalyzeExam → failed: \(String(describing: error))")
             return .failure(error)
         }
     }

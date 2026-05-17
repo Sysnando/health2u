@@ -10,6 +10,7 @@ public struct Exam: Identifiable, Equatable, Sendable {
     public let notes: String?
     public let createdAt: Date
     public let updatedAt: Date
+    public let analysis: ExamAnalysis?
 
     public init(
         id: String,
@@ -20,7 +21,8 @@ public struct Exam: Identifiable, Equatable, Sendable {
         fileUrl: String? = nil,
         notes: String? = nil,
         createdAt: Date,
-        updatedAt: Date
+        updatedAt: Date,
+        analysis: ExamAnalysis? = nil
     ) {
         self.id = id
         self.userId = userId
@@ -31,5 +33,6 @@ public struct Exam: Identifiable, Equatable, Sendable {
         self.notes = notes
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.analysis = analysis
     }
 }

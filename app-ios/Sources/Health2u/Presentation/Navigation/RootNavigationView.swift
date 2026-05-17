@@ -9,7 +9,7 @@ public struct RootNavigationView: View {
     public init() {}
 
     enum Tab: Int, CaseIterable {
-        case home, exams, insights, records
+        case home, exams
     }
 
     public var body: some View {
@@ -88,10 +88,6 @@ public struct RootNavigationView: View {
                 homeTab
             case .exams:
                 examsTab
-            case .insights:
-                insightsTab
-            case .records:
-                recordsTab
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -102,7 +98,13 @@ public struct RootNavigationView: View {
             container.path = []
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
-        .sheet(isPresented: $showUploadSheet) {
+        .sheet(isPresented: $showUploadSheet, onDismiss: {
+            // Defensive: if the upload succeeded server-side but iOS timed out
+            // (long PDF analysis), the success callback never fired. Refresh
+            // on every dismiss to reconcile the list.
+            print("🔄 [RootNav] Upload sheet dismissed (selectedTab=\(self.selectedTab)) — calling notifyExamsChanged()")
+            container.notifyExamsChanged()
+        }) {
             NavigationStack {
                 UploadView(viewModel: container.makeUploadViewModel())
             }
@@ -120,27 +122,13 @@ public struct RootNavigationView: View {
                 tab: .home
             )
 
+            aiUploadButton
+
             tabBarItem(
                 icon: "doc.text",
                 filledIcon: "doc.text.fill",
                 label: localization.string("tab.exams"),
                 tab: .exams
-            )
-
-            aiUploadButton
-
-            tabBarItem(
-                icon: "chart.line.uptrend.xyaxis",
-                filledIcon: "chart.line.uptrend.xyaxis.circle.fill",
-                label: localization.string("tab.insights"),
-                tab: .insights
-            )
-
-            tabBarItem(
-                icon: "folder",
-                filledIcon: "folder.fill",
-                label: localization.string("tab.records"),
-                tab: .records
             )
         }
         .padding(.horizontal, 8)
@@ -240,24 +228,6 @@ public struct RootNavigationView: View {
         }
     }
 
-    private var insightsTab: some View {
-        NavigationStack(path: $container.path) {
-            InsightsView(viewModel: container.makeInsightsViewModel())
-                .navigationDestination(for: Route.self) { route in
-                    destinationView(for: route)
-                }
-        }
-    }
-
-    private var recordsTab: some View {
-        NavigationStack(path: $container.path) {
-            ProfileView(viewModel: container.makeProfileViewModel())
-                .navigationDestination(for: Route.self) { route in
-                    destinationView(for: route)
-                }
-        }
-    }
-
     // MARK: - Shared Navigation Destination Builder
 
     @ViewBuilder
@@ -305,6 +275,12 @@ public struct RootNavigationView: View {
             RegistrationView(viewModel: container.makeRegistrationViewModel())
         case .notifications:
             NotificationsView(viewModel: container.makeNotificationsViewModel())
+        case .myHealth:
+            MyHealthView(viewModel: container.makeMyHealthViewModel())
+        case .examCategory(let category):
+            ExamCategoryListView(categoryId: category, viewModel: container.makeExamsViewModel())
+        case .allergies:
+            AllergiesView(viewModel: container.makeAllergiesViewModel())
         }
     }
 }

@@ -20,5 +20,6 @@ public protocol ExamRepository: Sendable {
     func uploadExam(metadata: ExamUploadMetadata, fileData: Data, filename: String) async -> Result<Exam, APIError>
     func getExamFileURL(id: String) async -> Result<URL, APIError>
     func deleteExam(id: String) async -> Result<Void, APIError>
+    func reanalyzeExam(id: String) async -> Result<Exam, APIError>
     func observeExams() -> AsyncStream<[Exam]>
 }

@@ -27,6 +27,8 @@ public final class EditProfileViewModel: ObservableObject {
             state.heightCm = user.heightCm.map { String($0) } ?? ""
             state.weightKg = user.weightKg.map { String($0) } ?? ""
             state.bloodType = user.bloodType ?? ""
+            state.hasDiabetes = user.hasDiabetes ?? false
+            state.hasAllergies = user.hasAllergies ?? false
         case .failure(let err):
             state.error = Self.errorMessage(err)
         }
@@ -52,7 +54,9 @@ public final class EditProfileViewModel: ObservableObject {
             gender: state.gender.isEmpty ? nil : state.gender,
             heightCm: Double(state.heightCm),
             weightKg: Double(state.weightKg),
-            bloodType: state.bloodType.isEmpty ? nil : state.bloodType
+            bloodType: state.bloodType.isEmpty ? nil : state.bloodType,
+            hasDiabetes: state.hasDiabetes,
+            hasAllergies: state.hasAllergies
         )
 
         let result = await userRepository.updateProfile(updatedUser)

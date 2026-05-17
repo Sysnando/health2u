@@ -1,8 +1,15 @@
 import { Hono } from "hono";
 import { currentUser, requireAuth } from "../../_shared/auth.ts";
 import { db } from "../../_shared/db.ts";
-import { badRequest, internal, notFound } from "../../_shared/errors.ts";
-import { buildExamKey, fetchObject, presignDownload, presignUpload, uploadObject } from "../../_shared/r2.ts";
+import { badRequest, internal, notFound, unprocessable } from "../../_shared/errors.ts";
+import {
+  buildExamKey,
+  deleteObject,
+  fetchObject,
+  presignDownload,
+  presignUpload,
+  uploadObject,
+} from "../../_shared/r2.ts";
 import { examDto, analysisDto, type AnalysisRow } from "../../_shared/dto.ts";
 import { analyzeDocument } from "../../_shared/ai.ts";
 
@@ -64,7 +71,11 @@ app.post("/upload-url", async (c) => {
 });
 
 // Single-step upload: client sends file + metadata as multipart form data.
-// The backend uploads to R2 server-side, avoiding R2 S3 TLS issues on mobile.
+// Flow: validate -> upload to storage -> analyze with OpenAI -> branch:
+//   * not_medical: delete storage object, return 422, no DB rows created.
+//   * otherwise:   insert exam row + completed analysis row, return 201.
+// AI failures (network/timeout/etc.) still insert the exam + a failed analysis
+// row so the client can retry via POST /:id/analyze.
 app.post("/upload", async (c) => {
   const me = currentUser(c);
   const body = await c.req.parseBody();
@@ -88,6 +99,30 @@ app.post("/upload", async (c) => {
 
   await uploadObject(key, fileBytes, contentType);
 
+  // Run AI analysis BEFORE inserting any DB rows so we can hard-reject
+  // non-medical uploads without leaving orphaned rows.
+  let aiResult: Awaited<ReturnType<typeof analyzeDocument>> | null = null;
+  let aiError: string | null = null;
+  try {
+    aiResult = await analyzeDocument(fileBytes, contentType);
+  } catch (err: unknown) {
+    aiError = err instanceof Error ? err.message : String(err);
+  }
+
+  if (aiResult && aiResult.document_type === "not_medical") {
+    // Delete the uploaded object so the bucket doesn't keep orphans.
+    try {
+      await deleteObject(key);
+    } catch (err) {
+      console.error("Failed to delete rejected upload:", err);
+    }
+    return unprocessable(
+      c,
+      "NOT_A_MEDICAL_DOCUMENT",
+      aiResult.rejection_reason ?? "Not a medical document",
+    );
+  }
+
   const { data, error } = await db()
     .from("exams")
     .insert({
@@ -103,33 +138,29 @@ app.post("/upload", async (c) => {
 
   if (error) return internal(c, error.message);
 
-  let analysis = null;
-
-  // Insert processing row and run AI analysis
-  await db()
-    .from("document_analyses")
-    .insert({ exam_id: data.id, user_id: me.id, status: "processing" });
-
-  try {
-    const result = await analyzeDocument(fileBytes, contentType);
-
+  if (aiResult) {
     await db()
       .from("document_analyses")
-      .update({
+      .insert({
+        exam_id: data.id,
+        user_id: me.id,
         status: "completed",
-        document_type: result.document_type,
-        summary: result.summary,
-        extracted_data: result.extracted_data,
-        raw_ai_response: result.raw_response,
-        model_used: result.model,
-      })
-      .eq("exam_id", data.id);
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : String(err);
+        document_type: aiResult.document_type,
+        summary: aiResult.summary,
+        language: aiResult.language,
+        extracted_data: aiResult.extracted_data,
+        raw_ai_response: aiResult.raw_response,
+        model_used: aiResult.model,
+      });
+  } else {
     await db()
       .from("document_analyses")
-      .update({ status: "failed", error_message: message })
-      .eq("exam_id", data.id);
+      .insert({
+        exam_id: data.id,
+        user_id: me.id,
+        status: "failed",
+        error_message: aiError,
+      });
   }
 
   const { data: analysisRow } = await db()
@@ -138,15 +169,14 @@ app.post("/upload", async (c) => {
     .eq("exam_id", data.id)
     .single();
 
-  if (analysisRow) {
-    analysis = analysisDto(analysisRow as AnalysisRow);
-  }
-
+  const analysis = analysisRow ? analysisDto(analysisRow as AnalysisRow) : null;
   return c.json({ ...examDto(data), analysis }, 201);
 });
 
 // Two-step upload, step 2: create the exam record after the client has
-// PUT the file to R2 using the presigned URL above.
+// PUT the file using the presigned URL above. Same not_medical branching as
+// /upload: if OpenAI rejects the file we delete the already-uploaded object
+// and return 422 with no exam row created.
 app.post("/", async (c) => {
   const me = currentUser(c);
   const body = await c.req.json().catch(() => ({}));
@@ -154,6 +184,33 @@ app.post("/", async (c) => {
 
   if (!title || !type || date == null) {
     return badRequest(c, "Missing required fields: title, type, date");
+  }
+
+  // If a file key was attached, analyze BEFORE creating any DB rows so we
+  // can cleanly reject non-medical uploads.
+  let aiResult: Awaited<ReturnType<typeof analyzeDocument>> | null = null;
+  let aiError: string | null = null;
+
+  if (key) {
+    try {
+      const file = await fetchObject(key);
+      aiResult = await analyzeDocument(file.body, file.contentType);
+    } catch (err: unknown) {
+      aiError = err instanceof Error ? err.message : String(err);
+    }
+
+    if (aiResult && aiResult.document_type === "not_medical") {
+      try {
+        await deleteObject(key);
+      } catch (err) {
+        console.error("Failed to delete rejected upload:", err);
+      }
+      return unprocessable(
+        c,
+        "NOT_A_MEDICAL_DOCUMENT",
+        aiResult.rejection_reason ?? "Not a medical document",
+      );
+    }
   }
 
   const { data, error } = await db()
@@ -174,32 +231,29 @@ app.post("/", async (c) => {
   let analysis = null;
 
   if (key) {
-    // Insert processing row
-    await db()
-      .from("document_analyses")
-      .insert({ exam_id: data.id, user_id: me.id, status: "processing" });
-
-    try {
-      const file = await fetchObject(key);
-      const result = await analyzeDocument(file.body, file.contentType);
-
+    if (aiResult) {
       await db()
         .from("document_analyses")
-        .update({
+        .insert({
+          exam_id: data.id,
+          user_id: me.id,
           status: "completed",
-          document_type: result.document_type,
-          summary: result.summary,
-          extracted_data: result.extracted_data,
-          raw_ai_response: result.raw_response,
-          model_used: result.model,
-        })
-        .eq("exam_id", data.id);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : String(err);
+          document_type: aiResult.document_type,
+          summary: aiResult.summary,
+          language: aiResult.language,
+          extracted_data: aiResult.extracted_data,
+          raw_ai_response: aiResult.raw_response,
+          model_used: aiResult.model,
+        });
+    } else {
       await db()
         .from("document_analyses")
-        .update({ status: "failed", error_message: message })
-        .eq("exam_id", data.id);
+        .insert({
+          exam_id: data.id,
+          user_id: me.id,
+          status: "failed",
+          error_message: aiError,
+        });
     }
 
     const { data: analysisRow } = await db()
@@ -258,7 +312,11 @@ app.get("/:id/file", async (c) => {
   return c.json({ url, expires_in: 300 });
 });
 
-// Retry AI analysis for an exam
+// Retry AI analysis for an exam.
+// Unlike /upload and /, this endpoint NEVER returns 422 / deletes files —
+// the user has already curated this exam, so a fresh not_medical verdict on
+// retry is coerced to document_type="other" with the rejection reason stored
+// as the summary, so the user still sees feedback without losing data.
 app.post("/:id/analyze", async (c) => {
   const me = currentUser(c);
   const { data, error } = await db()
@@ -287,13 +345,25 @@ app.post("/:id/analyze", async (c) => {
     const file = await fetchObject(data.file_key);
     const result = await analyzeDocument(file.body, file.contentType);
 
+    // On retry, never reject the file — coerce not_medical to "other" and
+    // surface the rejection reason as the summary so the user sees it.
+    const isRejected = result.document_type === "not_medical";
+    const documentType = isRejected ? "other" : result.document_type;
+    const summary = isRejected
+      ? (result.rejection_reason ?? result.summary ?? "Not a medical document")
+      : result.summary;
+    const extractedData = isRejected
+      ? { content: result.rejection_reason ?? "Not a medical document" }
+      : result.extracted_data;
+
     await db()
       .from("document_analyses")
       .update({
         status: "completed",
-        document_type: result.document_type,
-        summary: result.summary,
-        extracted_data: result.extracted_data,
+        document_type: documentType,
+        summary,
+        language: result.language,
+        extracted_data: extractedData,
         raw_ai_response: result.raw_response,
         model_used: result.model,
       })

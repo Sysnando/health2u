@@ -5,6 +5,7 @@ public struct ExamsState: Equatable {
     public var filter: String? = nil
     public var isLoading: Bool = false
     public var error: String? = nil
+    public var examCountsByCategory: [String: Int] = [:]
 
     public init() {}
 }

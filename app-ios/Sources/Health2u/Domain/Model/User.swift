@@ -11,6 +11,8 @@ public struct User: Identifiable, Equatable, Sendable {
     public let heightCm: Double?
     public let weightKg: Double?
     public let bloodType: String?
+    public let hasDiabetes: Bool?
+    public let hasAllergies: Bool?
 
     public init(
         id: String,
@@ -22,7 +24,9 @@ public struct User: Identifiable, Equatable, Sendable {
         gender: String? = nil,
         heightCm: Double? = nil,
         weightKg: Double? = nil,
-        bloodType: String? = nil
+        bloodType: String? = nil,
+        hasDiabetes: Bool? = nil,
+        hasAllergies: Bool? = nil
     ) {
         self.id = id
         self.email = email
@@ -34,5 +38,7 @@ public struct User: Identifiable, Equatable, Sendable {
         self.heightCm = heightCm
         self.weightKg = weightKg
         self.bloodType = bloodType
+        self.hasDiabetes = hasDiabetes
+        self.hasAllergies = hasAllergies
     }
 }

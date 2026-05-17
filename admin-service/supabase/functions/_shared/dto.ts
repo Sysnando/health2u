@@ -16,6 +16,8 @@ export interface UserRow {
   height_cm: number | null;
   weight_kg: number | null;
   blood_type: string | null;
+  has_diabetes: boolean | null;
+  has_allergies: boolean | null;
 }
 
 export function userDto(u: UserRow) {
@@ -55,6 +57,7 @@ export interface AnalysisRow {
   status: string;
   document_type: string | null;
   summary: string | null;
+  language: string | null;
   extracted_data: Record<string, unknown> | null;
   raw_ai_response: unknown;
   model_used: string | null;

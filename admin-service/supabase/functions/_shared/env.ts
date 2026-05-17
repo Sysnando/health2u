@@ -24,5 +24,5 @@ export const env = {
   r2SecretAccessKey: Deno.env.get("R2_SECRET_ACCESS_KEY") ?? "",
   r2Bucket: Deno.env.get("R2_BUCKET") ?? "",
 
-  anthropicApiKey: Deno.env.get("ANTHROPIC_API_KEY") ?? "",
+  openaiApiKey: Deno.env.get("OPENAI_API_KEY") ?? "",
 };

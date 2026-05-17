@@ -11,6 +11,8 @@ public struct UserEntity: Sendable, Equatable, Identifiable {
     public var heightCm: Double?
     public var weightKg: Double?
     public var bloodType: String?
+    public var hasDiabetes: Bool?
+    public var hasAllergies: Bool?
     public var lastSyncTimestamp: Date
 
     public init(
@@ -24,6 +26,8 @@ public struct UserEntity: Sendable, Equatable, Identifiable {
         heightCm: Double? = nil,
         weightKg: Double? = nil,
         bloodType: String? = nil,
+        hasDiabetes: Bool? = nil,
+        hasAllergies: Bool? = nil,
         lastSyncTimestamp: Date = Date()
     ) {
         self.id = id
@@ -36,6 +40,8 @@ public struct UserEntity: Sendable, Equatable, Identifiable {
         self.heightCm = heightCm
         self.weightKg = weightKg
         self.bloodType = bloodType
+        self.hasDiabetes = hasDiabetes
+        self.hasAllergies = hasAllergies
         self.lastSyncTimestamp = lastSyncTimestamp
     }
 }

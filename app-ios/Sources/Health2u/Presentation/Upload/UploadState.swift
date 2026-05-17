@@ -2,6 +2,7 @@ import Foundation
 
 public struct UploadState: Equatable {
     public var title: String = ""
+    public var category: String = ""
     public var type: String = "Labs"
     public var date: Date = Date()
     public var notes: String = ""
@@ -11,6 +12,7 @@ public struct UploadState: Equatable {
     public var isUploading: Bool = false
     public var error: String? = nil
     public var didSucceed: Bool = false
+    public var skippedReason: String? = nil
 
     public init() {}
 }
