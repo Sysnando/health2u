@@ -8,89 +8,91 @@ public final class DashboardViewModel: ObservableObject {
     @Published public var state = DashboardState()
 
     private let userRepository: any UserRepository
-    private let examRepository: any ExamRepository
-    private let appointmentRepository: any AppointmentRepository
-    private let healthInsightRepository: any HealthInsightRepository
+    private let examRepository: (any ExamRepository)?
     private let onSessionExpired: (() -> Void)?
 
     public init(
         userRepository: any UserRepository,
-        examRepository: any ExamRepository,
-        appointmentRepository: any AppointmentRepository,
-        healthInsightRepository: any HealthInsightRepository,
+        examRepository: (any ExamRepository)? = nil,
         onSessionExpired: (() -> Void)? = nil
     ) {
         self.userRepository = userRepository
         self.examRepository = examRepository
-        self.appointmentRepository = appointmentRepository
-        self.healthInsightRepository = healthInsightRepository
         self.onSessionExpired = onSessionExpired
     }
 
     public func load() async {
-        log.info("🏠 Dashboard loading")
+        log.info("Dashboard loading")
         state.isLoading = true
         state.error = nil
 
-        async let profileResult = userRepository.getProfile()
-        async let examsResult = examRepository.getExams(filter: nil)
-        async let appointmentsResult = appointmentRepository.getAppointments()
-        async let insightsResult = healthInsightRepository.getHealthInsights()
-
-        let (profile, exams, appointments, insights) = await (
-            profileResult, examsResult, appointmentsResult, insightsResult
-        )
-
-        if case .success(let user) = profile {
+        let result = await userRepository.getProfile()
+        if case .success(let user) = result {
             state.userName = user.name
-            log.info("🏠 Profile loaded: \(user.name)")
-        } else if case .failure(let err) = profile {
-            log.error("🏠 Profile failed: \(String(describing: err))")
-        }
-
-        if case .success(let examList) = exams {
-            state.recentExams = Array(examList.prefix(3))
-            log.info("🏠 Exams loaded: \(examList.count) total, showing \(self.state.recentExams.count)")
-        } else if case .failure(let err) = exams {
-            log.error("🏠 Exams failed: \(String(describing: err))")
-        }
-
-        if case .success(let appointmentList) = appointments {
-            state.upcomingAppointments = appointmentList.filter { $0.status == .upcoming }
-            log.info("🏠 Appointments loaded: \(appointmentList.count) total, \(self.state.upcomingAppointments.count) upcoming")
-        } else if case .failure(let err) = appointments {
-            log.error("🏠 Appointments failed: \(String(describing: err))")
-        }
-
-        if case .success(let insightList) = insights {
-            state.insights = insightList
-            state.healthScore = insightList.isEmpty ? 0 : 85
-            log.info("🏠 Insights loaded: \(insightList.count)")
-        } else if case .failure(let err) = insights {
-            log.error("🏠 Insights failed: \(String(describing: err))")
-        }
-
-        if case .failure(let err) = profile,
-           case .failure = exams,
-           case .failure = appointments {
+            log.info("Dashboard profile loaded: \(user.name)")
+        } else if case .failure(let err) = result {
             if case .unauthorized = err {
-                log.error("🏠 All requests unauthorized — session expired")
+                log.error("Dashboard session expired")
                 onSessionExpired?()
                 return
             }
-            state.error = Self.errorMessage(err)
+            state.error = "Failed to load."
         }
 
-        log.info("🏠 Dashboard load complete")
+        if let examRepository {
+            let examsResult = await examRepository.getExams(filter: nil)
+            if case .success(let exams) = examsResult {
+                state.latestBiomarkers = Self.aggregateBiomarkers(exams: exams)
+                log.info("Dashboard biomarkers aggregated: \(self.state.latestBiomarkers.count)")
+            }
+        }
+
         state.isLoading = false
     }
 
-    private static func errorMessage(_ err: APIError) -> String {
-        switch err {
-        case .offline: return "You appear to be offline."
-        case .unauthorized: return "Session expired. Please sign in again."
-        case .server(_, _, let msg): return msg
-        default: return "Failed to load dashboard."
+    // MARK: - Biomarker aggregation
+
+    static func aggregateBiomarkers(exams: [Exam]) -> [ExamBiomarker.Kind: ExamBiomarker] {
+        var latest: [ExamBiomarker.Kind: ExamBiomarker] = [:]
+        let sorted = exams.sorted { $0.date > $1.date }
+        for exam in sorted {
+            guard let analysis = exam.analysis,
+                  analysis.documentType == "lab_results" else { continue }
+            guard case let .labResults(labResults) = analysis.extractedData else { continue }
+            for labResult in labResults.results {
+                guard let kind = classifyBiomarker(labResult.testName) else { continue }
+                if latest[kind] == nil {
+                    latest[kind] = ExamBiomarker(
+                        kind: kind,
+                        value: labResult.value,
+                        unit: labResult.unit,
+                        flag: labResult.flag,
+                        sourceExamId: exam.id,
+                        examDate: exam.date
+                    )
+                }
+            }
         }
+        return latest
+    }
+
+    private static func classifyBiomarker(_ testName: String) -> ExamBiomarker.Kind? {
+        let name = testName.lowercased()
+        if name.contains("glucose") || name.contains("glic") || name.contains("glyc") || name.contains("blood sugar") {
+            return .bloodSugar
+        }
+        if name.contains("cholesterol") || name.contains("colesterol") {
+            return .cholesterol
+        }
+        if name.contains("pressure") || name.contains("pressão") || name.contains("pressao") || name.contains("tension") {
+            return .bloodPressure
+        }
+        if name.contains("heart rate") || name.contains("pulse") || name.contains("frequência cardíaca") || name.contains("frequencia cardiaca") {
+            return .heartRate
+        }
+        if name.contains("spo2") || name.contains("saturation") || name.contains("saturação") || name.contains("saturacao") {
+            return .spo2
+        }
+        return nil
     }
 }

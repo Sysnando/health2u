@@ -18,3 +18,10 @@ export function internal(c: Context, message: string) {
   console.error("internal error:", message);
   return c.json(errorBody("INTERNAL_ERROR", message), 500);
 }
+
+// 422 Unprocessable Entity — for inputs that are syntactically valid but
+// semantically rejected (e.g. an uploaded file the AI classifies as
+// not-a-medical-document).
+export function unprocessable(c: Context, code: string, message: string) {
+  return c.json(errorBody(code, message), 422);
+}

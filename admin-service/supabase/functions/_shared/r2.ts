@@ -38,6 +38,15 @@ export async function fetchObject(
   };
 }
 
+// Delete a file from Supabase Storage. Used to clean up the bucket when an
+// upload is rejected (e.g. AI classifies it as not_medical) so we don't leave
+// orphaned objects behind.
+export async function deleteObject(key: string): Promise<void> {
+  const bucket = key.startsWith("profiles/") ? PROFILE_BUCKET : EXAM_BUCKET;
+  const { error } = await db().storage.from(bucket).remove([key]);
+  if (error) throw new Error(`Storage delete failed: ${error.message}`);
+}
+
 // Create a short-lived signed URL for the client to download a file.
 export async function presignDownload(
   key: string,

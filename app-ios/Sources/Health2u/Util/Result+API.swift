@@ -7,6 +7,7 @@ public enum APIError: Error, Equatable, Sendable {
     case unauthorized
     case offline
     case invalidResponse
+    case notAMedicalDocument(reason: String)
 }
 
 public extension JSONDecoder {

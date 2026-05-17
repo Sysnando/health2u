@@ -8,6 +8,7 @@ import exams from "./routes/exams.ts";
 import appointments from "./routes/appointments.ts";
 import insights from "./routes/insights.ts";
 import emergencyContacts from "./routes/emergencyContacts.ts";
+import allergies from "./routes/allergies.ts";
 
 // Supabase Edge Functions are always served under the path
 // /functions/v1/<function-name>, so everything routes here is nested under
@@ -34,6 +35,7 @@ app.route("/exams", exams);
 app.route("/appointments", appointments);
 app.route("/insights", insights);
 app.route("/emergency-contacts", emergencyContacts);
+app.route("/allergies", allergies);
 
 app.notFound((c) =>
   c.json({ error: { code: "NOT_FOUND", message: "Route not found" } }, 404)

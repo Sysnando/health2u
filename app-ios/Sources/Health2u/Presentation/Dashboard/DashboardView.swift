@@ -4,6 +4,7 @@ public struct DashboardView: View {
     @StateObject private var viewModel: DashboardViewModel
     @EnvironmentObject private var container: AppContainer
     @ObservedObject private var localization = LocalizationManager.shared
+    @State private var showLockedToast = false
 
     public init(viewModel: DashboardViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
@@ -11,9 +12,9 @@ public struct DashboardView: View {
 
     public var body: some View {
         Group {
-            if viewModel.state.isLoading && viewModel.state.recentExams.isEmpty {
+            if viewModel.state.isLoading && viewModel.state.userName.isEmpty {
                 LoadingIndicator(message: localization.string("common.loading"))
-            } else if let error = viewModel.state.error, viewModel.state.recentExams.isEmpty {
+            } else if let error = viewModel.state.error, viewModel.state.userName.isEmpty {
                 EmptyState(
                     icon: "exclamationmark.triangle",
                     title: localization.string("common.error"),
@@ -26,7 +27,7 @@ public struct DashboardView: View {
             }
         }
         .background(Color.background.ignoresSafeArea())
-        .task { await viewModel.load() }
+        .task(id: container.examsRefreshTrigger) { await viewModel.load() }
     }
 
     // MARK: - Main Content
@@ -34,15 +35,30 @@ public struct DashboardView: View {
     private var content: some View {
         VStack(spacing: 0) {
             topBar
+
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: Dimensions.Space.l) {
-                    healthScoreSection
-                    criticalVitalsSection
-                    recentLabResultsSection
-                    insightBanner
-                    upcomingCheckupsSection
+                    // Greeting
+                    Text(localization.string("dashboard.greeting") + ", \(viewModel.state.userName)")
+                        .font(Typography.headlineMedium)
+                        .foregroundColor(.onSurface)
+                        .padding(.horizontal, Dimensions.Space.m)
+                        .padding(.top, Dimensions.Space.m)
+
+                    // Vitals Overview
+                    vitalsSection
+
+                    // 2x3 Grid
+                    gridSection
                 }
-                .padding(.bottom, 100) // space for bottom bar
+                .padding(.bottom, 100)
+            }
+        }
+        .overlay(alignment: .bottom) {
+            if showLockedToast {
+                toastView
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .padding(.bottom, 110)
             }
         }
     }
@@ -65,7 +81,6 @@ public struct DashboardView: View {
                             .font(.system(size: 18))
                             .foregroundColor(.onSurface)
 
-                        // Notification dot
                         Circle()
                             .fill(Color.error)
                             .frame(width: 8, height: 8)
@@ -89,367 +104,208 @@ public struct DashboardView: View {
         .padding(.top, Dimensions.Space.s)
     }
 
-    // MARK: - Health Score
+    // MARK: - Vitals Section
 
-    private var healthScoreSection: some View {
+    private var vitalsSection: some View {
         VStack(alignment: .leading, spacing: Dimensions.Space.s) {
-            Text(localization.string("dashboard.health_score").uppercased())
-                .font(Typography.overline)
-                .tracking(1.5)
-                .foregroundColor(.onSurfaceVariant)
-
-            HStack(alignment: .firstTextBaseline, spacing: Dimensions.Space.xxs) {
-                Text("\(viewModel.state.healthScore)")
-                    .font(.system(size: 56, weight: .bold))
-                    .foregroundColor(.onSurface)
-                Text("/100")
-                    .font(Typography.titleLarge)
-                    .foregroundColor(.onSurfaceVariant)
-            }
-
-            Text(localization.string("dashboard.cardiovascular_message"))
-                .font(Typography.bodyMedium)
-                .foregroundColor(.onSurfaceVariant)
-                .fixedSize(horizontal: false, vertical: true)
-
-            // Last updated badge
-            HStack(spacing: Dimensions.Space.xs) {
-                Circle()
-                    .fill(Color.onTertiaryContainer)
-                    .frame(width: 6, height: 6)
-                Text(localization.string("dashboard.last_updated").uppercased())
-                    .font(Typography.overline)
-                    .tracking(0.5)
-                    .foregroundColor(.onSurfaceVariant)
-                Text(formattedDate(Date()))
-                    .font(Typography.overline)
-                    .foregroundColor(.onSurfaceVariant)
-            }
-            .padding(.horizontal, Dimensions.Space.s)
-            .padding(.vertical, Dimensions.Space.xs)
-            .background(Color.surfaceContainerLow)
-            .cornerRadius(Dimensions.CornerRadius.full)
-        }
-        .padding(.horizontal, Dimensions.Space.m)
-    }
-
-    // MARK: - Critical Vitals Overview (2x2 Grid)
-
-    private var criticalVitalsSection: some View {
-        VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-            Text(localization.string("dashboard.vitals_overview").uppercased())
-                .font(Typography.overline)
-                .tracking(1.5)
-                .foregroundColor(.onSurfaceVariant)
+            Text(localization.string("dashboard.vitals_overview"))
+                .font(Typography.titleMedium)
+                .foregroundColor(.onSurface)
                 .padding(.horizontal, Dimensions.Space.m)
 
             LazyVGrid(columns: [
                 GridItem(.flexible(), spacing: Dimensions.Space.m),
                 GridItem(.flexible(), spacing: Dimensions.Space.m)
             ], spacing: Dimensions.Space.m) {
-                vitalCard(
-                    title: localization.string("dashboard.heart_rate"),
-                    value: "72",
-                    unit: "BPM",
-                    icon: "heart.fill",
-                    iconColor: .heartRate,
-                    showSparkline: true
-                )
-                vitalCard(
-                    title: localization.string("dashboard.blood_pressure"),
-                    value: "118/75",
-                    unit: "mmHg",
-                    icon: "waveform.path.ecg",
-                    iconColor: .bloodPressure,
-                    showSparkline: false
-                )
-                vitalCard(
-                    title: localization.string("dashboard.blood_sugar"),
-                    value: "9.2",
-                    unit: "mmol/L",
-                    icon: "drop.fill",
-                    iconColor: .bloodSugar,
-                    showSparkline: false
-                )
-                vitalCard(
-                    title: localization.string("dashboard.spo2"),
-                    value: "94",
-                    unit: "%",
-                    icon: "lungs.fill",
-                    iconColor: .oxygen,
-                    showSparkline: false
-                )
+                vitalTile(kind: .heartRate, icon: "heart.fill", title: localization.string("dashboard.heart_rate"))
+                vitalTile(kind: .bloodPressure, icon: "waveform.path.ecg", title: localization.string("dashboard.blood_pressure"))
+                vitalTile(kind: .bloodSugar, icon: "drop.fill", title: localization.string("dashboard.blood_sugar"))
+                vitalTile(kind: .spo2, icon: "lungs.fill", title: localization.string("dashboard.spo2"))
             }
             .padding(.horizontal, Dimensions.Space.m)
         }
     }
 
-    private func vitalCard(
-        title: String,
-        value: String,
-        unit: String,
-        icon: String,
-        iconColor: Color,
-        showSparkline: Bool
-    ) -> some View {
-        VStack(alignment: .leading, spacing: Dimensions.Space.s) {
-            HStack {
+    @ViewBuilder
+    private func vitalTile(kind: ExamBiomarker.Kind, icon: String, title: String) -> some View {
+        let biomarker = viewModel.state.latestBiomarkers[kind]
+        if let biomarker {
+            Button(action: { container.path.append(.examDetail(id: biomarker.sourceExamId)) }) {
+                vitalTileContent(icon: icon, title: title, biomarker: biomarker)
+            }
+            .buttonStyle(.plain)
+        } else {
+            vitalTileContent(icon: icon, title: title, biomarker: nil)
+        }
+    }
+
+    private func vitalTileContent(icon: String, title: String, biomarker: ExamBiomarker?) -> some View {
+        VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
+            HStack(spacing: Dimensions.Space.xs) {
                 Image(systemName: icon)
-                    .font(.system(size: 14))
-                    .foregroundColor(iconColor)
+                    .font(.system(size: 18))
+                    .foregroundColor(.secondary)
+                Text(title)
+                    .font(Typography.labelMedium)
+                    .foregroundColor(.onSurfaceVariant)
                 Spacer()
-                if showSparkline {
-                    sparklinePath
+                if let flag = biomarker?.flag {
+                    Circle()
+                        .fill(flagColor(flag))
+                        .frame(width: 8, height: 8)
                 }
             }
 
-            Text(title)
-                .font(Typography.labelSmall)
-                .foregroundColor(.onSurfaceVariant)
-
-            HStack(alignment: .firstTextBaseline, spacing: Dimensions.Space.xxs) {
-                Text(value)
-                    .font(.system(size: 24, weight: .bold))
+            if let biomarker {
+                Text("\(biomarker.value)\(biomarker.unit.map { " \($0)" } ?? "")")
+                    .font(Typography.titleMedium)
                     .foregroundColor(.onSurface)
-                Text(unit)
-                    .font(Typography.labelSmall)
+                    .lineLimit(1)
+                Text(localization.string("dashboard.from_exam"))
+                    .font(Typography.bodySmall)
                     .foregroundColor(.onSurfaceVariant)
+                    .lineLimit(1)
+            } else {
+                Text("--")
+                    .font(Typography.titleMedium)
+                    .foregroundColor(.onSurfaceVariant)
+                Text(" ")
+                    .font(Typography.bodySmall)
             }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding(Dimensions.Space.m)
         .background(Color.surfaceContainerLowest)
         .cornerRadius(Dimensions.CornerRadius.xl)
         .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
     }
 
-    private var sparklinePath: some View {
-        // Small decorative sparkline
-        Path { path in
-            let points: [CGFloat] = [0.5, 0.3, 0.7, 0.2, 0.6, 0.4, 0.8, 0.3]
-            let width: CGFloat = 40
-            let height: CGFloat = 16
-            for (i, y) in points.enumerated() {
-                let x = width * CGFloat(i) / CGFloat(points.count - 1)
-                if i == 0 {
-                    path.move(to: CGPoint(x: x, y: height * (1 - y)))
-                } else {
-                    path.addLine(to: CGPoint(x: x, y: height * (1 - y)))
-                }
-            }
-        }
-        .stroke(Color.heartRate, lineWidth: 1.5)
-        .frame(width: 40, height: 16)
-    }
-
-    // MARK: - Recent Lab Results
-
-    private var recentLabResultsSection: some View {
-        Group {
-            if !viewModel.state.recentExams.isEmpty {
-                VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-                    sectionHeader(title: localization.string("dashboard.recent_labs")) {
-                        container.path.append(.exams)
-                    }
-
-                    VStack(spacing: Dimensions.Space.s) {
-                        ForEach(viewModel.state.recentExams) { exam in
-                            labResultCard(exam: exam)
-                        }
-                    }
-                    .padding(.horizontal, Dimensions.Space.m)
-                }
-            }
+    private func flagColor(_ flag: String) -> Color {
+        switch flag.lowercased() {
+        case "normal": return .onTertiaryContainer
+        case "high": return .error
+        case "low": return .tertiaryFixed
+        default: return .onSurfaceVariant
         }
     }
 
-    private func labResultCard(exam: Exam) -> some View {
-        Button {
-            container.path.append(.examDetail(id: exam.id))
-        } label: {
-            HStack(spacing: Dimensions.Space.m) {
-                // Icon
-                ZStack {
-                    RoundedRectangle(cornerRadius: Dimensions.CornerRadius.m)
-                        .fill(Color.secondaryFixed.opacity(0.3))
-                        .frame(width: 40, height: 40)
-                    Image(systemName: "doc.text.fill")
-                        .font(.system(size: 16))
-                        .foregroundColor(.secondary)
-                }
+    // MARK: - Grid Section
 
-                VStack(alignment: .leading, spacing: Dimensions.Space.xxs) {
-                    Text(exam.title)
-                        .font(Typography.titleSmall)
-                        .foregroundColor(.onSurface)
-                    Text(exam.type)
-                        .font(Typography.bodySmall)
-                        .foregroundColor(.onSurfaceVariant)
-                }
-
-                Spacer()
-
-                VStack(alignment: .trailing, spacing: Dimensions.Space.xxs) {
-                    Text(formattedShortDate(exam.date))
-                        .font(Typography.labelSmall)
-                        .foregroundColor(.onSurfaceVariant)
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12))
-                        .foregroundColor(.outlineVariant)
-                }
+    private var gridSection: some View {
+        LazyVGrid(columns: [
+            GridItem(.flexible(), spacing: Dimensions.Space.m),
+            GridItem(.flexible(), spacing: Dimensions.Space.m)
+        ], spacing: Dimensions.Space.m) {
+            // Active cards
+            gridCard(
+                icon: "cross.case.fill",
+                title: localization.string("dashboard.my_health"),
+                isLocked: false
+            ) {
+                container.path.append(.myHealth)
             }
-            .padding(Dimensions.Space.m)
-            .background(Color.surfaceContainerLowest)
-            .cornerRadius(Dimensions.CornerRadius.l)
-            .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
-        }
-        .buttonStyle(.plain)
-    }
 
-    // MARK: - Insight Banner
-
-    private var insightBanner: some View {
-        Group {
-            if let insight = viewModel.state.insights.first {
-                VStack(alignment: .leading, spacing: Dimensions.Space.s) {
-                    HStack(spacing: Dimensions.Space.s) {
-                        Image(systemName: "lightbulb.fill")
-                            .font(.system(size: 16))
-                            .foregroundColor(.onTertiaryContainer)
-                        Text(insight.title)
-                            .font(Typography.titleSmall)
-                            .foregroundColor(.onSurface)
-                        Spacer()
-                    }
-                    Text(insight.description)
-                        .font(Typography.bodySmall)
-                        .foregroundColor(.onSurfaceVariant)
-                        .lineLimit(2)
-                }
-                .padding(Dimensions.Space.m)
-                .background(
-                    RoundedRectangle(cornerRadius: Dimensions.CornerRadius.xl)
-                        .fill(Color.tertiaryFixed.opacity(0.15))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: Dimensions.CornerRadius.xl)
-                                .stroke(Color.tertiaryFixed.opacity(0.4), lineWidth: 1)
-                        )
-                )
-                .padding(.horizontal, Dimensions.Space.m)
+            gridCard(
+                icon: "doc.text.fill",
+                title: localization.string("dashboard.my_exams"),
+                isLocked: false
+            ) {
+                container.path.append(.exams)
             }
-        }
-    }
 
-    // MARK: - Upcoming Checkups
-
-    private var upcomingCheckupsSection: some View {
-        Group {
-            if !viewModel.state.upcomingAppointments.isEmpty {
-                VStack(alignment: .leading, spacing: Dimensions.Space.m) {
-                    sectionHeader(title: localization.string("dashboard.upcoming")) {
-                        container.path.append(.appointments)
-                    }
-
-                    VStack(spacing: Dimensions.Space.s) {
-                        ForEach(viewModel.state.upcomingAppointments.prefix(2)) { appt in
-                            appointmentPreviewCard(appt: appt)
-                        }
-                    }
-                    .padding(.horizontal, Dimensions.Space.m)
-                }
+            // Locked cards
+            gridCard(
+                icon: "syringe.fill",
+                title: localization.string("dashboard.my_vaccines"),
+                isLocked: true
+            ) {
+                showLockedToastBriefly()
             }
-        }
-    }
 
-    private func appointmentPreviewCard(appt: Appointment) -> some View {
-        Button {
-            container.path.append(.appointmentDetail(id: appt.id))
-        } label: {
-            HStack(spacing: Dimensions.Space.m) {
-                // Date column
-                VStack(spacing: Dimensions.Space.xxs) {
-                    Text(dayOfMonth(appt.dateTime))
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.secondary)
-                    Text(monthAbbrev(appt.dateTime))
-                        .font(Typography.labelSmall)
-                        .foregroundColor(.onSurfaceVariant)
-                }
-                .frame(width: 44)
-
-                Rectangle()
-                    .fill(Color.outlineVariant)
-                    .frame(width: 1, height: 36)
-
-                VStack(alignment: .leading, spacing: Dimensions.Space.xxs) {
-                    Text(appt.title)
-                        .font(Typography.titleSmall)
-                        .foregroundColor(.onSurface)
-                    if let doctor = appt.doctorName {
-                        Text(doctor)
-                            .font(Typography.bodySmall)
-                            .foregroundColor(.onSurfaceVariant)
-                    }
-                }
-
-                Spacer()
-
-                Image(systemName: "chevron.right")
-                    .font(.system(size: 12))
-                    .foregroundColor(.outlineVariant)
+            gridCard(
+                icon: "pills.fill",
+                title: localization.string("dashboard.medications"),
+                isLocked: true
+            ) {
+                showLockedToastBriefly()
             }
-            .padding(Dimensions.Space.m)
-            .background(Color.surfaceContainerLowest)
-            .cornerRadius(Dimensions.CornerRadius.l)
-            .shadow(color: Color.black.opacity(0.04), radius: 6, x: 0, y: 2)
-        }
-        .buttonStyle(.plain)
-    }
 
-    // MARK: - Section Header
+            gridCard(
+                icon: "calendar",
+                title: localization.string("dashboard.appointments"),
+                isLocked: true
+            ) {
+                showLockedToastBriefly()
+            }
 
-    private func sectionHeader(title: String, action: @escaping () -> Void) -> some View {
-        HStack {
-            Text(title)
-                .font(Typography.titleMedium)
-                .foregroundColor(.onSurface)
-            Spacer()
-            Button(action: action) {
-                HStack(spacing: Dimensions.Space.xxs) {
-                    Text(localization.string("dashboard.see_all"))
-                        .font(Typography.labelMedium)
-                        .foregroundColor(.secondary)
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 10))
-                        .foregroundColor(.secondary)
-                }
+            gridCard(
+                icon: "ellipsis.circle.fill",
+                title: localization.string("dashboard.others"),
+                isLocked: true
+            ) {
+                showLockedToastBriefly()
             }
         }
         .padding(.horizontal, Dimensions.Space.m)
     }
 
-    // MARK: - Date Helpers
+    // MARK: - Grid Card
 
-    private func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d, yyyy"
-        return formatter.string(from: date)
+    private func gridCard(icon: String, title: String, isLocked: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack(spacing: Dimensions.Space.m) {
+                ZStack {
+                    Image(systemName: icon)
+                        .font(.system(size: 28))
+                        .foregroundColor(isLocked ? .onSurfaceVariant : .secondary)
+
+                    if isLocked {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 12))
+                            .foregroundColor(.onSurfaceVariant)
+                            .offset(x: 16, y: -14)
+                    }
+                }
+
+                Text(title)
+                    .font(Typography.titleMedium)
+                    .foregroundColor(isLocked ? .onSurfaceVariant : .onSurface)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 120)
+            .background(Color.surfaceContainerLowest)
+            .cornerRadius(Dimensions.CornerRadius.xl)
+            .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+            .opacity(isLocked ? 0.4 : 1.0)
+        }
+        .buttonStyle(.plain)
     }
 
-    private func formattedShortDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d"
-        return formatter.string(from: date)
+    // MARK: - Toast
+
+    private var toastView: some View {
+        HStack(spacing: Dimensions.Space.s) {
+            Image(systemName: "lock.fill")
+                .font(.system(size: 14))
+            Text(localization.string("dashboard.coming_soon"))
+                .font(Typography.labelMedium)
+        }
+        .foregroundColor(.surfaceContainerLowest)
+        .padding(.horizontal, Dimensions.Space.l)
+        .padding(.vertical, Dimensions.Space.m)
+        .background(Color.onSurface.opacity(0.85))
+        .cornerRadius(Dimensions.CornerRadius.full)
     }
 
-    private func dayOfMonth(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d"
-        return formatter.string(from: date)
-    }
-
-    private func monthAbbrev(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM"
-        return formatter.string(from: date).uppercased()
+    private func showLockedToastBriefly() {
+        withAnimation(.easeInOut(duration: 0.25)) {
+            showLockedToast = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                showLockedToast = false
+            }
+        }
     }
 }

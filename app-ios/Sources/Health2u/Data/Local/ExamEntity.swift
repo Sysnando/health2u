@@ -11,6 +11,7 @@ public struct ExamEntity: Sendable, Equatable, Identifiable {
     public var notes: String?
     public var createdAt: Date
     public var updatedAt: Date
+    public var analysis: ExamAnalysisEntity?
 
     public init(
         id: String,
@@ -22,7 +23,8 @@ public struct ExamEntity: Sendable, Equatable, Identifiable {
         localFilePath: String? = nil,
         notes: String? = nil,
         createdAt: Date,
-        updatedAt: Date
+        updatedAt: Date,
+        analysis: ExamAnalysisEntity? = nil
     ) {
         self.id = id
         self.userId = userId
@@ -34,5 +36,6 @@ public struct ExamEntity: Sendable, Equatable, Identifiable {
         self.notes = notes
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.analysis = analysis
     }
 }

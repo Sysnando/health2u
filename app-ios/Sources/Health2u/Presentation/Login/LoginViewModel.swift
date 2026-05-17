@@ -36,6 +36,7 @@ public final class LoginViewModel: ObservableObject {
         case .network: return "Network error."
         case .offline: return "You're offline."
         case .decoding, .invalidResponse: return "Unexpected response."
+        case .notAMedicalDocument: return "Unexpected response."
         }
     }
 }

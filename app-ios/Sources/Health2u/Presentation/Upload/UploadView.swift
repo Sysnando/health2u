@@ -14,10 +14,15 @@ public struct UploadView: View {
     @State private var capturedImage: UIImage?
     #endif
 
-    private let typeOptions = ["Labs", "Imaging", "Cardiology", "General"]
-
     public init(viewModel: UploadViewModel) {
         self._viewModel = StateObject(wrappedValue: viewModel)
+    }
+
+    private var subcategories: [String] {
+        if let cat = ExamCategory(rawValue: viewModel.state.category) {
+            return cat.subcategories
+        }
+        return []
     }
 
     public var body: some View {
@@ -50,6 +55,24 @@ public struct UploadView: View {
             .padding(.top, Dimensions.Space.m)
         }
         .background(Color.background)
+        .overlay(alignment: .bottom) {
+            if viewModel.state.skippedReason != nil {
+                notAnExamToast
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .padding(.bottom, Dimensions.Space.l)
+                    .padding(.horizontal, Dimensions.Space.m)
+            }
+        }
+        .animation(.easeInOut(duration: 0.25), value: viewModel.state.skippedReason)
+        .onChange(of: viewModel.state.skippedReason) { _, newValue in
+            guard newValue != nil else { return }
+            Task {
+                try? await Task.sleep(for: .seconds(3))
+                await MainActor.run {
+                    viewModel.state.skippedReason = nil
+                }
+            }
+        }
         .navigationTitle(localization.string("upload.title"))
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
@@ -174,7 +197,7 @@ public struct UploadView: View {
                 viewModel.state.filename = nil
                 viewModel.state.fileData = nil
             } label: {
-                Text("Remove")
+                Text(localization.string("common.remove"))
                     .font(Typography.labelSmall)
                     .foregroundColor(.error)
             }
@@ -244,23 +267,27 @@ public struct UploadView: View {
 
     private var formFields: some View {
         VStack(spacing: Dimensions.Space.m) {
-            // Type selector
+            // Category selector (level 1)
             VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
-                Text(localization.string("upload.type_label"))
+                Text(localization.string("upload.category_label"))
                     .font(Typography.labelMedium)
                     .foregroundColor(.onSurfaceVariant)
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: Dimensions.Space.s) {
-                        ForEach(typeOptions, id: \.self) { option in
-                            let isSelected = viewModel.state.type == option
+                        ForEach(ExamCategory.allCases, id: \.self) { category in
+                            let isSelected = viewModel.state.category == category.rawValue
                             Button {
-                                viewModel.state.type = option
+                                viewModel.state.category = category.rawValue
+                                // Reset type to first subcategory
+                                if let first = category.subcategories.first {
+                                    viewModel.state.type = first
+                                }
                             } label: {
                                 HStack(spacing: Dimensions.Space.xs) {
-                                    Image(systemName: typeIcon(option))
+                                    Image(systemName: category.icon)
                                         .font(.system(size: 14))
-                                    Text(option)
+                                    Text(localization.string(category.localizationKey))
                                         .font(Typography.labelMedium)
                                 }
                                 .foregroundColor(isSelected ? .surfaceContainerLowest : .onSurfaceVariant)
@@ -268,6 +295,34 @@ public struct UploadView: View {
                                 .padding(.vertical, Dimensions.Space.s)
                                 .background(isSelected ? Color.secondary : Color.surfaceContainerLow)
                                 .cornerRadius(Dimensions.CornerRadius.full)
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Subcategory selector (level 2) - only visible when category is selected
+            if !subcategories.isEmpty {
+                VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
+                    Text(localization.string("upload.type_label"))
+                        .font(Typography.labelMedium)
+                        .foregroundColor(.onSurfaceVariant)
+
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: Dimensions.Space.s) {
+                            ForEach(subcategories, id: \.self) { sub in
+                                let isSelected = viewModel.state.type == sub
+                                Button {
+                                    viewModel.state.type = sub
+                                } label: {
+                                    Text(sub)
+                                        .font(Typography.labelMedium)
+                                        .foregroundColor(isSelected ? .surfaceContainerLowest : .onSurfaceVariant)
+                                        .padding(.horizontal, Dimensions.Space.m)
+                                        .padding(.vertical, Dimensions.Space.s)
+                                        .background(isSelected ? Color.secondary : Color.surfaceContainerLow)
+                                        .cornerRadius(Dimensions.CornerRadius.full)
+                                }
                             }
                         }
                     }
@@ -320,14 +375,29 @@ public struct UploadView: View {
         .padding(.horizontal, Dimensions.Space.m)
     }
 
-    // MARK: - Helpers
+    // MARK: - Not-an-exam Toast
 
-    private func typeIcon(_ type: String) -> String {
-        switch type {
-        case "Labs": return "drop.fill"
-        case "Imaging": return "rays"
-        case "Cardiology": return "heart.fill"
-        default: return "doc.text.fill"
+    private var notAnExamToast: some View {
+        let reason = viewModel.state.skippedReason ?? ""
+        return HStack(alignment: .top, spacing: Dimensions.Space.s) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 16))
+                .foregroundColor(.yellow)
+            VStack(alignment: .leading, spacing: Dimensions.Space.xs) {
+                Text(localization.string("upload.not_an_exam"))
+                    .font(Typography.labelMedium)
+                    .foregroundColor(.surfaceContainerLowest)
+                if !reason.isEmpty {
+                    Text(String(format: localization.string("upload.not_an_exam_reason"), reason))
+                        .font(Typography.labelSmall)
+                        .foregroundColor(.surfaceContainerLowest.opacity(0.85))
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .padding(.horizontal, Dimensions.Space.l)
+        .padding(.vertical, Dimensions.Space.m)
+        .background(Color.onSurface.opacity(0.85))
+        .cornerRadius(Dimensions.CornerRadius.l)
     }
 }

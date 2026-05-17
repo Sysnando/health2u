@@ -15,6 +15,8 @@ public struct EditProfileState: Equatable {
     public var error: String? = nil
     public var didSave: Bool = false
     public var isUploadingPhoto: Bool = false
+    public var hasDiabetes: Bool = false
+    public var hasAllergies: Bool = false
 
     public init() {}
 }

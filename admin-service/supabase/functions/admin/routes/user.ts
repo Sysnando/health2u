@@ -9,7 +9,7 @@ const app = new Hono();
 app.use("*", requireAuth);
 
 const USER_COLUMNS =
-  "id, email, password_hash, name, phone, date_of_birth, profile_picture_url, gender, height_cm, weight_kg, blood_type";
+  "id, email, password_hash, name, phone, date_of_birth, profile_picture_url, gender, height_cm, weight_kg, blood_type, has_diabetes, has_allergies";
 
 app.get("/profile", async (c) => {
   const me = currentUser(c);
@@ -72,7 +72,7 @@ app.put("/profile", async (c) => {
   const body = await c.req.json().catch(() => ({}));
 
   // Explicit allowlist; silently drop anything else.
-  const allowed = ["name", "profile_picture_url", "date_of_birth", "phone", "email", "gender", "height_cm", "weight_kg", "blood_type"] as const;
+  const allowed = ["name", "profile_picture_url", "date_of_birth", "phone", "email", "gender", "height_cm", "weight_kg", "blood_type", "has_diabetes", "has_allergies"] as const;
   const patch: Record<string, unknown> = {};
   for (const f of allowed) {
     if (body[f] !== undefined) patch[f] = body[f];

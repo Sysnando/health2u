@@ -12,7 +12,9 @@ extension UserDTO {
             gender: gender,
             heightCm: heightCm,
             weightKg: weightKg,
-            bloodType: bloodType
+            bloodType: bloodType,
+            hasDiabetes: hasDiabetes,
+            hasAllergies: hasAllergies
         )
     }
 }
@@ -29,7 +31,9 @@ extension User {
             gender: gender,
             heightCm: heightCm,
             weightKg: weightKg,
-            bloodType: bloodType
+            bloodType: bloodType,
+            hasDiabetes: hasDiabetes,
+            hasAllergies: hasAllergies
         )
     }
 
@@ -44,7 +48,9 @@ extension User {
             gender: gender,
             heightCm: heightCm,
             weightKg: weightKg,
-            bloodType: bloodType
+            bloodType: bloodType,
+            hasDiabetes: hasDiabetes,
+            hasAllergies: hasAllergies
         )
     }
 }
@@ -61,7 +67,9 @@ extension UserEntity {
             gender: gender,
             heightCm: heightCm,
             weightKg: weightKg,
-            bloodType: bloodType
+            bloodType: bloodType,
+            hasDiabetes: hasDiabetes,
+            hasAllergies: hasAllergies
         )
     }
 }

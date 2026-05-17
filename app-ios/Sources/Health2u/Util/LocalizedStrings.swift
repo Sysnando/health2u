@@ -270,6 +270,105 @@ public enum LocalizedStrings {
         "insights.metric_activity": "Activity",
         "insights.metric_nutrition": "Nutrition",
         "insights.recent_reports": "Recent Reports",
+
+        // Exam Categories
+        "exam_category.lab": "Laboratory",
+        "exam_category.imaging": "Imaging",
+        "exam_category.cardio_functional": "Cardio & Functional",
+        "exam_category.preventive_screening": "Preventive & Screening",
+        "exam_category.lab_description": "Blood tests, biochemistry, urine, stool",
+        "exam_category.imaging_description": "X-ray, ultrasound, MRI, CT, mammography",
+        "exam_category.cardio_functional_description": "ECG, stress test, Holter, spirometry",
+        "exam_category.preventive_screening_description": "Pap smear, colonoscopy, prostate, bone density",
+
+        // Home extras
+        "home.my_health": "My Health",
+        "home.my_exams": "My Exams",
+        "home.my_vaccines": "My Vaccines",
+        "home.medications": "Medications",
+        "home.appointments": "Appointments",
+        "home.others": "Others",
+        "home.coming_soon": "Coming Soon",
+
+        // My Health
+        "my_health.title": "My Health",
+        "my_health.scoring_coming_soon": "Scoring methodology coming soon",
+        "my_health.no_exams": "No exams uploaded yet",
+        "my_health.year_exams": "exams",
+
+        // Profile diabetes/allergies
+        "profile.diabetes": "Diabetes",
+        "profile.has_allergies": "Allergies",
+        "profile.yes": "Yes",
+        "profile.no": "No",
+
+        // Allergies
+        "allergies.title": "My Allergies",
+        "allergies.add": "Add Allergy",
+        "allergies.name": "Allergy Name",
+        "allergies.severity": "Severity",
+        "allergies.notes": "Notes",
+        "allergies.severity_low": "Low",
+        "allergies.severity_medium": "Medium",
+        "allergies.severity_high": "High",
+        "allergies.no_allergies": "No allergies added",
+        "allergies.no_allergies_message": "Add your allergies to keep them on record.",
+        "allergies.name_placeholder": "e.g., Peanuts, Penicillin",
+
+        // Common yes/no
+        "common.yes": "Yes",
+        "common.no": "No",
+
+        // Dashboard cards
+        "dashboard.greeting": "Hello",
+        "dashboard.my_health": "My Health",
+        "dashboard.my_exams": "My Exams",
+        "dashboard.my_vaccines": "My Vaccines",
+        "dashboard.medications": "Medications",
+        "dashboard.appointments": "Appointments",
+        "dashboard.others": "Others",
+        "dashboard.coming_soon": "Coming Soon",
+
+        // Edit Profile extras
+        "edit_profile.diabetes": "Diabetes",
+        "edit_profile.allergies": "Allergies",
+        "edit_profile.manage_allergies": "Manage Allergies",
+
+        // Upload extras
+        "upload.category_label": "Category",
+
+        // AI Analysis — Upload
+        "upload.not_an_exam": "This file doesn't appear to be a medical document and was skipped",
+        "upload.not_an_exam_reason": "Reason: %@",
+
+        // AI Analysis — Exam
+        "exam.ai_summary": "AI Summary",
+        "exam.ai_analyzed_badge": "AI Analyzed",
+        "exam.processing": "Analyzing...",
+        "exam.analysis_failed": "Analysis failed",
+        "exam.reanalyze": "Re-analyze",
+        "exam.lab_results": "Lab Results",
+        "exam.prescription": "Prescription",
+        "exam.imaging_report": "Imaging Report",
+        "exam.test_name": "Test",
+        "exam.value": "Value",
+        "exam.unit": "Unit",
+        "exam.reference_range": "Reference Range",
+        "exam.flag_normal": "Normal",
+        "exam.flag_high": "High",
+        "exam.flag_low": "Low",
+        "exam.medication": "Medication",
+        "exam.dosage": "Dosage",
+        "exam.frequency": "Frequency",
+        "exam.duration": "Duration",
+        "exam.modality": "Modality",
+        "exam.body_part": "Body Part",
+        "exam.findings": "Findings",
+        "exam.impression": "Impression",
+
+        // AI Analysis — MyHealth / Dashboard
+        "myhealth.ai_analyzed": "%d AI-analyzed",
+        "dashboard.from_exam": "From your latest exam",
     ]
 
     // MARK: - Spanish
@@ -530,6 +629,105 @@ public enum LocalizedStrings {
         "insights.metric_activity": "Actividad",
         "insights.metric_nutrition": "Nutricion",
         "insights.recent_reports": "Informes Recientes",
+
+        // Exam Categories
+        "exam_category.lab": "Laboratorio",
+        "exam_category.imaging": "Imagen",
+        "exam_category.cardio_functional": "Cardio y Funcional",
+        "exam_category.preventive_screening": "Preventivos y Rastreo",
+        "exam_category.lab_description": "Analisis de sangre, bioquimica, orina, heces",
+        "exam_category.imaging_description": "Rayos X, ecografia, resonancia magnetica, tomografia, mamografia",
+        "exam_category.cardio_functional_description": "ECG, prueba de esfuerzo, Holter, espirometria",
+        "exam_category.preventive_screening_description": "Papanicolau, colonoscopia, prostata, densitometria osea",
+
+        // Home extras
+        "home.my_health": "Mi Salud",
+        "home.my_exams": "Mis Examenes",
+        "home.my_vaccines": "Mis Vacunas",
+        "home.medications": "Medicamentos",
+        "home.appointments": "Consultas",
+        "home.others": "Otros",
+        "home.coming_soon": "Proximamente",
+
+        // My Health
+        "my_health.title": "Mi Salud",
+        "my_health.scoring_coming_soon": "Metodologia de puntuacion proximamente",
+        "my_health.no_exams": "Aun no se han subido examenes",
+        "my_health.year_exams": "examenes",
+
+        // Profile diabetes/allergies
+        "profile.diabetes": "Diabetes",
+        "profile.has_allergies": "Alergias",
+        "profile.yes": "Si",
+        "profile.no": "No",
+
+        // Allergies
+        "allergies.title": "Mis Alergias",
+        "allergies.add": "Agregar Alergia",
+        "allergies.name": "Nombre de la Alergia",
+        "allergies.severity": "Severidad",
+        "allergies.notes": "Notas",
+        "allergies.severity_low": "Baja",
+        "allergies.severity_medium": "Media",
+        "allergies.severity_high": "Alta",
+        "allergies.no_allergies": "Sin alergias registradas",
+        "allergies.no_allergies_message": "Agrega tus alergias para mantenerlas en tu historial.",
+        "allergies.name_placeholder": "ej., Mani, Penicilina",
+
+        // Common yes/no
+        "common.yes": "Si",
+        "common.no": "No",
+
+        // Dashboard cards
+        "dashboard.greeting": "Hola",
+        "dashboard.my_health": "Mi Salud",
+        "dashboard.my_exams": "Mis Examenes",
+        "dashboard.my_vaccines": "Mis Vacunas",
+        "dashboard.medications": "Medicamentos",
+        "dashboard.appointments": "Consultas",
+        "dashboard.others": "Otros",
+        "dashboard.coming_soon": "Proximamente",
+
+        // Edit Profile extras
+        "edit_profile.diabetes": "Diabetes",
+        "edit_profile.allergies": "Alergias",
+        "edit_profile.manage_allergies": "Gestionar Alergias",
+
+        // Upload extras
+        "upload.category_label": "Categoria",
+
+        // AI Analysis — Upload
+        "upload.not_an_exam": "Este archivo no parece ser un documento medico y fue omitido",
+        "upload.not_an_exam_reason": "Motivo: %@",
+
+        // AI Analysis — Exam
+        "exam.ai_summary": "Resumen de IA",
+        "exam.ai_analyzed_badge": "Analizado por IA",
+        "exam.processing": "Analizando...",
+        "exam.analysis_failed": "Analisis fallido",
+        "exam.reanalyze": "Reanalizar",
+        "exam.lab_results": "Resultados de Laboratorio",
+        "exam.prescription": "Receta",
+        "exam.imaging_report": "Informe de Imagen",
+        "exam.test_name": "Prueba",
+        "exam.value": "Valor",
+        "exam.unit": "Unidad",
+        "exam.reference_range": "Rango de Referencia",
+        "exam.flag_normal": "Normal",
+        "exam.flag_high": "Alto",
+        "exam.flag_low": "Bajo",
+        "exam.medication": "Medicamento",
+        "exam.dosage": "Dosis",
+        "exam.frequency": "Frecuencia",
+        "exam.duration": "Duracion",
+        "exam.modality": "Modalidad",
+        "exam.body_part": "Parte del Cuerpo",
+        "exam.findings": "Hallazgos",
+        "exam.impression": "Impresion",
+
+        // AI Analysis — MyHealth / Dashboard
+        "myhealth.ai_analyzed": "%d analizados por IA",
+        "dashboard.from_exam": "De tu ultimo examen",
     ]
 
     // MARK: - Portuguese (Brazil)
@@ -790,6 +988,105 @@ public enum LocalizedStrings {
         "insights.metric_activity": "Atividade",
         "insights.metric_nutrition": "Nutricao",
         "insights.recent_reports": "Relatorios Recentes",
+
+        // Exam Categories
+        "exam_category.lab": "Laboratorio",
+        "exam_category.imaging": "Imagem",
+        "exam_category.cardio_functional": "Cardio e Funcional",
+        "exam_category.preventive_screening": "Preventivos e Rastreamento",
+        "exam_category.lab_description": "Exames de sangue, bioquimica, urina, fezes",
+        "exam_category.imaging_description": "Raio-X, ultrassom, ressonancia magnetica, tomografia, mamografia",
+        "exam_category.cardio_functional_description": "ECG, teste de esforco, Holter, espirometria",
+        "exam_category.preventive_screening_description": "Papanicolau, colonoscopia, prostata, densitometria ossea",
+
+        // Home extras
+        "home.my_health": "Minha Saude",
+        "home.my_exams": "Meus Exames",
+        "home.my_vaccines": "Minhas Vacinas",
+        "home.medications": "Medicamentos",
+        "home.appointments": "Consultas",
+        "home.others": "Outros",
+        "home.coming_soon": "Em breve",
+
+        // My Health
+        "my_health.title": "Minha Saude",
+        "my_health.scoring_coming_soon": "Metodologia de pontuacao em breve",
+        "my_health.no_exams": "Nenhum exame enviado ainda",
+        "my_health.year_exams": "exames",
+
+        // Profile diabetes/allergies
+        "profile.diabetes": "Diabetes",
+        "profile.has_allergies": "Alergias",
+        "profile.yes": "Sim",
+        "profile.no": "Nao",
+
+        // Allergies
+        "allergies.title": "Minhas Alergias",
+        "allergies.add": "Adicionar Alergia",
+        "allergies.name": "Nome da Alergia",
+        "allergies.severity": "Gravidade",
+        "allergies.notes": "Observacoes",
+        "allergies.severity_low": "Baixa",
+        "allergies.severity_medium": "Media",
+        "allergies.severity_high": "Alta",
+        "allergies.no_allergies": "Sem alergias registradas",
+        "allergies.no_allergies_message": "Adicione suas alergias para mante-las em seu historico.",
+        "allergies.name_placeholder": "ex., Amendoim, Penicilina",
+
+        // Common yes/no
+        "common.yes": "Sim",
+        "common.no": "Nao",
+
+        // Dashboard cards
+        "dashboard.greeting": "Ola",
+        "dashboard.my_health": "Minha Saude",
+        "dashboard.my_exams": "Meus Exames",
+        "dashboard.my_vaccines": "Minhas Vacinas",
+        "dashboard.medications": "Medicamentos",
+        "dashboard.appointments": "Consultas",
+        "dashboard.others": "Outros",
+        "dashboard.coming_soon": "Em breve",
+
+        // Edit Profile extras
+        "edit_profile.diabetes": "Diabetes",
+        "edit_profile.allergies": "Alergias",
+        "edit_profile.manage_allergies": "Gerenciar Alergias",
+
+        // Upload extras
+        "upload.category_label": "Categoria",
+
+        // AI Analysis — Upload
+        "upload.not_an_exam": "Este arquivo nao parece ser um documento medico e foi ignorado",
+        "upload.not_an_exam_reason": "Motivo: %@",
+
+        // AI Analysis — Exam
+        "exam.ai_summary": "Resumo da IA",
+        "exam.ai_analyzed_badge": "Analisado por IA",
+        "exam.processing": "Analisando...",
+        "exam.analysis_failed": "Falha na analise",
+        "exam.reanalyze": "Reanalisar",
+        "exam.lab_results": "Resultados de Laboratorio",
+        "exam.prescription": "Receita",
+        "exam.imaging_report": "Laudo de Imagem",
+        "exam.test_name": "Exame",
+        "exam.value": "Valor",
+        "exam.unit": "Unidade",
+        "exam.reference_range": "Faixa de Referencia",
+        "exam.flag_normal": "Normal",
+        "exam.flag_high": "Alto",
+        "exam.flag_low": "Baixo",
+        "exam.medication": "Medicamento",
+        "exam.dosage": "Dosagem",
+        "exam.frequency": "Frequencia",
+        "exam.duration": "Duracao",
+        "exam.modality": "Modalidade",
+        "exam.body_part": "Parte do Corpo",
+        "exam.findings": "Achados",
+        "exam.impression": "Impressao",
+
+        // AI Analysis — MyHealth / Dashboard
+        "myhealth.ai_analyzed": "%d analisados por IA",
+        "dashboard.from_exam": "Do seu exame mais recente",
     ]
 
     // MARK: - Portuguese (Portugal)
@@ -1050,6 +1347,105 @@ public enum LocalizedStrings {
         "insights.metric_activity": "Atividade",
         "insights.metric_nutrition": "Nutricao",
         "insights.recent_reports": "Relatorios Recentes",
+
+        // Exam Categories
+        "exam_category.lab": "Laboratorio",
+        "exam_category.imaging": "Imagiologia",
+        "exam_category.cardio_functional": "Cardio e Funcional",
+        "exam_category.preventive_screening": "Preventivos e Rastreio",
+        "exam_category.lab_description": "Analises de sangue, bioquimica, urina, fezes",
+        "exam_category.imaging_description": "Raio-X, ecografia, ressonancia magnetica, tomografia, mamografia",
+        "exam_category.cardio_functional_description": "ECG, prova de esforco, Holter, espirometria",
+        "exam_category.preventive_screening_description": "Papanicolau, colonoscopia, prostata, densitometria ossea",
+
+        // Home extras
+        "home.my_health": "A Minha Saude",
+        "home.my_exams": "Os Meus Exames",
+        "home.my_vaccines": "As Minhas Vacinas",
+        "home.medications": "Medicamentos",
+        "home.appointments": "Consultas",
+        "home.others": "Outros",
+        "home.coming_soon": "Em breve",
+
+        // My Health
+        "my_health.title": "A Minha Saude",
+        "my_health.scoring_coming_soon": "Metodologia de pontuacao em breve",
+        "my_health.no_exams": "Ainda nao foram carregados exames",
+        "my_health.year_exams": "exames",
+
+        // Profile diabetes/allergies
+        "profile.diabetes": "Diabetes",
+        "profile.has_allergies": "Alergias",
+        "profile.yes": "Sim",
+        "profile.no": "Nao",
+
+        // Allergies
+        "allergies.title": "As Minhas Alergias",
+        "allergies.add": "Adicionar Alergia",
+        "allergies.name": "Nome da Alergia",
+        "allergies.severity": "Gravidade",
+        "allergies.notes": "Notas",
+        "allergies.severity_low": "Baixa",
+        "allergies.severity_medium": "Media",
+        "allergies.severity_high": "Alta",
+        "allergies.no_allergies": "Sem alergias registadas",
+        "allergies.no_allergies_message": "Adicione as suas alergias para as manter no seu registo.",
+        "allergies.name_placeholder": "ex., Amendoim, Penicilina",
+
+        // Common yes/no
+        "common.yes": "Sim",
+        "common.no": "Nao",
+
+        // Dashboard cards
+        "dashboard.greeting": "Ola",
+        "dashboard.my_health": "A Minha Saude",
+        "dashboard.my_exams": "Os Meus Exames",
+        "dashboard.my_vaccines": "As Minhas Vacinas",
+        "dashboard.medications": "Medicacao",
+        "dashboard.appointments": "Consultas",
+        "dashboard.others": "Outros",
+        "dashboard.coming_soon": "Em breve",
+
+        // Edit Profile extras
+        "edit_profile.diabetes": "Diabetes",
+        "edit_profile.allergies": "Alergias",
+        "edit_profile.manage_allergies": "Gerir Alergias",
+
+        // Upload extras
+        "upload.category_label": "Categoria",
+
+        // AI Analysis — Upload
+        "upload.not_an_exam": "Este ficheiro nao parece ser um documento medico e foi ignorado",
+        "upload.not_an_exam_reason": "Motivo: %@",
+
+        // AI Analysis — Exam
+        "exam.ai_summary": "Resumo da IA",
+        "exam.ai_analyzed_badge": "Analisado por IA",
+        "exam.processing": "A analisar...",
+        "exam.analysis_failed": "Falha na analise",
+        "exam.reanalyze": "Reanalisar",
+        "exam.lab_results": "Resultados de Laboratorio",
+        "exam.prescription": "Receita",
+        "exam.imaging_report": "Relatorio de Imagem",
+        "exam.test_name": "Exame",
+        "exam.value": "Valor",
+        "exam.unit": "Unidade",
+        "exam.reference_range": "Intervalo de Referencia",
+        "exam.flag_normal": "Normal",
+        "exam.flag_high": "Alto",
+        "exam.flag_low": "Baixo",
+        "exam.medication": "Medicamento",
+        "exam.dosage": "Dosagem",
+        "exam.frequency": "Frequencia",
+        "exam.duration": "Duracao",
+        "exam.modality": "Modalidade",
+        "exam.body_part": "Parte do Corpo",
+        "exam.findings": "Achados",
+        "exam.impression": "Impressao",
+
+        // AI Analysis — MyHealth / Dashboard
+        "myhealth.ai_analyzed": "%d analisados por IA",
+        "dashboard.from_exam": "Do seu exame mais recente",
     ]
 
     // MARK: - French
@@ -1310,6 +1706,105 @@ public enum LocalizedStrings {
         "insights.metric_activity": "Activite",
         "insights.metric_nutrition": "Nutrition",
         "insights.recent_reports": "Rapports Recents",
+
+        // Exam Categories
+        "exam_category.lab": "Laboratoire",
+        "exam_category.imaging": "Imagerie",
+        "exam_category.cardio_functional": "Cardio et Fonctionnel",
+        "exam_category.preventive_screening": "Preventif et Depistage",
+        "exam_category.lab_description": "Analyses de sang, biochimie, urine, selles",
+        "exam_category.imaging_description": "Radiographie, echographie, IRM, scanner, mammographie",
+        "exam_category.cardio_functional_description": "ECG, epreuve d'effort, Holter, spirometrie",
+        "exam_category.preventive_screening_description": "Frottis, coloscopie, prostate, osteodensitometrie",
+
+        // Home extras
+        "home.my_health": "Ma Sante",
+        "home.my_exams": "Mes Examens",
+        "home.my_vaccines": "Mes Vaccins",
+        "home.medications": "Medicaments",
+        "home.appointments": "Consultations",
+        "home.others": "Autres",
+        "home.coming_soon": "Bientot",
+
+        // My Health
+        "my_health.title": "Ma Sante",
+        "my_health.scoring_coming_soon": "Methodologie de notation bientot disponible",
+        "my_health.no_exams": "Aucun examen telecharge",
+        "my_health.year_exams": "examens",
+
+        // Profile diabetes/allergies
+        "profile.diabetes": "Diabete",
+        "profile.has_allergies": "Allergies",
+        "profile.yes": "Oui",
+        "profile.no": "Non",
+
+        // Allergies
+        "allergies.title": "Mes Allergies",
+        "allergies.add": "Ajouter une Allergie",
+        "allergies.name": "Nom de l'Allergie",
+        "allergies.severity": "Severite",
+        "allergies.notes": "Notes",
+        "allergies.severity_low": "Faible",
+        "allergies.severity_medium": "Moyenne",
+        "allergies.severity_high": "Elevee",
+        "allergies.no_allergies": "Aucune allergie enregistree",
+        "allergies.no_allergies_message": "Ajoutez vos allergies pour les garder dans votre dossier.",
+        "allergies.name_placeholder": "ex., Cacahuetes, Penicilline",
+
+        // Common yes/no
+        "common.yes": "Oui",
+        "common.no": "Non",
+
+        // Dashboard cards
+        "dashboard.greeting": "Bonjour",
+        "dashboard.my_health": "Ma Sante",
+        "dashboard.my_exams": "Mes Examens",
+        "dashboard.my_vaccines": "Mes Vaccins",
+        "dashboard.medications": "Medicaments",
+        "dashboard.appointments": "Rendez-vous",
+        "dashboard.others": "Autres",
+        "dashboard.coming_soon": "Bientot Disponible",
+
+        // Edit Profile extras
+        "edit_profile.diabetes": "Diabete",
+        "edit_profile.allergies": "Allergies",
+        "edit_profile.manage_allergies": "Gerer les Allergies",
+
+        // Upload extras
+        "upload.category_label": "Categorie",
+
+        // AI Analysis — Upload
+        "upload.not_an_exam": "Ce fichier ne semble pas etre un document medical et a ete ignore",
+        "upload.not_an_exam_reason": "Raison: %@",
+
+        // AI Analysis — Exam
+        "exam.ai_summary": "Resume IA",
+        "exam.ai_analyzed_badge": "Analyse par IA",
+        "exam.processing": "Analyse en cours...",
+        "exam.analysis_failed": "Echec de l'analyse",
+        "exam.reanalyze": "Reanalyser",
+        "exam.lab_results": "Resultats de Laboratoire",
+        "exam.prescription": "Ordonnance",
+        "exam.imaging_report": "Rapport d'Imagerie",
+        "exam.test_name": "Test",
+        "exam.value": "Valeur",
+        "exam.unit": "Unite",
+        "exam.reference_range": "Plage de Reference",
+        "exam.flag_normal": "Normal",
+        "exam.flag_high": "Eleve",
+        "exam.flag_low": "Bas",
+        "exam.medication": "Medicament",
+        "exam.dosage": "Dosage",
+        "exam.frequency": "Frequence",
+        "exam.duration": "Duree",
+        "exam.modality": "Modalite",
+        "exam.body_part": "Partie du Corps",
+        "exam.findings": "Constatations",
+        "exam.impression": "Impression",
+
+        // AI Analysis — MyHealth / Dashboard
+        "myhealth.ai_analyzed": "%d analyses par IA",
+        "dashboard.from_exam": "De votre dernier examen",
     ]
 }
 // swiftlint:enable file_length type_body_length
